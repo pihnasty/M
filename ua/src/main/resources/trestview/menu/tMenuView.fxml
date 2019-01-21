@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<fx:root type="trestview.menu.TMenuView" xmlns:fx="http://javafx.com/fxml"   >
+<!-- <fx:root type="trestview.menu.TMenuView" xmlns:fx="http://javafx.com/fxml"  fx:controller="trestview.menu.TMenuController" >   or   fxmlLoader.setController( menuController);     -->
+<Menu text="%File"    fx:id="OpenPerspective2"   >
+    <MenuItem text="%New"       fx:id="newItem"     />
+    <MenuItem text="%Open"      fx:id="openItem"   onAction="#handleOpenAction" />
+    <SeparatorMenuItem/>
+    <MenuItem text="%Save"      fx:id="saveItem"   onAction="#handleSaveAction"/>
+    <MenuItem text="%SaveAs"    fx:id="saveAsItem" onAction="#handleSaveAsAction"/>
+    <MenuItem text="%SaveAll"   fx:id="saveAllItem" />
+    <SeparatorMenuItem/>
+    <MenuItem text="%Exit"      fx:id="exitItem"  onAction="#handleExitAction"  />
+</Menu>
+<Menu text="%Edit">
+    <MenuItem text="%Cut"       fx:id="cutItem"     />
+    <MenuItem text="%Copy"      fx:id="copyItem"    />
+    <MenuItem text="%Paste"     fx:id="pasteItem"   />
+</Menu>
+<Menu text="%Setting">
+    <MenuItem text="%Platform"></MenuItem>
+</Menu>
+<Menu text="%Window">
+    <Menu  fx:id="OpenPerspective"  text="%OpenPerspective">
+        <MenuItem text="%DefaultPerspective"            fx:id="defaultPerspectiveItem"  />
+        <MenuItem text="%ResourcesLinksPerspective"     fx:id="resourcesLinksPerspectiveItem"   onAction="#handleResourcesLinksPerspectiveAction"/>
+        <MenuItem text="%RoutesPerspective"             fx:id="routesPerspectiveItem"           onAction="#handleRoutePerspectiveAction"/>
+        <MenuItem text="%OrderPlaningPerspective"       fx:id="orderPlaningPerspectiveItem"     onAction="#handleOrderPlaningPerspectiveAction"/>
+    </Menu>
+</Menu>
+
+<Menu text="%Tasks">
+    <Menu  text="%conveyorPDE"       fx:id="conveyorPDEItem"  >
+        <MenuItem text="%conveyorSpeedConstant"             fx:id="conveyorSpeedConstantItem"               onAction="#handleConveyorSpeedConstantAction"  />
+        <MenuItem text="%conveyorSpeedConstantControlBand"  fx:id="conveyorSpeedConstantControlBandItem"    onAction="#handleConveyorSpeedConstantControlBandAction"  />
+        <MenuItem text="%conveyorSpeedDependsTime"          fx:id="conveyorSpeedDependsTimeItem"            onAction="#handleConveyorSpeedDependsTimeAction"  />
+    </Menu>
+</Menu>
+
+
+<Menu text="%Dictionary"  >
+    <MenuItem text="%RowWork"           fx:id="rowWorkItem"             onAction="#handleRowWorkAction" />
+    <MenuItem text="%RowTypemachine"    fx:id="rowTypemachineItem"      onAction="#handleRowTypemachineAction" />
+    <MenuItem text="%RowFunctiondist"   fx:id="rowFunctiondistItem"     onAction="#handleRowFunctiondistAction" />
+    <MenuItem text="%RowUnit"           fx:id="rowUnitItem"             onAction="#handleRowUnitAction" />
+    <MenuItem text="%RowOperation"      fx:id="rowOperationItem"        onAction="#handleRowOperationAction" />
+</Menu>
+<Menu text="%Test">
+    <MenuItem text="%TestOfMachine" fx:id="testOfMachineItem" onAction="#handleMachineTestAction"></MenuItem>
+</Menu>
+<Menu text="%Help"/>
+<Menu text="%Language"/>
+</fx:root>

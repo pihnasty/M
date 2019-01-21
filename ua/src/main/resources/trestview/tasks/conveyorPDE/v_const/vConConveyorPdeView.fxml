@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fx:root type="trestview.tasks.conveyorPDE.v_const.VConConveyorPdeView" xmlns:fx="http://javafx.com/fxml">
+    <!-- <fx:root type="trestview.menu.TMenuView" xmlns:fx="http://javafx.com/fxml"  fx:controller="trestview.menu.TMenuController" >   or   fxmlLoader.setController( menuController);     -->
+</fx:root>

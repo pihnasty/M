@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import trestview.machinetest.MachineTestView?>
+<fx:root type="trestview.machinetest.MachineTestView" xmlns:fx="http://javafx.com/fxml"   >
+    <!-- <fx:root type="trestview.menu.TMenuView" xmlns:fx="http://javafx.com/fxml"  fx:controller="mathtest.MathTestController" >   or   fxmlLoader.setController( menuController);     -->
+    <top>
+        <Label text="%TestOfMachine"  ></Label>
+        <HBox>
+            <Button text="Run"></Button>
+            <Button text="Stop"></Button>
+
+        </HBox>
+    </top>
+    <!--<left>-->
+        <!--<Label text="left"></Label>-->
+    <!--</left>-->
+    <!--<LineChart fx:id="lineChart">-->
+        <!--<xAxis><NumberAxis label="Values for X-Axis" /></xAxis>-->
+        <!--<yAxis><NumberAxis label="Values for Y-Axis" /></yAxis>-->
+    <!--</LineChart>-->
+</fx:root>

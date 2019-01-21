@@ -1,0 +1,14 @@
+.label       {    -fx-font-weight: bold;
+       /*           -fx-text-fill: red;     */
+}
+
+.stack_pane_style {
+    -fx-background-color: #2ed6f3;
+    -fx-border-color: #9c05bf;
+    -fx-border-width: 5;
+}
+
+.grid_pane_cell {
+    -fx-border-color: #3f3f3f;
+    -fx-border-width: 1;
+}

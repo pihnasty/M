@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fx:root type="trestview.dictionary.DictionaryView" xmlns:fx="http://javafx.com/fxml"  title="%New"   >
+<!-- <fx:root type="trestview.menu.TMenuView" xmlns:fx="http://javafx.com/fxml"  fx:controller="trestview.menu.TMenuController" >   or   fxmlLoader.setController( menuController);     -->
+    <dialogPane    >
+
+
+
+    </dialogPane  >
+
+
+</fx:root>
