@@ -17,13 +17,19 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="logger" />
-        <module name="pde" />
+        <module name="settings" />
+        <module name="ua" />
+        <module name="util" />
+        <module name="util-fx" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="logger" target="1.5" />
+    <bytecodeTargetLevel target="8">
+      <module name="logger" target="8" />
       <module name="M" target="1.5" />
-      <module name="pde" target="1.8" />
+      <module name="settings" target="8" />
+      <module name="ua" target="8" />
+      <module name="util" target="8" />
+      <module name="util-fx" target="1.5" />
     </bytecodeTargetLevel>
   </component>
 </project>

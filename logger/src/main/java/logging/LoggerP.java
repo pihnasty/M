@@ -1,8 +1,11 @@
 package logging;
 
+import javafx.fxml.FXMLLoader;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.ResourceBundle;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -11,8 +14,12 @@ public class LoggerP {
     public static Logger logger;
     private static String logfileName = "PDE-";
 
+    public static FXMLLoader loader = new FXMLLoader();
+
     static {
         try {
+            loader.setResources(ResourceBundle.getBundle("ui"));
+
             SimpleDateFormat format = new SimpleDateFormat("dd-MM-yy hh-mm-ss");
             Date date = new Date();
             boolean append = true;

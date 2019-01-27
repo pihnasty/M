@@ -4,15 +4,14 @@ import designpatterns.ObservableDS;
 import entityProduction.*;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import menu.MenuModel;
 import persistence.loader.DataSet;
 import persistence.loader.SectionDataSet;
 import persistence.loader.tabDataSet.RowTrest;
-import trestview.table.tablemodel.abstracttablemodel.Rule;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Observable;
 
 /**
  * Created by Max on 19.02.2016.
@@ -31,7 +30,7 @@ public class TrestModel extends ObservableDS {
 
     public Locale locale;
 
-    public TrestModel(ObservableDS observableDS, Rule rule) {
+    public TrestModel(ObservableDS observableDS, MenuModel.Rule rule) {
         setLocale("ru"); //   ru en
         this.dataSet = new DataSet();
 

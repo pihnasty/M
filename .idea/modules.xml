@@ -4,7 +4,10 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/M.iml" filepath="$PROJECT_DIR$/M.iml" />
       <module fileurl="file://$PROJECT_DIR$/logger/logger.iml" filepath="$PROJECT_DIR$/logger/logger.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ua/pde.iml" filepath="$PROJECT_DIR$/ua/pde.iml" />
+      <module fileurl="file://$PROJECT_DIR$/settings/settings.iml" filepath="$PROJECT_DIR$/settings/settings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ua/ua.iml" filepath="$PROJECT_DIR$/ua/ua.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util/util.iml" filepath="$PROJECT_DIR$/util/util.iml" />
+      <module fileurl="file://$PROJECT_DIR$/util-fx/util-fx.iml" filepath="$PROJECT_DIR$/util-fx/util-fx.iml" />
     </modules>
   </component>
 </project>

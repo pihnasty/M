@@ -1,0 +1,29 @@
+/* Menu File*/
+#newItem        { -fx-background-image: url("../../../src/main/resources/images/icons/new.png");       }
+#openItem       { -fx-background-image: url("../../../src/main/resources/images/icons/open.png");      }
+#saveItem       { -fx-background-image: url("../../../src/main/resources/images/icons/save.png");      }
+#saveItem       { -fx-background-image: url("../../../src/main/resources/images/icons/save.png");      }
+#saveAsItem     { -fx-background-image: url("../../../src/main/resources/images/icons/save_as.png");   }
+#saveAllItem    { -fx-background-image: url("../../../src/main/resources/images/icons/save_all.png");  }
+#exitItem       { -fx-background-image: url("../../../src/main/resources/images/icons/exit.png");      }
+/* Menu Edit*/
+#cutItem        { -fx-background-image: url("../../../src/main/resources/images/icons/cut.png");       }
+#copyItem       { -fx-background-image: url("../../../src/main/resources/images/icons/copy.png");      }
+#pasteItem      { -fx-background-image: url("../../../src/main/resources/images/icons/paste.png");     }
+/* Menu Dictionary*/
+#rowWorkItem      { -fx-background-image: url("../../../../src/main/resources/images/icons/RowWork.png");     }
+#rowFunctiondistItem  { -fx-background-image: url("../../../../src/main/resources/images/icons/RowFunctiondist.png");  }
+#rowTypemachineItem   { -fx-background-image: url("../../../../src/main/resources/images/icons/RowTypemachine.png");  }
+#rowUnitItem   { -fx-background-image: url("../../../../src/main/resources/images/icons/rowunit.png");  }
+#rowOperationItem   { -fx-background-image: url("../../../../src/main/resources/images/icons/rowunit.png");  }
+.menu-item {
+/*    -fx-skin: "com.sun.javafx.scene.control.skin.MenuItemSkin";*/
+    -fx-background-color: chartreuse;
+    -fx-background-repeat:no-repeat;
+    -fx-padding: 0pt 0pt 0pt 18pt;
+    -fx-background-position: 0,left;
+}
+
+.menu-item:focused  {
+    -fx-background-color : blue;
+}

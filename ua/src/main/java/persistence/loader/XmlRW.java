@@ -77,12 +77,12 @@ public class XmlRW
     {
 		String pathData="";
 		FXMLLoader loader = new FXMLLoader();
-		loader.setResources(ResourceBundle.getBundle("resources.ui"));
+		loader.setResources(ResourceBundle.getBundle("ui"));
 
 		DirectoryChooser chooser=new DirectoryChooser();
-		chooser.setInitialDirectory(new File( DataSet.tSettings.get(0).getSystemPath()  )); // we set the current directory, which is defined in the config.xml
+		chooser.setInitialDirectory(new File( "D:\\A\\M\\MyProjects"  )); // we set the current directory, which is defined in the config.xml
 		chooser.setTitle(loader.getResources().getString("Select_db_download"));
-		chooser.setInitialDirectory(new File( DataSet.tSettings.get(0).getSystemPath()) );  //  .setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+		chooser.setInitialDirectory(new File( "D:\\A\\M\\MyProjects") );  //  .setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 		File file=chooser.showDialog(new Stage());
 		if (file != null) {
 			chooser.setInitialDirectory(file);
@@ -93,13 +93,15 @@ public class XmlRW
 			}
 		}
 
-		for (Field fd : DataSet.class.getDeclaredFields() )		{					// We go through all the fields of  DataSet.class
-			if ( fd.getName().substring(0,3).equals("tab"))	{	  	 				// and find those fields that begin with a tab......
-				if ( !new File(pathData+fd.getName()+".xml").exists()) return "";	// DataSet.tSettings.get(0).getSystemPath();
-				// and check whether there is a directory of data files (their name is the same as the field names) fd.getName()
-				// If at least one of the data files does not match or is not found, it returns the old path to the directory database
-			}
-		}
+
+
+//		for (Field fd : DataSet.class.getDeclaredFields() )		{					// We go through all the fields of  DataSet.class
+//			if ( fd.getName().substring(0,3).equals("tab"))	{	  	 				// and find those fields that begin with a tab......
+//				if ( !new File(pathData+fd.getName()+".xml").exists()) return "";	// DataSet.tSettings.get(0).getSystemPath();
+//				// and check whether there is a directory of data files (their name is the same as the field names) fd.getName()
+//				// If at least one of the data files does not match or is not found, it returns the old path to the directory database
+//			}
+//		}
 
 		return pathData;
     }

@@ -1,7 +1,0 @@
-/* HBox Pane*/
-#addButton      { -fx-background-image: url("../../resources/images/icons/new.png");       }
-#editButton      { -fx-background-image: url("../../resources/images/icons/open.png");      }
-#saveButton      { -fx-background-image: url("../../resources/images/icons/save.png");      }
-#delButton      { -fx-background-image: url("../../resources/images/icons/save.png");      }
-
-
