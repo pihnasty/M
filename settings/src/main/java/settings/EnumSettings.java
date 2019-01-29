@@ -27,7 +27,6 @@ public enum EnumSettings implements Settings {
     private Settings instance;
     private String name;
     private Map<String, String> map;
-    private File fileSettings;
 
 
     EnumSettings(String name) {
@@ -42,10 +41,6 @@ public enum EnumSettings implements Settings {
 
     }
 
-    public File getfileSettings() {
-        return fileSettings;
-    }
-
     public Map<String,String> getMap() {
         return map;
     }
@@ -54,13 +49,16 @@ public enum EnumSettings implements Settings {
         return name;
     }
 
+    public String getFileName() {
+        return name.toLowerCase()+"_" + Values.SETTINGS_CSV;
+    }
 
     private Map<String, String> readSettingsFromFile() {
         Map<String, String> map = new HashMap<>();
         String path = getPath(name);
 
         if(!path.isEmpty()) {
-            CsvReaderP csvReaderP = new CsvReaderP("%8.3f ", ';', path, name.toLowerCase() + Values.SETTINGS_CSV);
+            CsvReaderP csvReaderP = new CsvReaderP("%8.3f ", ';', path, getFileName());
             List<List<String>> table = null;
             try {
                 table = csvReaderP.readFromFile();

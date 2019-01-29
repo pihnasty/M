@@ -3,11 +3,13 @@ package menu;
 import designpatterns.InitializableDS;
 import designpatterns.MVC;
 import designpatterns.ObservableDS;
+import dialogs.AlertDialog;
 import fio.FileUI;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
@@ -20,6 +22,7 @@ import settings.Settings;
 import string.StringUtil;
 import trestmodel.TrestModel;
 
+import java.awt.*;
 import java.io.File;
 import java.net.URL;
 import java.util.Optional;
@@ -43,11 +46,16 @@ public class MenuController extends InitializableDS {
     private MenuItem exitItem;
 
     @FXML
-    private MenuItem rawData;
+    private MenuItem rowDataItem;
+
     @FXML
-    private MenuItem copyItem;
+    private MenuItem nameCategoryItem;
+
     @FXML
-    private MenuItem pasteItem;
+    private MenuItem separatedRowDataItem;
+
+    @FXML
+    private MenuItem calculateFactorsItem;
 
     @FXML
     private MenuItem defaultPerspectiveItem;
@@ -74,9 +82,10 @@ public class MenuController extends InitializableDS {
         saveAsItem.setAccelerator(KeyCombination.keyCombination("Ctrl+A"));
         exitItem.setAccelerator(KeyCombination.keyCombination("Ctrl+E"));
 
-//        rawData.setAccelerator(KeyCombination.keyCombination("Ctrl+U"));
-//        copyItem.setAccelerator(KeyCombination.keyCombination("Ctrl+C"));
-//        pasteItem.setAccelerator(KeyCombination.keyCombination("Ctrl+V"));
+        rowDataItem.setAccelerator(KeyCombination.keyCombination("Ctrl+U"));
+        nameCategoryItem.setAccelerator(KeyCombination.keyCombination("Ctrl+N"));
+        separatedRowDataItem.setAccelerator(KeyCombination.keyCombination("Ctrl+E"));
+
 //
 //        defaultPerspectiveItem.setAccelerator(KeyCombination.keyCombination("Ctrl+D"));
 //        orderPlaningPerspectiveItem.setAccelerator(KeyCombination.keyCombination("Alt+O"));
@@ -102,6 +111,7 @@ public class MenuController extends InitializableDS {
     @FXML
     private void handleSaveAction(ActionEvent event) {
         ((AppProject)menuModel.getObservableDS()).saveProjectSettings();
+        ((AppProject)menuModel.getObservableDS()).saveRawData();
     }
 
     @FXML
@@ -112,6 +122,7 @@ public class MenuController extends InitializableDS {
         );
         ((AppProject)menuModel.getObservableDS()).getDefaultSettings().getMap().put(Settings.Keys.PROJECT_PATH,pathToProject);
         ((AppProject)menuModel.getObservableDS()).saveProjectSettings();
+        ((AppProject)menuModel.getObservableDS()).saveRawData();
     }
 
     @FXML
@@ -120,16 +131,37 @@ public class MenuController extends InitializableDS {
         Platform.exit();
     }
 
-//------------------- menu Tasks ------------------------------------
-@FXML
-private void handleRawDataAction(ActionEvent event) {
-    System.exit(0);
-    Platform.exit();
-}
-//------------------- menu Tasks ------------------------------------
+//------------------- menu Prepare ------------------------------------
     @FXML
-    private void handleConveyorSpeedConstantAction (ActionEvent event) {
-        menuModel.clickConveyorSpeedConstantItem();
+    private void handleSeparatedRawDataAction(ActionEvent event) {
+        if(!((AppProject)menuModel.getObservableDS()).separatedRawData()) {
+            AlertDialog.getAlert(MainWindowView.loaderRecource.getResources().getString("title.message.alert.separated.rawData")
+                , MainWindowView.loaderRecource.getResources().getString("message.alert.separated.rawData"));
+        }
+    }
+
+    @FXML
+    private void handleRawDataAction(ActionEvent event) {
+        String pathToFile = FileUI.getPathToFile(
+            ((AppProject)menuModel.getObservableDS()).getProjectPath()
+            , MainWindowView.loaderRecource.getResources().getString("select.db.download")
+        );
+        ((AppProject)menuModel.getObservableDS()).uploadRawData(pathToFile);
+    }
+
+    @FXML
+    private void handleNameCategoryAction(ActionEvent event) {
+        String pathToFile = FileUI.getPathToFile(
+            ((AppProject)menuModel.getObservableDS()).getProjectPath()
+            , MainWindowView.loaderRecource.getResources().getString("select.file.category.name.download")
+        );
+        ((AppProject)menuModel.getObservableDS()).uploadNameCategory(pathToFile);
+    }
+//------------------- menu Analysis ------------------------------------
+    @FXML
+    private void handleCalculateFactorsAction (ActionEvent event) {
+
+     //   menuModel.clickConveyorSpeedConstantItem();
     }
 
     @FXML
