@@ -8,6 +8,10 @@ public class MathP {
         return new Counter (i);
     }
 
+    static public Counter getCounter(int initialCount, int i) {
+        return new Counter (initialCount,i);
+    }
+
     public static class Counter implements Supplier {
         private int counter = 0;
         private int counterCommon = -1;
@@ -16,6 +20,11 @@ public class MathP {
         public Counter() {
         }
         public Counter(int i) {
+            this.i = i;
+        }
+
+        public Counter(int initialCount, int i) {
+            this.counter=initialCount;
             this.i = i;
         }
         @Override

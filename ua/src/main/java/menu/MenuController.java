@@ -19,8 +19,7 @@ import mainwindows.MainWindowView;
 import persistence.loader.DataSet;
 import persistence.loader.XmlRW;
 import settings.Settings;
-import string.StringUtil;
-import trestmodel.TrestModel;
+
 
 import java.awt.*;
 import java.io.File;
@@ -161,8 +160,13 @@ public class MenuController extends InitializableDS {
     @FXML
     private void handleCalculateFactorsAction (ActionEvent event) {
 
-     //   menuModel.clickConveyorSpeedConstantItem();
+        ((AppProject)menuModel.getObservableDS()).createFactors ();
     }
+
+//    private void handleCalculateFactorsAction (ActionEvent event) {
+//
+//        //   menuModel.clickConveyorSpeedConstantItem();
+//    }
 
     @FXML
     private void handleConveyorSpeedConstantControlBandAction (ActionEvent event) {

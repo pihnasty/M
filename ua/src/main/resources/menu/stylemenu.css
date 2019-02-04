@@ -10,7 +10,11 @@
 #nameCategoryItem   { -fx-background-image: url("../../../src/main/resources/images/icons/new.png");       }
 #separatedRowDataItem       { -fx-background-image: url("../../../src/main/resources/images/icons/copy.png");      }
 #pasteItem      { -fx-background-image: url("../../../src/main/resources/images/icons/paste.png");     }
-/* Menu Dictionary*/
+/* Menu Analysis*/
+#calculateFactorsItem { -fx-background-image: url("../../../src/main/resources/images/icons/new.png");       }
+
+
+/* Menu Analysis*/
 #rowWorkItem      { -fx-background-image: url("../../../../src/main/resources/images/icons/RowWork.png");     }
 #rowFunctiondistItem  { -fx-background-image: url("../../../../src/main/resources/images/icons/RowFunctiondist.png");  }
 #rowTypemachineItem   { -fx-background-image: url("../../../../src/main/resources/images/icons/RowTypemachine.png");  }

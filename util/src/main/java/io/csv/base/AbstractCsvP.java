@@ -87,8 +87,6 @@ public abstract class AbstractCsvP implements ReaderP , WriterP {
         List<String[]> records = new ArrayList<>();
 
         table.forEach( row -> records.add(row.stream().toArray(String[]::new)));
-
-        System.out.println();
         return records;
     }
 }

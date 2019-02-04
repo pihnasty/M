@@ -1,5 +1,7 @@
 package settings;
 
+import string.StringUtil;
+
 public class ProviderSettings {
 
     private final static Settings defaultSettings = EnumSettings.DEFAULT.getInstance();
@@ -17,4 +19,14 @@ public class ProviderSettings {
         }
         return null;
     }
+
+    public static String getProjectSettingsMapValue(String key) {
+        String value = StringUtil.OptionalIsNullOrEmpty(projectSettings.getMap().get(key), defaultSettings.getMap().get(key));
+        if (!projectSettings.getMap().containsKey(key)) {
+            projectSettings.getMap().put(key, value);
+        }
+        return value.trim();
+    }
+
+
 }

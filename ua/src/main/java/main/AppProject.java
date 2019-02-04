@@ -1,6 +1,7 @@
 package main;
 
 import designpatterns.ObservableDS;
+import factors.FactorManager;
 import fio.FileUI;
 import io.csv.read.CsvReaderP;
 import io.csv.write.CsvWriterP;
@@ -28,6 +29,14 @@ public class AppProject extends ObservableDS {
     private List<List<String>> nameCategoryTable;
     private List<List<String>> separatedRawDataTable;
     private List<List<String>> testedRawDataTable;
+    private List<List<String>> normalizedSeparatedRawDataTable;
+    private List<List<String>> covarianceCoefficients;
+    private List<List<String>> significanceOfFactors;
+
+    private List<List<String>> characteristicsSeparatedRawDataTable;
+    private List<List<String>> characteristicsDimensionlessSeparatedRawDataTable;
+
+    private FactorManager factorManager;
 
 
     private AppProject() {
@@ -118,7 +127,14 @@ public class AppProject extends ObservableDS {
         saveData(nameCategoryTable,Settings.Values.NAME_CATEGORY_TABLE_CSV);
         saveData(separatedRawDataTable,Settings.Values.SEPARATED_RAW_DATA_TABLE_CSV );
         saveData(testedRawDataTable,Settings.Values.TESTED_RAW_DATA_TABLE_CSV );
-    }
+        saveData(normalizedSeparatedRawDataTable,Settings.Values.NORMALIZED_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(covarianceCoefficients,Settings.Values.COVARIANCE_COEFFICIENTS_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(significanceOfFactors,Settings.Values.SIGNIFICANCE_FACTORS_SEPARATED_RAW_DATA_TABLE_CSV);
+
+        saveData(characteristicsSeparatedRawDataTable,Settings.Values.CHARACTERISTICS_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(characteristicsDimensionlessSeparatedRawDataTable,Settings.Values.CHARACTERISTICS_DIMENSIONLESS_SEPARATED_RAW_DATA_TABLE_CSV);
+
+}
 
     private void saveData(List<List<String>> dataTable, String fileName) {
         CsvWriterP csvWriterP = new CsvWriterP("%8.3f ", ';'
@@ -173,5 +189,20 @@ public class AppProject extends ObservableDS {
         return true;
 
     }
+
+    public void createFactors() {
+
+        FactorManager factorManager = new FactorManager(separatedRawDataTable);
+        normalizedSeparatedRawDataTable=factorManager.getNormalazeSeparatedRawDataTable();
+        covarianceCoefficients =factorManager.getCovarianceCoefficients();
+        significanceOfFactors = factorManager.getSignificanceOfFactors();
+
+        characteristicsSeparatedRawDataTable =factorManager.getCharacteristicsSeparatedRawDataTable();
+
+        characteristicsDimensionlessSeparatedRawDataTable =factorManager.getCharacteristicsDimensionlessSeparatedRawDataTable();
+
+    }
+
+
 
 }
