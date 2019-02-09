@@ -8,7 +8,7 @@ import java.util.Objects;
 import java.util.Observable;
 
 public class ObservableDS extends Observable {
-    private ObservableDS observableDS;
+    protected ObservableDS observableDS;
 
 
     public ObservableDS ()  {}

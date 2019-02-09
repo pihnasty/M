@@ -9,10 +9,9 @@
 #rowDataItem        { -fx-background-image: url("../../../src/main/resources/images/icons/new.png");       }
 #nameCategoryItem   { -fx-background-image: url("../../../src/main/resources/images/icons/new.png");       }
 #separatedRowDataItem       { -fx-background-image: url("../../../src/main/resources/images/icons/copy.png");      }
-#pasteItem      { -fx-background-image: url("../../../src/main/resources/images/icons/paste.png");     }
 /* Menu Analysis*/
 #calculateFactorsItem { -fx-background-image: url("../../../src/main/resources/images/icons/new.png");       }
-
+#calculateCoefficientsOneParameterModelItem { -fx-background-image: url("../../../src/main/resources/images/icons/new.png");       }
 
 /* Menu Analysis*/
 #rowWorkItem      { -fx-background-image: url("../../../../src/main/resources/images/icons/RowWork.png");     }

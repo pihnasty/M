@@ -25,7 +25,7 @@
 
     <Menu text="%Analysis">
         <MenuItem text="%CalculateFactors" fx:id="calculateFactorsItem" onAction="#handleCalculateFactorsAction"/>
-        <MenuItem text="%UploadNameCategory" fx:id="nameCategoryItem2" onAction="#handleNameCategoryAction"/>
+        <MenuItem text="%CalculateCoefficientsOneParameterModel" fx:id="calculateCoefficientsOneParameterModelItem" onAction="#handleCalculateCoefficientsOneParameterModelAction"/>
         <SeparatorMenuItem/>
         <MenuItem text="%SeparatedRawData" fx:id="separatedRowDataItem2" onAction="#handleSeparatedRawDataAction"/>
         <SeparatorMenuItem/>

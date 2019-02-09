@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,15 @@ public abstract class AbstractCsvP implements ReaderP , WriterP {
     private Locale localeCurrent;
 
     public AbstractCsvP(String columnsFormat, char delimiter, String  path, String fileName) {
+        Path p1 = Paths.get(path);
+        if (Files.notExists(p1)) {
+            try {
+                Files.createDirectories(p1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         this.columnsFormat = columnsFormat;
         this.path = path;
         this.fileName = fileName;

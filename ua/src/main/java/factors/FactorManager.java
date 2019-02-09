@@ -353,12 +353,10 @@ public class FactorManager {
     }
 
     private String getDoubleFormatValue (Double value, String headerValue) {
-        int lengthCell = Integer.parseInt(ProviderSettings.getProjectSettingsMapValue(Settings.Keys.LENGTH_CELL));
-        int lengthHeaderValue = headerValue.length();
-        return  String.format(" " + "%"
-            + (lengthHeaderValue<lengthCell?lengthCell:lengthHeaderValue)
-            + ".2f ", value);
+        return StringUtil.getDoubleFormatValue(value, headerValue
+            , ProviderSettings.getProjectSettingsMapValue(Settings.Keys.LENGTH_CELL));
     }
+
 
     private String getStringFormatValue (String value, String headerValue) {
         int lengthCell = Integer.parseInt(ProviderSettings.getProjectSettingsMapValue(Settings.Keys.LENGTH_CELL));
@@ -403,7 +401,7 @@ public class FactorManager {
                   (row1, row2) -> {
                       Double doubleRow1 = Double.parseDouble(row1.get(0).replace(",", "."));
                       Double doubleRow2 = Double.parseDouble(row2.get(0).replace(",", "."));
-                    return   (doubleRow1 > doubleRow2) ? 1 : -1;
+                    return   (doubleRow1 > doubleRow2) ?  1 : -1;
                   }
               ).collect(Collectors.toList());
       }catch (IllegalArgumentException e) {

@@ -117,10 +117,6 @@ public class Factor {
                         .min(Comparator.comparing(Double::parseDouble) ).get()
                 );
 
-
-            System.out.println("хххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххххх");
-
-
         } catch (NumberFormatException e) {
             System.out.println("12345678");
         }

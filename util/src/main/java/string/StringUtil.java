@@ -22,6 +22,14 @@ public class StringUtil {
         return String.format(" " + "%" + (value.length() < length ? length : value.length()) + "s ", value);
     }
 
+    public static String getDoubleFormatValue (Double value, String headerValue, String defaultHeaderLenght) {
+        int lengthCell = Integer.parseInt(defaultHeaderLenght);
+        int lengthHeaderValue = headerValue.length();
+        return  String.format(" " + "%"
+            + (lengthHeaderValue<lengthCell?lengthCell:lengthHeaderValue)
+            + ".2f ", value);
+    }
+
 
 
 

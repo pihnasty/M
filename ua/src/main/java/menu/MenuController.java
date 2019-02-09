@@ -57,7 +57,7 @@ public class MenuController extends InitializableDS {
     private MenuItem calculateFactorsItem;
 
     @FXML
-    private MenuItem defaultPerspectiveItem;
+    private MenuItem calculateCoefficientsOneParameterModelItem;
     @FXML
     private MenuItem orderPlaningPerspectiveItem;
     @FXML
@@ -66,8 +66,7 @@ public class MenuController extends InitializableDS {
     private MenuItem resourcesLinksPerspectiveItem;
     @FXML
     private MenuItem  testOfMachineItem;
-    @FXML
-    private MenuItem  rowOperationItem;
+
 
     public MenuController(ObservableDS observableDS) {
         super(observableDS);
@@ -84,6 +83,8 @@ public class MenuController extends InitializableDS {
         rowDataItem.setAccelerator(KeyCombination.keyCombination("Ctrl+U"));
         nameCategoryItem.setAccelerator(KeyCombination.keyCombination("Ctrl+N"));
         separatedRowDataItem.setAccelerator(KeyCombination.keyCombination("Ctrl+E"));
+        calculateFactorsItem.setAccelerator(KeyCombination.keyCombination("Ctrl+F"));
+        calculateCoefficientsOneParameterModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+1"));
 
 //
 //        defaultPerspectiveItem.setAccelerator(KeyCombination.keyCombination("Ctrl+D"));
@@ -132,14 +133,6 @@ public class MenuController extends InitializableDS {
 
 //------------------- menu Prepare ------------------------------------
     @FXML
-    private void handleSeparatedRawDataAction(ActionEvent event) {
-        if(!((AppProject)menuModel.getObservableDS()).separatedRawData()) {
-            AlertDialog.getAlert(MainWindowView.loaderRecource.getResources().getString("title.message.alert.separated.rawData")
-                , MainWindowView.loaderRecource.getResources().getString("message.alert.separated.rawData"));
-        }
-    }
-
-    @FXML
     private void handleRawDataAction(ActionEvent event) {
         String pathToFile = FileUI.getPathToFile(
             ((AppProject)menuModel.getObservableDS()).getProjectPath()
@@ -156,6 +149,14 @@ public class MenuController extends InitializableDS {
         );
         ((AppProject)menuModel.getObservableDS()).uploadNameCategory(pathToFile);
     }
+
+    @FXML
+    private void handleSeparatedRawDataAction(ActionEvent event) {
+        if(!((AppProject)menuModel.getObservableDS()).separatedRawData()) {
+            AlertDialog.getAlert(MainWindowView.loaderRecource.getResources().getString("title.message.alert.separated.rawData")
+                , MainWindowView.loaderRecource.getResources().getString("message.alert.separated.rawData"));
+        }
+    }
 //------------------- menu Analysis ------------------------------------
     @FXML
     private void handleCalculateFactorsAction (ActionEvent event) {
@@ -163,14 +164,9 @@ public class MenuController extends InitializableDS {
         ((AppProject)menuModel.getObservableDS()).createFactors ();
     }
 
-//    private void handleCalculateFactorsAction (ActionEvent event) {
-//
-//        //   menuModel.clickConveyorSpeedConstantItem();
-//    }
-
     @FXML
-    private void handleConveyorSpeedConstantControlBandAction (ActionEvent event) {
-        menuModel.clickConveyorSpeedConstantControlBandItem();
+    private void handleCalculateCoefficientsOneParameterModelAction (ActionEvent event) {
+        ((AppProject)menuModel.getObservableDS()).calculateCoefficientsOneParameterModel_a_b();
     }
 
     @FXML

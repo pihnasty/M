@@ -5,12 +5,15 @@ import factors.FactorManager;
 import fio.FileUI;
 import io.csv.read.CsvReaderP;
 import io.csv.write.CsvWriterP;
+import models.OneParameterModel;
 import settings.EnumSettings;
 import settings.ProviderSettings;
 import settings.Settings;
 import string.StringUtil;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -35,6 +38,9 @@ public class AppProject extends ObservableDS {
 
     private List<List<String>> characteristicsSeparatedRawDataTable;
     private List<List<String>> characteristicsDimensionlessSeparatedRawDataTable;
+
+    private List<List<String>> koefficientA;
+    private List<List<String>> koefficientB;
 
     private FactorManager factorManager;
 
@@ -134,11 +140,21 @@ public class AppProject extends ObservableDS {
         saveData(characteristicsSeparatedRawDataTable,Settings.Values.CHARACTERISTICS_SEPARATED_RAW_DATA_TABLE_CSV);
         saveData(characteristicsDimensionlessSeparatedRawDataTable,Settings.Values.CHARACTERISTICS_DIMENSIONLESS_SEPARATED_RAW_DATA_TABLE_CSV);
 
+        saveData(koefficientA,Settings.Values.ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV);
+        saveData(koefficientB,Settings.Values.ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV);
+
 }
 
     private void saveData(List<List<String>> dataTable, String fileName) {
+
+        Path fullPath = Paths.get(getProjectPath()+"//"+fileName);
+
+        String path = fullPath.getParent().toString().replace("\\","//");
+           fileName = fullPath.getFileName().toString();
+
+
         CsvWriterP csvWriterP = new CsvWriterP("%8.3f ", ';'
-            , getProjectPath(), fileName);
+            , path, fileName);
         if (Objects.nonNull(dataTable)) {
             csvWriterP.writeToFile(dataTable);
         }
@@ -203,6 +219,12 @@ public class AppProject extends ObservableDS {
 
     }
 
+    public void calculateCoefficientsOneParameterModel_a_b() {
+        OneParameterModel oneParameterModel = new OneParameterModel();
+        oneParameterModel.calculateKoefficientB(covarianceCoefficients, characteristicsSeparatedRawDataTable);
+        koefficientA = oneParameterModel.getKoefficientA();
+        koefficientB = oneParameterModel.getKoefficientB();
+    }
 
 
 }

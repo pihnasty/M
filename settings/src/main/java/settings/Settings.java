@@ -29,6 +29,9 @@ public interface Settings {
         public static String CHARACTERISTICS_SEPARATED_RAW_DATA_TABLE_CSV ="characteristics_separated_raw_data_table.csv";
         public static String CHARACTERISTICS_DIMENSIONLESS_SEPARATED_RAW_DATA_TABLE_CSV ="characteristics_dimensionless_separated_raw_data_table.csv";
 
+        public static String ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV ="one_parameter_model//koef_a_table.csv";
+        public static String ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV ="one_parameter_model//koef_b_table.csv";
+
 
     }
 

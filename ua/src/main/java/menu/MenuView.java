@@ -1,10 +1,14 @@
 package menu;
 
 import designpatterns.InitializableDS;
+import designpatterns.MVC;
 import designpatterns.ObservableDS;
 import javafx.fxml.FXML;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import linechart.LineChartController;
+import linechart.LineChartModel;
+import linechart.LineChartP;
 import persistence.loader.XmlRW;
 
 import java.util.Observable;
