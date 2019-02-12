@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/M.iml" filepath="$PROJECT_DIR$/M.iml" />
       <module fileurl="file://$PROJECT_DIR$/logger/logger.iml" filepath="$PROJECT_DIR$/logger/logger.iml" />
+      <module fileurl="file://$PROJECT_DIR$/research/research.iml" filepath="$PROJECT_DIR$/research/research.iml" />
       <module fileurl="file://$PROJECT_DIR$/settings/settings.iml" filepath="$PROJECT_DIR$/settings/settings.iml" />
       <module fileurl="file://$PROJECT_DIR$/ua/ua.iml" filepath="$PROJECT_DIR$/ua/ua.iml" />
       <module fileurl="file://$PROJECT_DIR$/util/util.iml" filepath="$PROJECT_DIR$/util/util.iml" />

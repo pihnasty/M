@@ -25,6 +25,8 @@ public class AppM extends Application {
     public final int DEFAULT_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
     public final int DEFAULT_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 
+
+
     public static void main(String[] args) {
             launch();
     }
@@ -32,7 +34,6 @@ public class AppM extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-
 
         LoggerP.logger.log(Level.SEVERE, "Starting application", "LoggerP");
 

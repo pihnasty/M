@@ -1,7 +1,7 @@
-package main;
+package common;
 
 public interface ProjectConstant {
-    public class  Factors {
+    class  Factors {
        final public static String ID ="id";
         final public static String NAME ="name";
         final public static String AVERAGE ="average";
@@ -9,6 +9,11 @@ public interface ProjectConstant {
         final public static String MAX ="max";
         final public static String MIN ="min";
 
+
+    }
+
+    class  ModelNanes {
+        final public static String ONE_PARAMETER_LINEAR_DEPENDENCE ="one-parameter linear dependence";
 
     }
 }

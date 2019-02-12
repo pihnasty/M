@@ -4,7 +4,6 @@ import java.awt.geom.Point2D;
 import java.util.List;
 
 public interface LineChartInterface {
-    List<Point2D.Double> getList();
     List<String> getListLegend();
     String getTitleGraph();
     String getTitleX();

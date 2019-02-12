@@ -17,6 +17,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="logger" />
+        <module name="research" />
         <module name="settings" />
         <module name="ua" />
         <module name="util" />
@@ -26,6 +27,7 @@
     <bytecodeTargetLevel target="8">
       <module name="logger" target="8" />
       <module name="M" target="1.5" />
+      <module name="research" target="8" />
       <module name="settings" target="8" />
       <module name="ua" target="8" />
       <module name="util" target="8" />

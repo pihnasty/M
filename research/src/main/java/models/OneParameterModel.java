@@ -6,7 +6,6 @@ import string.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class OneParameterModel {
     private List<List<String>> koefficientA;
@@ -34,10 +33,6 @@ public class OneParameterModel {
                 koefficientB.add(rowB);
             }
         );
-
-
-
-
 
         for (int i1 = 1; i1 < koefficientA.size(); i1++) {
 

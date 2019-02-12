@@ -1,8 +1,6 @@
 package factors;
 
-import com.sun.javafx.collections.MappingChange;
-import main.ProjectConstant;
-import settings.ProviderSettings;
+import common.ProjectConstant;
 
 import java.util.*;
 
@@ -188,5 +186,18 @@ public class Factor {
 
     public double getDimensionlessStandardDeviation() {
         return dimensionlessStandardDeviation;
+    }
+
+    public Map<String, Double> getDoubleValues() {
+        Map<String, Double> doubleValues = new HashMap<>();
+        values.keySet().forEach(
+            key-> {
+                String stringValue = values.get(key).trim();
+                if (!"-".equals(stringValue)) {
+                    doubleValues.put(key, Double.parseDouble(stringValue));
+                }
+            }
+        );
+        return doubleValues;
     }
 }

@@ -25,12 +25,27 @@
 
     <Menu text="%Analysis">
         <MenuItem text="%CalculateFactors" fx:id="calculateFactorsItem" onAction="#handleCalculateFactorsAction"/>
-        <MenuItem text="%CalculateCoefficientsOneParameterModel" fx:id="calculateCoefficientsOneParameterModelItem" onAction="#handleCalculateCoefficientsOneParameterModelAction"/>
+        <SeparatorMenuItem/>
+        <MenuItem text="%Download.experiment.plan" fx:id="downloadExperimentPlanItem" onAction="#handleDownloadExperimentPlanAction"/>
+        <SeparatorMenuItem/>
+        <MenuItem text="%Create.template.experiment.plan" fx:id="createTemplatePlanItem" onAction="#handleCreateTemplateExperimentPlanAction"/>
+        <SeparatorMenuItem/>
+        <Menu text="%One.factor.model">
+            <MenuItem text="%CalculateCoefficientsOneParameterModel" fx:id="calculateCoefficientsOneParameterModelItem"
+                      onAction="#handleCalculateCoefficientsOneParameterModelAction"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="%Raw.data.graph" fx:id="rawDataGraphItem"
+                      onAction="#handleRawDataGraphItemAction"/>
+            <MenuItem text="DEFAULT" fx:id="defaultItem"
+                      onAction="#handleDefaultItemAction"/>
+        </Menu>
         <SeparatorMenuItem/>
         <MenuItem text="%SeparatedRawData" fx:id="separatedRowDataItem2" onAction="#handleSeparatedRawDataAction"/>
         <SeparatorMenuItem/>
 
     </Menu>
-
+    <Menu text="%Settings">
+        <MenuItem text="%Fast.start" fx:id="fastStartItem" onAction="#handleFastStartAction"/>
+    </Menu>
 
 </fx:root>

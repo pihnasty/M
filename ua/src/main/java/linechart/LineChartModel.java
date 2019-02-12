@@ -25,7 +25,6 @@ public class LineChartModel extends ObservableDS implements LineChartInterface {
 
     public LineChartModel(ObservableDS o, MenuModel.Rule rule){
        super(o,rule);
-        list =( (LineChartInterface) observableDS).getList();
         listLegend = ( (LineChartInterface) observableDS).getListLegend();
         pullList =( (LineChartInterface) observableDS).getPullList();
         titleGraph=( (LineChartInterface) observableDS).getTitleGraph();
@@ -37,11 +36,6 @@ public class LineChartModel extends ObservableDS implements LineChartInterface {
         yMax = ( (LineChartInterface) observableDS).getyMax();
         xTickUnit = ( (LineChartInterface) observableDS).getxTickUnit();
         yTickUnit = ( (LineChartInterface) observableDS).getyTickUnit();
-    }
-
-    @Override
-    public List<Point2D.Double> getList() {
-        return list;
     }
 
     @Override

@@ -1,20 +1,25 @@
 package main;
 
 import designpatterns.ObservableDS;
+import experiment.Plan;
 import factors.FactorManager;
 import fio.FileUI;
 import io.csv.read.CsvReaderP;
 import io.csv.write.CsvWriterP;
+import io.gson.read.Reader;
+import io.gson.write.Writer;
 import models.OneParameterModel;
 import settings.EnumSettings;
 import settings.ProviderSettings;
 import settings.Settings;
 import string.StringUtil;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class AppProject extends ObservableDS {
@@ -42,8 +47,8 @@ public class AppProject extends ObservableDS {
     private List<List<String>> koefficientA;
     private List<List<String>> koefficientB;
 
+    private Plan planExperiment;
     private FactorManager factorManager;
-
 
     private AppProject() {
 
@@ -147,11 +152,8 @@ public class AppProject extends ObservableDS {
 
     private void saveData(List<List<String>> dataTable, String fileName) {
 
-        Path fullPath = Paths.get(getProjectPath()+"//"+fileName);
-
-        String path = fullPath.getParent().toString().replace("\\","//");
-           fileName = fullPath.getFileName().toString();
-
+        String path = io.file.Paths.getPathToDirectory(getProjectPath()+"//"+fileName);
+        fileName = io.file.Paths.getShortFileName(getProjectPath()+"//"+fileName);
 
         CsvWriterP csvWriterP = new CsvWriterP("%8.3f ", ';'
             , path, fileName);
@@ -208,13 +210,11 @@ public class AppProject extends ObservableDS {
 
     public void createFactors() {
 
-        FactorManager factorManager = new FactorManager(separatedRawDataTable);
+        factorManager = new FactorManager(separatedRawDataTable);
         normalizedSeparatedRawDataTable=factorManager.getNormalazeSeparatedRawDataTable();
         covarianceCoefficients =factorManager.getCovarianceCoefficients();
         significanceOfFactors = factorManager.getSignificanceOfFactors();
-
         characteristicsSeparatedRawDataTable =factorManager.getCharacteristicsSeparatedRawDataTable();
-
         characteristicsDimensionlessSeparatedRawDataTable =factorManager.getCharacteristicsDimensionlessSeparatedRawDataTable();
 
     }
@@ -226,5 +226,37 @@ public class AppProject extends ObservableDS {
         koefficientB = oneParameterModel.getKoefficientB();
     }
 
+    public void downloadExperimentPlan(String fullFileName) {
+        planExperiment = Plan.getInstance();
+        planExperiment =(Plan) Reader.readFromGsonFile(fullFileName, planExperiment);
+    }
 
+    public void createTemplateExperimentPlan(String fullFileName) {
+        planExperiment = Plan.getDefaultPlan();
+        Writer.saveToGsonFile(fullFileName, planExperiment);
+    }
+
+    public void fastStart() {
+
+    }
+
+    public Plan getPlanExperiment() {
+        return planExperiment;
+    }
+
+    public void setPlanExperiment(Plan planExperiment) {
+        this.planExperiment = planExperiment;
+    }
+
+    public FactorManager getFactorManager() {
+        return factorManager;
+    }
+
+    public List<List<String>> getKoefficientA() {
+        return koefficientA;
+    }
+
+    public List<List<String>> getKoefficientB() {
+        return koefficientB;
+    }
 }

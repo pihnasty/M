@@ -1,8 +1,7 @@
 package factors;
 
 
-
-import main.ProjectConstant;
+import common.ProjectConstant;
 import math.MathP;
 import settings.ProviderSettings;
 import settings.Settings;
@@ -12,7 +11,6 @@ import java.util.*;
 
 import java.util.stream.Collectors;
 
-import static main.ProjectConstant.Factors;
 import static settings.ProviderSettings.getProjectSettingsMapValue;
 
 
@@ -189,7 +187,7 @@ public class FactorManager {
         header.forEach(
             categoryIdAndName-> {
                 if (categoryIdAndName.equals(numberFactor.getCategoryIdAndName())) {
-                    maxDeviationRow.add(getStringFormatValue (Factors.MAX,categoryIdAndName) );
+                    maxDeviationRow.add(getStringFormatValue (ProjectConstant.Factors.MAX,categoryIdAndName) );
                 } else {
                     maxDeviationRow.add(getDoubleFormatValue(factors.get(categoryIdAndName).getMaxValue(), categoryIdAndName));
                 }
@@ -201,7 +199,7 @@ public class FactorManager {
         header.forEach(
             categoryIdAndName-> {
                 if (categoryIdAndName.equals(numberFactor.getCategoryIdAndName())) {
-                    minDeviationRow.add(getStringFormatValue (Factors.MIN,categoryIdAndName) );
+                    minDeviationRow.add(getStringFormatValue (ProjectConstant.Factors.MIN,categoryIdAndName) );
                 } else {
                     minDeviationRow.add(getDoubleFormatValue(factors.get(categoryIdAndName).getMinValue(), categoryIdAndName));
                 }
@@ -243,7 +241,7 @@ public class FactorManager {
         header.forEach(
             categoryIdAndName-> {
                 if (categoryIdAndName.equals(numberFactor.getCategoryIdAndName())) {
-                    maxDeviationRow.add(getStringFormatValue (Factors.MAX,categoryIdAndName) );
+                    maxDeviationRow.add(getStringFormatValue (ProjectConstant.Factors.MAX,categoryIdAndName) );
                 } else {
                     maxDeviationRow.add(getDoubleFormatValue(factors.get(categoryIdAndName).getDimensionlessMaxValue(), categoryIdAndName));
                 }
@@ -255,7 +253,7 @@ public class FactorManager {
         header.forEach(
             categoryIdAndName-> {
                 if (categoryIdAndName.equals(numberFactor.getCategoryIdAndName())) {
-                    minDeviationRow.add(getStringFormatValue (Factors.MIN,categoryIdAndName) );
+                    minDeviationRow.add(getStringFormatValue (ProjectConstant.Factors.MIN,categoryIdAndName) );
                 } else {
                     minDeviationRow.add(getDoubleFormatValue(factors.get(categoryIdAndName).getDimensionlessMinValue(), categoryIdAndName));
                 }
@@ -409,5 +407,10 @@ public class FactorManager {
       }
 
         return list;
+    }
+
+
+    public Map<String, Factor> getFactors() {
+        return factors;
     }
 }

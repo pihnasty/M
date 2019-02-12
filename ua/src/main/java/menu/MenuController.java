@@ -27,6 +27,8 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+import static settings.Settings.Values.TEMPLATE_EXPERIMENT_PLAN_JSON;
+
 public class MenuController extends InitializableDS {
 
 
@@ -57,7 +59,20 @@ public class MenuController extends InitializableDS {
     private MenuItem calculateFactorsItem;
 
     @FXML
+    private MenuItem downloadExperimentPlanItem;
+
+    @FXML
+    private MenuItem createTemplatePlanItem;
+
+    @FXML
     private MenuItem calculateCoefficientsOneParameterModelItem;
+
+    @FXML
+    private MenuItem rawDataGraphItem;
+
+    @FXML
+    private MenuItem fastStartItem;
+
     @FXML
     private MenuItem orderPlaningPerspectiveItem;
     @FXML
@@ -85,6 +100,9 @@ public class MenuController extends InitializableDS {
         separatedRowDataItem.setAccelerator(KeyCombination.keyCombination("Ctrl+E"));
         calculateFactorsItem.setAccelerator(KeyCombination.keyCombination("Ctrl+F"));
         calculateCoefficientsOneParameterModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+1"));
+        rawDataGraphItem.setAccelerator(KeyCombination.keyCombination("Ctrl+2"));
+        downloadExperimentPlanItem.setAccelerator(KeyCombination.keyCombination("Ctrl+T"));
+        createTemplatePlanItem.setAccelerator(KeyCombination.keyCombination("Ctrl+I"));
 
 //
 //        defaultPerspectiveItem.setAccelerator(KeyCombination.keyCombination("Ctrl+D"));
@@ -165,14 +183,46 @@ public class MenuController extends InitializableDS {
     }
 
     @FXML
+    private void handleDownloadExperimentPlanAction(ActionEvent event) {
+        String pathToFile = FileUI.getPathToFile(
+            ((AppProject)menuModel.getObservableDS()).getProjectPath()
+            , MainWindowView.loaderRecource.getResources().getString("select.file.category.name.download")
+        );
+        ((AppProject) menuModel.getObservableDS()).downloadExperimentPlan(pathToFile);
+    }
+
+    @FXML
+    private void handleCreateTemplateExperimentPlanAction(ActionEvent event) {
+        String pathToFile = FileUI.getSavePath(
+            ((AppProject)menuModel.getObservableDS()).getProjectPath()
+            , MainWindowView.loaderRecource.getResources().getString("select.db.save")
+        );
+        ((AppProject) menuModel.getObservableDS()).createTemplateExperimentPlan(pathToFile+"//"+TEMPLATE_EXPERIMENT_PLAN_JSON );
+    }
+
+
+    //------------------- menu Analysis->One.factor.model ------------------------------------
+    @FXML
     private void handleCalculateCoefficientsOneParameterModelAction (ActionEvent event) {
         ((AppProject)menuModel.getObservableDS()).calculateCoefficientsOneParameterModel_a_b();
     }
 
     @FXML
-    private void handleConveyorSpeedDependsTimeAction (ActionEvent event) {
-        menuModel.clickConveyorSpeedDependsTimeItem();
+    private void handleRawDataGraphItemAction(ActionEvent event) {
+        menuModel.buildRawDataGraph();
     }
+
+    @FXML
+    private void handleDefaultItemAction(ActionEvent event) {
+        menuModel.defaultAction();
+    }
+
+
+//------------------- menu Settings ------------------------------------
+@FXML
+private void handleFastStartAction(ActionEvent event) {
+    ((AppProject)menuModel.getObservableDS()).fastStart();
+}
 
 
 //------------------- menu Dictionary ------------------------------------
@@ -213,23 +263,4 @@ public class MenuController extends InitializableDS {
     @FXML
     private void handleOrderPlaningPerspectiveAction (ActionEvent event) { menuModel.clickOrderPlaninigPerspectiveItem(); }
 
-
-    /**
-     * Add congig.xml
-     * @param pathData          The directory path to the database, which (path) will be written to the file (tSettings).
-     * @param boolOpenDataSet   If it is true - a database in the specified path is read into the model.
-     */
-    public void savePathConfig(String pathData, boolean boolOpenDataSet) {
-//        if (pathData != "") {
-//            menuModel.getTrestModel().getDataSet().setPathDataDefault(pathData);                    // Set the default path to the database.
-//            menuModel.getTrestModel().getDataSet().tSettings.get(0).setSystemPath(pathData);        // We set up a new path.
-//            menuModel.getTrestModel().getDataSet().setPathDataDefault(DataSet.getPathConfig());
-//            menuModel.getTrestModel().getDataSet().writeTab(DataSet.tSettings);                     // Write the changes to the file [tSettings]
-//            menuModel.getTrestModel().getDataSet().setPathDataDefault(pathData);
-//            if (boolOpenDataSet) {
-//                TrestModel trestModel = new TrestModel(null,null);           //  We get a new model from a the changed directory.
-//                menuModel.setTrestModel(trestModel);                //  We define a new model
-//            }
-//        }
-    }
 }

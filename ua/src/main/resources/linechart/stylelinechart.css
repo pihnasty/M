@@ -6,19 +6,27 @@
     -fx-background-color: black;
     -fx-stroke-width: 100;
     -fx-background-insets: 0, 2;
-    -fx-background-radius: 10px;
-    -fx-padding: 10px;
+    -fx-background-radius: 3px;
+    -fx-padding: 3px;
 }
 .default-color1.chart-line-symbol {
     -fx-background-color: transparent, transparent;
+    -fx-stroke-width: 100;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3px;
+    -fx-padding: 3px;
 }
 
 .default-color2.chart-line-symbol {
     -fx-background-color: transparent, transparent;
+    -fx-stroke-width: 100;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3px;
+    -fx-padding: 3px;
 }
 
 .default-color0.chart-legend-item-symbol{
-    -fx-background-color: green;
+    -fx-background-color: black;
 
 }
 .default-color1.chart-legend-item-symbol{

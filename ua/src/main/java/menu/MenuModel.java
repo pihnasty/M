@@ -16,58 +16,11 @@ public class MenuModel extends ObservableDS {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public MenuItemCall getMenuItemCall() { return menuItemCall;  }
 
     public void setMenuItemCall(MenuItemCall menuItemCall) { this.menuItemCall = menuItemCall; }
 
-    private MenuItemCall menuItemCall = MenuItemCall.defaultItem;
+    private MenuItemCall menuItemCall = MenuItemCall.DEFAULT;
 
 
 
@@ -76,6 +29,18 @@ public class MenuModel extends ObservableDS {
         setChanged();
         notifyObservers();
     }
+
+    public void buildRawDataGraph() {
+        this.menuItemCall=MenuItemCall.BUILD_RAW_DATA_GRAPH;
+        changed();
+    }
+
+    public void defaultAction() {
+        this.menuItemCall=MenuItemCall.DEFAULT;
+        changed();
+    }
+
+
 
     public void clickTestOfMachineItem() {
         this.menuItemCall = MenuItemCall.testOfMachineItem;
