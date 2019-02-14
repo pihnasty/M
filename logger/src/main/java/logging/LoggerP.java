@@ -12,7 +12,7 @@ import java.util.logging.SimpleFormatter;
 
 public class LoggerP {
     public static Logger logger;
-    private static String logfileName = "PDE-";
+    private static String logfileName = "log-M-";
 
     public static FXMLLoader loader = new FXMLLoader();
 
@@ -20,9 +20,9 @@ public class LoggerP {
         try {
             loader.setResources(ResourceBundle.getBundle("ui"));
 
-            SimpleDateFormat format = new SimpleDateFormat("dd-MM-yy hh-mm-ss");
+            SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd hh-mm-ss");
             Date date = new Date();
-            boolean append = true;
+            boolean append = false;
             FileHandler fh = new FileHandler("logger\\src\\main\\java\\logfiles\\"+logfileName+format.format(date)+".log", append);
             //fh.setFormatter(new XMLFormatter());
             fh.setFormatter(new SimpleFormatter());

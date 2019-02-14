@@ -5,6 +5,7 @@ import designpatterns.MVC;
 import designpatterns.ObservableDS;
 import dialogs.AlertDialog;
 import fio.FileUI;
+import io.file.Paths;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -122,14 +123,12 @@ public class MenuController extends InitializableDS {
             ((AppProject)menuModel.getObservableDS()).getProjectPath()
             , MainWindowView.loaderRecource.getResources().getString("select.db.download")
         );
-        ((AppProject)menuModel.getObservableDS()).getDefaultSettings().getMap().put(Settings.Keys.PROJECT_PATH,pathToProject);
-        ((AppProject)menuModel.getObservableDS()).openProject();
+        ((AppProject)menuModel.getObservableDS()).openProject( pathToProject);
     }
 
     @FXML
     private void handleSaveAction(ActionEvent event) {
-        ((AppProject)menuModel.getObservableDS()).saveProjectSettings();
-        ((AppProject)menuModel.getObservableDS()).saveRawData();
+        ((AppProject)menuModel.getObservableDS()).saveProject();
     }
 
     @FXML
@@ -138,9 +137,7 @@ public class MenuController extends InitializableDS {
             ((AppProject)menuModel.getObservableDS()).getProjectPath()
             , MainWindowView.loaderRecource.getResources().getString("select.db.save")
         );
-        ((AppProject)menuModel.getObservableDS()).getDefaultSettings().getMap().put(Settings.Keys.PROJECT_PATH,pathToProject);
-        ((AppProject)menuModel.getObservableDS()).saveProjectSettings();
-        ((AppProject)menuModel.getObservableDS()).saveRawData();
+        ((AppProject)menuModel.getObservableDS()).saveProjectAs(pathToProject);
     }
 
     @FXML

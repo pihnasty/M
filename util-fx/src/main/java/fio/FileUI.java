@@ -16,17 +16,30 @@ public class FileUI {
      * This will select  the directory where we will create a database
      * @return	The directory path to the database
      */
-     public static String getPathToProject( String pathToProject, String title)
-    {
-        DirectoryChooser chooser=new DirectoryChooser();
-        chooser.setInitialDirectory(new File( pathToProject  )); // we set the current directory, which is defined in the config.xml
-        chooser.setTitle(title);
-        chooser.setInitialDirectory(new File( pathToProject));  //  .setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        File file=chooser.showDialog(new Stage());
-        if (Objects.nonNull(file)) {
-            chooser.setInitialDirectory(file);
-        }
+//     public static String getPathToProject( String pathToProject, String title)
+//    {
+//        DirectoryChooser chooser=new DirectoryChooser();
+//        chooser.setInitialDirectory(new File( pathToProject  )); // we set the current directory, which is defined in the config.xml
+//        chooser.setTitle(title);
+//        chooser.setInitialDirectory(new File( pathToProject));  //  .setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+//        File file=chooser.showDialog(new Stage());
+//        if (Objects.nonNull(file)) {
+//            chooser.setInitialDirectory(file);
+//        }
+//
+//        return getCanonicalPath(pathToProject, chooser.getInitialDirectory());
+//    }
 
+    public static String getPathToProject( String pathToProject, String title) {
+        FileChooser chooser=new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("project","*.project");
+        chooser.getExtensionFilters().add(extFilter);
+        chooser.setTitle(title);
+        chooser.setInitialDirectory(new File( pathToProject));  //
+        File file=chooser.showOpenDialog(new Stage());
+        if (Objects.nonNull(file)) {
+            chooser.setInitialDirectory(file.getParentFile());
+        }
         return getCanonicalPath(pathToProject, chooser.getInitialDirectory());
     }
 

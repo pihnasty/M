@@ -1,0 +1,17 @@
+   id ; name
+    0 ; Description
+    1 ; Course type
+    2 ; Principal diagnosis (case taking)
+    3 ; Anamnesis of disease
+    4 ; Anamnesis of life
+    5 ; Complete blood count
+    6 ; Urinalysis Test
+    7 ; Skin allergy test
+    8 ; Skin allergy test
+    9 ; Food allergy test
+   10 ; Ig E
+   11 ; Spirogram
+   12 ;  Immunological status
+   13 ; TSLP
+   14 ; Age
+   15 ; Gender

@@ -8,6 +8,7 @@ import io.csv.read.CsvReaderP;
 import io.csv.write.CsvWriterP;
 import io.gson.read.Reader;
 import io.gson.write.Writer;
+import logging.LoggerP;
 import models.OneParameterModel;
 import settings.EnumSettings;
 import settings.ProviderSettings;
@@ -15,11 +16,13 @@ import settings.Settings;
 import string.StringUtil;
 
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class AppProject extends ObservableDS {
@@ -51,6 +54,82 @@ public class AppProject extends ObservableDS {
     private FactorManager factorManager;
 
     private AppProject() {
+
+    }
+
+    public void openProject(String pathToProject) {
+        LoggerP.logger.log(Level.SEVERE, "openProject", "LoggerP2");
+        getDefaultSettings().getMap().put(Settings.Keys.PROJECT_PATH,pathToProject);
+        LoggerP.logger.log(Level.SEVERE, "openProject3", "LoggerP3");
+    }
+
+    public void saveProject() {
+        saveProjectSettings();
+        saveRawData();
+    }
+
+    public void saveProjectAs(String pathToProject) {
+        getDefaultSettings().getMap().put(Settings.Keys.PROJECT_PATH, pathToProject);
+        saveProject();
+        File file = new File(pathToProject+ProviderSettings.getProjectSettingsMapValue(Settings.Keys.PROJECT_NAME));
+
+        // If file doesn't exists, then create it
+        if (file.exists()) {
+            try {
+                file.delete();
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+//        public static void main(String[] args) {
+//            try{
+//                // Create new file
+//                String content = "This is the content to write into create file";
+//                String path="D:\\a\\hi.txt";
+//                File file = new File(path);
+//
+//                // If file doesn't exists, then create it
+//                if (!file.exists()) {
+//                    file.createNewFile();
+//                }
+//
+//                FileWriter fw = new FileWriter(file.getAbsoluteFile());
+//                BufferedWriter bw = new BufferedWriter(fw);
+//
+//                // Write in file
+//                bw.write(content);
+//
+//                // Close connection
+//                bw.close();
+//            }
+//            catch(Exception e){
+//                System.out.println(e);
+//            }
+//        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -104,10 +183,6 @@ public class AppProject extends ObservableDS {
 
     public void setRawDataTable(List<List<String>> rawDataTable) {
         this.rawDataTable = rawDataTable;
-    }
-
-    public void openProject() {
-
     }
 
     public void uploadRawData(String fullFileName) {

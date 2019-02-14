@@ -12,6 +12,7 @@ public interface Settings {
         public static String DEFAULT_SPLIT_FOR_CATEGORY_AND_NAME = "split-for-category-and-name";
         public static String NAME_NUMBER_FACTOR = "name-number-factor";
         public static String LENGTH_CELL = "length-cell";
+        public static String PROJECT_NAME = "project-name";
 
     }
 
