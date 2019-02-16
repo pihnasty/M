@@ -20,6 +20,7 @@ public abstract class AbstractCsvP implements ReaderP , WriterP {
     private char delimiter;
     private List<String> headerList = new ArrayList<>();
     private Locale localeCurrent;
+    private boolean isExistFile;
 
     public AbstractCsvP(String columnsFormat, char delimiter, String  path, String fileName) {
         Path p1 = Paths.get(path);
@@ -30,6 +31,8 @@ public abstract class AbstractCsvP implements ReaderP , WriterP {
                 e.printStackTrace();
             }
         }
+
+        this.isExistFile=!Files.notExists(Paths.get(path+"//"+fileName));
 
         this.columnsFormat = columnsFormat;
         this.path = path;
@@ -98,5 +101,9 @@ public abstract class AbstractCsvP implements ReaderP , WriterP {
 
         table.forEach( row -> records.add(row.stream().toArray(String[]::new)));
         return records;
+    }
+
+    public boolean isExistFile() {
+        return isExistFile;
     }
 }

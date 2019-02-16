@@ -18,17 +18,21 @@ import string.StringUtil;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-public class AppProject extends ObservableDS {
+public class ProjectManager extends ObservableDS {
+    private static ProjectManager ourInstance = new ProjectManager();
 
-    private static AppProject ourInstance = new AppProject();
+   private AppProject project;
 
-    public static AppProject getInstance() {
+    public static ProjectManager getInstance() {
         return ourInstance;
     }
+
+    private Settings defaultSettings = ProviderSettings.getSettings(EnumSettings.DEFAULT);
+    private Settings projectSettings = ProviderSettings.getSettings(EnumSettings.PROJECT);
+    private Settings globalSettings = ProviderSettings.getSettings(EnumSettings.PROJECT);
 
     private List<List<String>> rawDataTable;
     private List<List<String>> nameCategoryTable;
@@ -47,8 +51,60 @@ public class AppProject extends ObservableDS {
     private Plan planExperiment;
     private FactorManager factorManager;
 
-    private AppProject() {
+    private ProjectManager() {
 
+    }
+
+    public void openProject(String pathToProject) {
+        LoggerP.logger.log(Level.SEVERE, "openProject", "LoggerP");
+        getDefaultSettings().getMap().put(Settings.Keys.PROJECT_PATH,pathToProject);
+    }
+
+    public void saveProject() {
+        saveProjectSettings();
+        saveRawData();
+    }
+
+    public void saveAsProject(String pathToProject) {
+        getDefaultSettings().getMap().put(Settings.Keys.PROJECT_PATH, pathToProject.replace("\\","//"));
+        saveProject();
+    }
+
+    public Settings getDefaultSettings() {
+        return defaultSettings;
+    }
+
+    public Settings getProjectSettings() {
+        return projectSettings;
+    }
+
+    public Settings getGlobalSettings() {
+        return globalSettings;
+    }
+
+    public String getProjectPath() {
+        return StringUtil.OptionalIsNullOrEmpty(
+             getDefaultSettings().getMap().get(Settings.Keys.PROJECT_PATH)
+            ,getDefaultSettings().getMap().get(Settings.Keys.DEFAULT_PROJECT_PATH)
+        );
+    }
+
+    public void saveProjectSettings() {
+        saveDataSetting(defaultSettings, Settings.Values.DEFAULT_PROJECT_PATH, EnumSettings.DEFAULT.getFileName());
+        saveDataSetting(projectSettings, getProjectPath(), EnumSettings.PROJECT.getFileName());
+        saveDataSetting(globalSettings, getProjectPath(), EnumSettings.GLOBAL.getFileName());
+    }
+
+    public void saveDataSetting(Settings settings, String projectPath, String fileName) {
+        String path = io.file.Paths.getPathToDirectory(projectPath+"//"+fileName);
+        fileName = io.file.Paths.getShortFileName(projectPath+"//"+fileName);
+
+        CsvWriterP csvWriterP = new CsvWriterP("%8.3f ", ';', path, fileName);
+        if (Objects.nonNull(settings)) {
+            csvWriterP.writeToFile(
+                settings.getMap().entrySet().stream().map(e -> new ArrayList<>(Arrays.asList(e.getKey(), e.getValue()))).collect(Collectors.toList())
+            );
+        }
     }
 
     public List<List<String>> getRawDataTable() {
@@ -82,8 +138,36 @@ public class AppProject extends ObservableDS {
         return table;
     }
 
+    public void saveRawData() {
+        saveData(rawDataTable,Settings.Values.RAW_DATA_TABLE_CSV );
+        saveData(nameCategoryTable,Settings.Values.NAME_CATEGORY_TABLE_CSV);
+        saveData(separatedRawDataTable,Settings.Values.SEPARATED_RAW_DATA_TABLE_CSV );
+        saveData(testedRawDataTable,Settings.Values.TESTED_RAW_DATA_TABLE_CSV );
+        saveData(normalizedSeparatedRawDataTable,Settings.Values.NORMALIZED_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(covarianceCoefficients,Settings.Values.COVARIANCE_COEFFICIENTS_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(significanceOfFactors,Settings.Values.SIGNIFICANCE_FACTORS_SEPARATED_RAW_DATA_TABLE_CSV);
 
-    public boolean separatedRawData(Settings projectSettings, Settings defaultSettings) {
+        saveData(characteristicsSeparatedRawDataTable,Settings.Values.CHARACTERISTICS_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(characteristicsDimensionlessSeparatedRawDataTable,Settings.Values.CHARACTERISTICS_DIMENSIONLESS_SEPARATED_RAW_DATA_TABLE_CSV);
+
+        saveData(koefficientA,Settings.Values.ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV);
+        saveData(koefficientB,Settings.Values.ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV);
+
+}
+
+    private void saveData(List<List<String>> dataTable, String fileName) {
+
+        String path = io.file.Paths.getPathToDirectory(getProjectPath()+"//"+fileName);
+        fileName = io.file.Paths.getShortFileName(getProjectPath()+"//"+fileName);
+
+        CsvWriterP csvWriterP = new CsvWriterP("%8.3f ", ';'
+            , path, fileName);
+        if (Objects.nonNull(dataTable)) {
+            csvWriterP.writeToFile(dataTable);
+        }
+    }
+
+    public boolean separatedRawData() {
         if (Objects.isNull(rawDataTable) || rawDataTable.isEmpty()) {
             return false;
         }
@@ -179,5 +263,14 @@ public class AppProject extends ObservableDS {
 
     public List<List<String>> getKoefficientB() {
         return koefficientB;
+    }
+
+
+    public AppProject getProject() {
+        return project;
+    }
+
+    public void setProject(AppProject project) {
+        this.project = project;
     }
 }

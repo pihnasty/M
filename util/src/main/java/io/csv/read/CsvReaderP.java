@@ -18,8 +18,9 @@ public class CsvReaderP extends AbstractCsvP {
 
     @Override
     public  List<List<String>> readFromFile() throws IOException {
-        Reader reader = new FileReader(getFile());
         List<List<String>> rows = new ArrayList<>();
+        if (!isExistFile()) return rows;
+        Reader reader = new FileReader(getFile());
         try (CSVReader csvReader = new CSVReader(reader, getDelimiter())) {
             String[] record = null;
             while ((record = csvReader.readNext()) != null) {

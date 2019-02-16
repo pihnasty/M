@@ -1,6 +1,4 @@
-package handlers;
-
-import logging.LoggerP;
+package hct.handlers;
 
 public class OpenProjectHandler {
 

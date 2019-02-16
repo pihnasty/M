@@ -1,31 +1,23 @@
 package menu;
 
 import designpatterns.InitializableDS;
-import designpatterns.MVC;
 import designpatterns.ObservableDS;
 import dialogs.AlertDialog;
 import fio.FileUI;
-import io.file.Paths;
+import hct.handlers.CreateProjectHandler;
+import hct.handlers.SaveAsProjectHandler;
+import hct.handlers.SaveProjectHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
-import javafx.stage.DirectoryChooser;
-import main.AppProject;
+import main.ProjectManager;
 import mainwindows.MainWindowView;
-import persistence.loader.DataSet;
-import persistence.loader.XmlRW;
-import settings.Settings;
 
 
-import java.awt.*;
-import java.io.File;
 import java.net.URL;
-import java.util.Optional;
 import java.util.ResourceBundle;
 
 import static settings.Settings.Values.TEMPLATE_EXPERIMENT_PLAN_JSON;
@@ -37,6 +29,9 @@ public class MenuController extends InitializableDS {
 
     @FXML
     private Menu fileMenu;
+
+    @FXML
+    private MenuItem newItem;
 
     @FXML
     private MenuItem openItem;
@@ -91,6 +86,7 @@ public class MenuController extends InitializableDS {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        newItem.setAccelerator(KeyCombination.keyCombination("Ctrl+N"));
         openItem.setAccelerator(KeyCombination.keyCombination("Ctrl+O"));
         saveItem.setAccelerator(KeyCombination.keyCombination("Ctrl+S"));
         saveAsItem.setAccelerator(KeyCombination.keyCombination("Ctrl+A"));
@@ -118,26 +114,27 @@ public class MenuController extends InitializableDS {
 
 //------------------- menu File ------------------------------------
     @FXML
+    private void handleNewAction(ActionEvent event) {
+        new CreateProjectHandler().createProject(menuModel.getObservableDS());
+    }
+
+    @FXML
     private void handleOpenAction(ActionEvent event) {
         String pathToProject = FileUI.getPathToProject(
-            ((AppProject)menuModel.getObservableDS()).getProjectPath()
+            ((ProjectManager)menuModel.getObservableDS()).getProjectPath()
             , MainWindowView.loaderRecource.getResources().getString("select.db.download")
         );
-        ((AppProject)menuModel.getObservableDS()).openProject( pathToProject);
+        ((ProjectManager)menuModel.getObservableDS()).openProject( pathToProject);
     }
 
     @FXML
     private void handleSaveAction(ActionEvent event) {
-        ((AppProject)menuModel.getObservableDS()).saveProject();
+        new SaveProjectHandler().saveProject(menuModel.getObservableDS());
     }
 
     @FXML
     private void handleSaveAsAction(ActionEvent event) {
-        String pathToProject = FileUI.getSavePath(
-            ((AppProject)menuModel.getObservableDS()).getProjectPath()
-            , MainWindowView.loaderRecource.getResources().getString("select.db.save")
-        );
-        ((AppProject)menuModel.getObservableDS()).saveProjectAs(pathToProject);
+        new SaveAsProjectHandler().saveAsProject(menuModel.getObservableDS());
     }
 
     @FXML
@@ -150,24 +147,24 @@ public class MenuController extends InitializableDS {
     @FXML
     private void handleRawDataAction(ActionEvent event) {
         String pathToFile = FileUI.getPathToFile(
-            ((AppProject)menuModel.getObservableDS()).getProjectPath()
+            ((ProjectManager)menuModel.getObservableDS()).getProjectPath()
             , MainWindowView.loaderRecource.getResources().getString("select.db.download")
         );
-        ((AppProject)menuModel.getObservableDS()).uploadRawData(pathToFile);
+        ((ProjectManager)menuModel.getObservableDS()).uploadRawData(pathToFile);
     }
 
     @FXML
     private void handleNameCategoryAction(ActionEvent event) {
         String pathToFile = FileUI.getPathToFile(
-            ((AppProject)menuModel.getObservableDS()).getProjectPath()
+            ((ProjectManager)menuModel.getObservableDS()).getProjectPath()
             , MainWindowView.loaderRecource.getResources().getString("select.file.category.name.download")
         );
-        ((AppProject)menuModel.getObservableDS()).uploadNameCategory(pathToFile);
+        ((ProjectManager)menuModel.getObservableDS()).uploadNameCategory(pathToFile);
     }
 
     @FXML
     private void handleSeparatedRawDataAction(ActionEvent event) {
-        if(!((AppProject)menuModel.getObservableDS()).separatedRawData()) {
+        if(!((ProjectManager)menuModel.getObservableDS()).separatedRawData()) {
             AlertDialog.getAlert(MainWindowView.loaderRecource.getResources().getString("title.message.alert.separated.rawData")
                 , MainWindowView.loaderRecource.getResources().getString("message.alert.separated.rawData"));
         }
@@ -176,32 +173,32 @@ public class MenuController extends InitializableDS {
     @FXML
     private void handleCalculateFactorsAction (ActionEvent event) {
 
-        ((AppProject)menuModel.getObservableDS()).createFactors ();
+        ((ProjectManager)menuModel.getObservableDS()).createFactors ();
     }
 
     @FXML
     private void handleDownloadExperimentPlanAction(ActionEvent event) {
         String pathToFile = FileUI.getPathToFile(
-            ((AppProject)menuModel.getObservableDS()).getProjectPath()
+            ((ProjectManager)menuModel.getObservableDS()).getProjectPath()
             , MainWindowView.loaderRecource.getResources().getString("select.file.category.name.download")
         );
-        ((AppProject) menuModel.getObservableDS()).downloadExperimentPlan(pathToFile);
+        ((ProjectManager) menuModel.getObservableDS()).downloadExperimentPlan(pathToFile);
     }
 
     @FXML
     private void handleCreateTemplateExperimentPlanAction(ActionEvent event) {
         String pathToFile = FileUI.getSavePath(
-            ((AppProject)menuModel.getObservableDS()).getProjectPath()
+            ((ProjectManager)menuModel.getObservableDS()).getProjectPath()
             , MainWindowView.loaderRecource.getResources().getString("select.db.save")
         );
-        ((AppProject) menuModel.getObservableDS()).createTemplateExperimentPlan(pathToFile+"//"+TEMPLATE_EXPERIMENT_PLAN_JSON );
+        ((ProjectManager) menuModel.getObservableDS()).createTemplateExperimentPlan(pathToFile+"//"+TEMPLATE_EXPERIMENT_PLAN_JSON );
     }
 
 
     //------------------- menu Analysis->One.factor.model ------------------------------------
     @FXML
     private void handleCalculateCoefficientsOneParameterModelAction (ActionEvent event) {
-        ((AppProject)menuModel.getObservableDS()).calculateCoefficientsOneParameterModel_a_b();
+        ((ProjectManager)menuModel.getObservableDS()).calculateCoefficientsOneParameterModel_a_b();
     }
 
     @FXML
@@ -218,7 +215,7 @@ public class MenuController extends InitializableDS {
 //------------------- menu Settings ------------------------------------
 @FXML
 private void handleFastStartAction(ActionEvent event) {
-    ((AppProject)menuModel.getObservableDS()).fastStart();
+    ((ProjectManager)menuModel.getObservableDS()).fastStart();
 }
 
 

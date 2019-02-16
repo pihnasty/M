@@ -1,4 +1,5 @@
 /* Menu File*/
+#newItem        { -fx-background-image: url("../../../src/main/resources/images/icons/new.png");      }
 #openItem       { -fx-background-image: url("../../../src/main/resources/images/icons/open.png");      }
 #saveItem       { -fx-background-image: url("../../../src/main/resources/images/icons/save.png");      }
 #saveItem       { -fx-background-image: url("../../../src/main/resources/images/icons/save.png");      }

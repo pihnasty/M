@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.logging.FileHandler;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
@@ -34,7 +35,20 @@ public class LoggerP {
         }
     }
 
+    public static interface Names {
+        public static String LOGGER_M = "Logger-M";
+    }
+
+    public static void writeWithResource(Level level, String message) {
+        logger.log(level,loader.getResources().getString(message));
+    }
+
+    public static void write(Level level, String message) {
+        logger.log(level,message);
+    }
+
 }
+
 
 //  LoggerP.logger.log(Level.SEVERE, "Starting application", "LoggerP");
 //Error:error: pathspec 'pde/src/main/java/trestview/tasks/conveyorPDE/V?onConveyorPdeModel.java' did not match any file(s) known to git.

@@ -1,5 +1,6 @@
 package io.file;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,6 +26,19 @@ public class Paths {
                 e.printStackTrace();
             }
         }
+    }
+
+    public static boolean deleteDirectory(File directory) {
+        if (directory.isDirectory()) {
+            File[] children =directory.listFiles();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDirectory(children[i]);
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return directory.delete();
     }
 
 }

@@ -24,7 +24,7 @@ public class AppM extends Application {
      */
     public final int DEFAULT_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
     public final int DEFAULT_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
-
+    FXMLLoader loader = new FXMLLoader();
 
 
     public static void main(String[] args) {
@@ -54,7 +54,7 @@ public class AppM extends Application {
         //endregion
 
 
-        FXMLLoader loader = new FXMLLoader();
+
         loader.setResources(ResourceBundle.getBundle("ui"));
         stage.setTitle(loader.getResources().getString("stageTitle"));
         stage.initStyle(StageStyle.DECORATED);

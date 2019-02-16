@@ -32,23 +32,4 @@ public class ObservableDS extends Observable {
         this.observableDS = observableDS;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    protected MenuModel.Rule rule;
-    protected Trest trest;
-
-    protected SectionDataSet sectionDataSet;
-
 }

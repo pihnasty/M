@@ -3,7 +3,6 @@ package settings;
 import io.csv.read.CsvReaderP;
 import logging.LoggerP;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -19,10 +18,7 @@ class NamesSettings {
 
 public enum EnumSettings implements Settings {
 
-
     DEFAULT(NamesSettings.DEFAULT),PROJECT(NamesSettings.PROJECT), GLOBAL(NamesSettings.GLOBAL);
-
-
 
     private Settings instance;
     private String name;
@@ -50,7 +46,7 @@ public enum EnumSettings implements Settings {
     }
 
     public String getFileName() {
-        return name.toLowerCase()+"_" + Values.SETTINGS_CSV;
+        return  getSubDirectory(name) +name.toLowerCase()+"_" + Values.SETTINGS_CSV;
     }
 
     private Map<String, String> readSettingsFromFile() {
@@ -96,6 +92,32 @@ public enum EnumSettings implements Settings {
                 }
         }
         return Objects.isNull(path) ? "" : path;
+    }
+
+    private String getSubDirectory(String name) {
+        String subDirectory = "";
+        switch (name) {
+            case NamesSettings.DEFAULT:
+                break;
+            case NamesSettings.PROJECT:
+                subDirectory=Settings.Values.SETTINGS + "//";
+                break;
+            case NamesSettings.GLOBAL:
+                subDirectory=Settings.Values.SETTINGS + "//";
+                break;
+            default:
+                try {
+                    throw new Exception();
+                } catch (Exception e) {
+
+
+                    LoggerP.logger.log(Level.SEVERE,
+                        LoggerP.loader.getResources().getString("path.not.found")+ " "+getName()
+                        , "LoggerP");
+                    e.printStackTrace();
+                }
+        }
+        return Objects.isNull(subDirectory) ? "" : subDirectory;
     }
 
 }

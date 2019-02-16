@@ -22,6 +22,7 @@ import linechart.LineChartController;
 import linechart.LineChartModel;
 import linechart.LineChartP;
 import main.AppProject;
+import main.ProjectManager;
 import math.MathP;
 import menu.MenuController;
 import menu.MenuModel;
@@ -45,16 +46,20 @@ import java.util.stream.Collectors;
 public class MainWindowView extends BorderPaneObserverDS {
 
     public  static FXMLLoader loaderRecource;
-    AppProject project;
+    ProjectManager projectManager;
 
     public MainWindowView() {
         super(null,null);
 
         loaderRecource = XmlRW.fxmlLoad(this,this, "mainwindows/mainwindowview.fxml","ui","");
 
-        project = AppProject.getInstance();
+        projectManager = ProjectManager.getInstance();
+        AppProject project =AppProject.getInstance();
+        projectManager.setProject(project);
 
-        MVC menu = new MVC(MenuModel.class, MenuController.class, MenuView.class, project,null );
+
+
+        MVC menu = new MVC(MenuModel.class, MenuController.class, MenuView.class, projectManager,null );
         this.setTop((MenuView)menu.getView());
         ((MenuModel) menu.getModel()).addObserver(this);
 
@@ -85,8 +90,8 @@ public class MainWindowView extends BorderPaneObserverDS {
         VBox vBox = new VBox();
         MathP.Counter counter = MathP.getCounter(1,1);
 
-        Plan planPlanExperiment = project.getPlanExperiment();
-        FactorManager factorManager = project.getFactorManager();
+        Plan planPlanExperiment = projectManager.getPlanExperiment();
+        FactorManager factorManager = projectManager.getFactorManager();
         Map<String,Factor> factors = factorManager.getFactors();
 
         planPlanExperiment.getOutputFactors().forEach(
@@ -127,19 +132,19 @@ public class MainWindowView extends BorderPaneObserverDS {
                         data.setLegend("experiment");
                         data.setTitleGraph("Dependence of the factor " +outputFactorCategoryIdAndName +"\n on the factor "+inputFactorCategoryIdAndName);
 
-                        List<String> nameCoefficientA = project.getKoefficientA().get(0).stream().map(name -> name.trim()).collect(Collectors.toList());
+                        List<String> nameCoefficientA = projectManager.getKoefficientA().get(0).stream().map(name -> name.trim()).collect(Collectors.toList());
 
                         int outputFactorNumber = nameCoefficientA.indexOf(outputFactorCategoryIdAndName);
                         int inputFactorNumber = nameCoefficientA.indexOf(inputFactorCategoryIdAndName);
 
                         double valueCoefficientA =
                         Double.parseDouble(
-                            project.getKoefficientA().get(outputFactorNumber).get(inputFactorNumber).replace(",",".")
+                            projectManager.getKoefficientA().get(outputFactorNumber).get(inputFactorNumber).replace(",",".")
                         );
 
                         double valueCoefficientB =
                             Double.parseDouble(
-                                project.getKoefficientB().get(outputFactorNumber).get(inputFactorNumber).replace(",",".")
+                                projectManager.getKoefficientB().get(outputFactorNumber).get(inputFactorNumber).replace(",",".")
                             );
 
                         List<Point2D.Double> listRegression = new ArrayList<>();
@@ -261,4 +266,7 @@ public class MainWindowView extends BorderPaneObserverDS {
         }
     }
 
+    public static String getResourceString(String key) {
+        return loaderRecource.getResources().getString(key);
+    }
 }
