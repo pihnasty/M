@@ -76,7 +76,10 @@ public class FileUI {
         chooser.setInitialDirectory(new File( pathToProject  )); // we set the current directory, which is defined in the config.xml
         chooser.setTitle(title);
         File file = chooser.showDialog(new Stage());
-        if (file != null) pathToProject = file.getAbsolutePath()+"\\";
+        if (file != null) {
+            pathToProject = file.getAbsolutePath()+"\\";
+        } else return null;
+
         return pathToProject.replace("\\","//");
     }
 

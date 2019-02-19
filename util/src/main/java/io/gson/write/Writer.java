@@ -4,11 +4,22 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class Writer {
 
 
     public static void saveToGsonFile(String path, String fileName, Object object) {
+        Path p1 = Paths.get(path);
+        if (Files.notExists(p1)) {
+            try {
+                Files.createDirectories(p1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
         String fullName = path + "\\" + fileName;
         saveToGsonFile(fullName, object);
     }

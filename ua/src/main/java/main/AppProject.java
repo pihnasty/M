@@ -34,59 +34,30 @@ public class AppProject extends ObservableDS {
     private List<List<String>> nameCategoryTable;
     private List<List<String>> separatedRawDataTable;
     private List<List<String>> testedRawDataTable;
+
     private List<List<String>> normalizedSeparatedRawDataTable;
     private List<List<String>> covarianceCoefficients;
     private List<List<String>> significanceOfFactors;
-
     private List<List<String>> characteristicsSeparatedRawDataTable;
     private List<List<String>> characteristicsDimensionlessSeparatedRawDataTable;
+
+
+
+
 
     private List<List<String>> koefficientA;
     private List<List<String>> koefficientB;
 
-    private Plan planExperiment;
     private FactorManager factorManager;
 
     private AppProject() {
 
     }
 
-    public List<List<String>> getRawDataTable() {
-        return rawDataTable;
-    }
-
-    public void setRawDataTable(List<List<String>> rawDataTable) {
-        this.rawDataTable = rawDataTable;
-    }
-
-    public void uploadRawData(String fullFileName) {
-        rawDataTable = readTableFromFile(fullFileName);
-    }
-
-    public void uploadNameCategory(String fullFileName) {
-        nameCategoryTable = readTableFromFile(fullFileName);
-    }
-
-    public List<List<String>> readTableFromFile(String fullFileName) {
-        List<List<String>> table =null;
-        if (Objects.nonNull(fullFileName)) {
-            CsvReaderP csvReaderP = new CsvReaderP("%8.3f ", ';'
-                , FileUI.getPathToDirictory(fullFileName), FileUI.getShortFileName(fullFileName));
-
-            try {
-                table = csvReaderP.readFromFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return table;
-    }
-
-
     public boolean separatedRawData(Settings projectSettings, Settings defaultSettings) {
-        if (Objects.isNull(rawDataTable) || rawDataTable.isEmpty()) {
-            return false;
-        }
+//        if (Objects.isNull(rawDataTable) || rawDataTable.isEmpty()) {
+//            return false;
+//        }
 
         Double partOfTestData = Objects.isNull(projectSettings.getMap().get(Settings.Keys.PART_OF_THE_TEST_DATA))
             ? Double.parseDouble(defaultSettings.getMap().get(Settings.Keys.DEFAULT_PART_OF_THE_TEST_DATA))
@@ -130,14 +101,12 @@ public class AppProject extends ObservableDS {
     }
 
     public void createFactors() {
-
         factorManager = new FactorManager(separatedRawDataTable);
         normalizedSeparatedRawDataTable=factorManager.getNormalazeSeparatedRawDataTable();
         covarianceCoefficients =factorManager.getCovarianceCoefficients();
         significanceOfFactors = factorManager.getSignificanceOfFactors();
         characteristicsSeparatedRawDataTable =factorManager.getCharacteristicsSeparatedRawDataTable();
         characteristicsDimensionlessSeparatedRawDataTable =factorManager.getCharacteristicsDimensionlessSeparatedRawDataTable();
-
     }
 
     public void calculateCoefficientsOneParameterModel_a_b() {
@@ -147,26 +116,8 @@ public class AppProject extends ObservableDS {
         koefficientB = oneParameterModel.getKoefficientB();
     }
 
-    public void downloadExperimentPlan(String fullFileName) {
-        planExperiment = Plan.getInstance();
-        planExperiment =(Plan) Reader.readFromGsonFile(fullFileName, planExperiment);
-    }
-
-    public void createTemplateExperimentPlan(String fullFileName) {
-        planExperiment = Plan.getDefaultPlan();
-        Writer.saveToGsonFile(fullFileName, planExperiment);
-    }
-
     public void fastStart() {
 
-    }
-
-    public Plan getPlanExperiment() {
-        return planExperiment;
-    }
-
-    public void setPlanExperiment(Plan planExperiment) {
-        this.planExperiment = planExperiment;
     }
 
     public FactorManager getFactorManager() {
@@ -179,5 +130,77 @@ public class AppProject extends ObservableDS {
 
     public List<List<String>> getKoefficientB() {
         return koefficientB;
+    }
+
+    public List<List<String>> getRawDataTable() {
+        return rawDataTable;
+    }
+
+    public void setRawDataTable(List<List<String>> rawDataTable) {
+        this.rawDataTable = rawDataTable;
+    }
+
+    public List<List<String>> getNameCategoryTable() {
+        return nameCategoryTable;
+    }
+
+    public void setNameCategoryTable(List<List<String>> nameCategoryTable) {
+        this.nameCategoryTable = nameCategoryTable;
+    }
+
+    public List<List<String>> getSeparatedRawDataTable() {
+        return separatedRawDataTable;
+    }
+
+    public void setSeparatedRawDataTable(List<List<String>> separatedRawDataTable) {
+        this.separatedRawDataTable = separatedRawDataTable;
+    }
+
+    public List<List<String>> getTestedRawDataTable() {
+        return testedRawDataTable;
+    }
+
+    public void setTestedRawDataTable(List<List<String>> testedRawDataTable) {
+        this.testedRawDataTable = testedRawDataTable;
+    }
+
+    public List<List<String>> getNormalizedSeparatedRawDataTable() {
+        return normalizedSeparatedRawDataTable;
+    }
+
+    public void setNormalizedSeparatedRawDataTable(List<List<String>> normalizedSeparatedRawDataTable) {
+        this.normalizedSeparatedRawDataTable = normalizedSeparatedRawDataTable;
+    }
+
+    public List<List<String>> getCovarianceCoefficients() {
+        return covarianceCoefficients;
+    }
+
+    public void setCovarianceCoefficients(List<List<String>> covarianceCoefficients) {
+        this.covarianceCoefficients = covarianceCoefficients;
+    }
+
+    public List<List<String>> getSignificanceOfFactors() {
+        return significanceOfFactors;
+    }
+
+    public void setSignificanceOfFactors(List<List<String>> significanceOfFactors) {
+        this.significanceOfFactors = significanceOfFactors;
+    }
+
+    public List<List<String>> getCharacteristicsSeparatedRawDataTable() {
+        return characteristicsSeparatedRawDataTable;
+    }
+
+    public void setCharacteristicsSeparatedRawDataTable(List<List<String>> characteristicsSeparatedRawDataTable) {
+        this.characteristicsSeparatedRawDataTable = characteristicsSeparatedRawDataTable;
+    }
+
+    public List<List<String>> getCharacteristicsDimensionlessSeparatedRawDataTable() {
+        return characteristicsDimensionlessSeparatedRawDataTable;
+    }
+
+    public void setCharacteristicsDimensionlessSeparatedRawDataTable(List<List<String>> characteristicsDimensionlessSeparatedRawDataTable) {
+        this.characteristicsDimensionlessSeparatedRawDataTable = characteristicsDimensionlessSeparatedRawDataTable;
     }
 }

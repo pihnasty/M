@@ -41,6 +41,11 @@ public enum EnumSettings implements Settings {
         return map;
     }
 
+    @Override
+    public void setMap(Map<String, String> map) {
+        this.map=map;
+    }
+
     public String getName() {
         return name;
     }
@@ -52,18 +57,30 @@ public enum EnumSettings implements Settings {
     private Map<String, String> readSettingsFromFile() {
         Map<String, String> map = new HashMap<>();
         String path = getPath(name);
+        return readSettingsFromFile(path, getFileName());
+    }
 
+    public static Map<String, String> readSettingsFromFile(String path, String fileName) {
+        Map<String, String> map = new HashMap<>();
         if(!path.isEmpty()) {
-            CsvReaderP csvReaderP = new CsvReaderP("%8.3f ", ';', path, getFileName());
+            CsvReaderP csvReaderP = new CsvReaderP("%8.3f ", ';', path, fileName);
             List<List<String>> table = null;
             try {
                 table = csvReaderP.readFromFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            table.forEach(e -> map.put(e.get(0).trim(), e.get(1).trim()));
-        }
+            table.forEach(
+                e -> {
+                    if(e.size()<2) {
+                        LoggerP.write(Level.SEVERE, "Неправильный формат строки (ключ/значение)");
+                    } else {
+                        map.put(e.get(0).trim(), e.get(1).trim());
+                    }
 
+                }
+            );
+        }
         return map;
     }
 

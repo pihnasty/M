@@ -4,9 +4,7 @@ import designpatterns.InitializableDS;
 import designpatterns.ObservableDS;
 import dialogs.AlertDialog;
 import fio.FileUI;
-import hct.handlers.CreateProjectHandler;
-import hct.handlers.SaveAsProjectHandler;
-import hct.handlers.SaveProjectHandler;
+import hct.handlers.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -120,11 +118,7 @@ public class MenuController extends InitializableDS {
 
     @FXML
     private void handleOpenAction(ActionEvent event) {
-        String pathToProject = FileUI.getPathToProject(
-            ((ProjectManager)menuModel.getObservableDS()).getProjectPath()
-            , MainWindowView.loaderRecource.getResources().getString("select.db.download")
-        );
-        ((ProjectManager)menuModel.getObservableDS()).openProject( pathToProject);
+        new OpenProjectHandler().openProject(menuModel.getObservableDS());
     }
 
     @FXML
@@ -146,52 +140,38 @@ public class MenuController extends InitializableDS {
 //------------------- menu Prepare ------------------------------------
     @FXML
     private void handleRawDataAction(ActionEvent event) {
-        String pathToFile = FileUI.getPathToFile(
-            ((ProjectManager)menuModel.getObservableDS()).getProjectPath()
-            , MainWindowView.loaderRecource.getResources().getString("select.db.download")
-        );
-        ((ProjectManager)menuModel.getObservableDS()).uploadRawData(pathToFile);
+        new UploadRawDataHandler().uploadRawData(menuModel.getObservableDS());
     }
 
     @FXML
     private void handleNameCategoryAction(ActionEvent event) {
-        String pathToFile = FileUI.getPathToFile(
-            ((ProjectManager)menuModel.getObservableDS()).getProjectPath()
-            , MainWindowView.loaderRecource.getResources().getString("select.file.category.name.download")
-        );
-        ((ProjectManager)menuModel.getObservableDS()).uploadNameCategory(pathToFile);
+        new UploadNameCategoryHandler().uploadNameCategory(menuModel.getObservableDS());
     }
 
     @FXML
     private void handleSeparatedRawDataAction(ActionEvent event) {
-        if(!((ProjectManager)menuModel.getObservableDS()).separatedRawData()) {
-            AlertDialog.getAlert(MainWindowView.loaderRecource.getResources().getString("title.message.alert.separated.rawData")
-                , MainWindowView.loaderRecource.getResources().getString("message.alert.separated.rawData"));
-        }
+        new SeparatedRawDataHandler().separatedRawData(menuModel.getObservableDS());
+
+
+//        if(!((ProjectManager)menuModel.getObservableDS()).separatedRawData()) {
+//            AlertDialog.getAlert(MainWindowView.loaderRecource.getResources().getString("title.message.alert.separated.rawData")
+//                , MainWindowView.loaderRecource.getResources().getString("message.alert.separated.rawData"));
+//        }
     }
 //------------------- menu Analysis ------------------------------------
     @FXML
     private void handleCalculateFactorsAction (ActionEvent event) {
-
-        ((ProjectManager)menuModel.getObservableDS()).createFactors ();
+        new CreateFactorsHandler().createFactors(menuModel.getObservableDS());
     }
 
     @FXML
     private void handleDownloadExperimentPlanAction(ActionEvent event) {
-        String pathToFile = FileUI.getPathToFile(
-            ((ProjectManager)menuModel.getObservableDS()).getProjectPath()
-            , MainWindowView.loaderRecource.getResources().getString("select.file.category.name.download")
-        );
-        ((ProjectManager) menuModel.getObservableDS()).downloadExperimentPlan(pathToFile);
+        new DownloadExperimentPlanHandler().downloadExperimentPlan(menuModel.getObservableDS());
     }
 
     @FXML
     private void handleCreateTemplateExperimentPlanAction(ActionEvent event) {
-        String pathToFile = FileUI.getSavePath(
-            ((ProjectManager)menuModel.getObservableDS()).getProjectPath()
-            , MainWindowView.loaderRecource.getResources().getString("select.db.save")
-        );
-        ((ProjectManager) menuModel.getObservableDS()).createTemplateExperimentPlan(pathToFile+"//"+TEMPLATE_EXPERIMENT_PLAN_JSON );
+        new CreateTemplateExperimentPlanHandler().createTemplateExperimentPlan(menuModel.getObservableDS());
     }
 
 

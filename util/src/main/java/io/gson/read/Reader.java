@@ -10,12 +10,12 @@ import java.io.*;
 import java.lang.reflect.Type;
 public class Reader  {
 
-    public static   Object readFromGsonFile(String path, String fileName, Object objectFromGson) {
+    public static   Object readFromGsonFile(String path, String fileName, Object objectFromGson) throws FileNotFoundException {
         String fullName = path + "\\" + fileName;
         return  readFromGsonFile(fullName,objectFromGson);
     }
 
-    public static   Object readFromGsonFile(String fullName, Object objectFromGson) {
+    public static   Object readFromGsonFile(String fullName, Object objectFromGson) throws FileNotFoundException {
         try (FileInputStream fileInputStream = new FileInputStream(fullName);
              InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
              BufferedReader reader = new BufferedReader(inputStreamReader)) {
@@ -23,9 +23,8 @@ public class Reader  {
         //    objectFromGson = gson.fromJson(reader, type);
          //   gson.fromJson(reader,String.class);
             objectFromGson = gson.fromJson(reader,objectFromGson.getClass());
-           return objectFromGson;
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+           throw new FileNotFoundException("Не удалось загрузить файл "+fullName);
         } catch (IOException e) {
             e.printStackTrace();
         }

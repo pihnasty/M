@@ -16,6 +16,7 @@ import settings.Settings;
 import string.StringUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 import java.util.logging.Level;
@@ -32,12 +33,9 @@ public class ProjectManager extends ObservableDS {
 
     private Settings defaultSettings = ProviderSettings.getSettings(EnumSettings.DEFAULT);
     private Settings projectSettings = ProviderSettings.getSettings(EnumSettings.PROJECT);
-    private Settings globalSettings = ProviderSettings.getSettings(EnumSettings.PROJECT);
+    private Settings globalSettings = ProviderSettings.getSettings(EnumSettings.GLOBAL);
 
-    private List<List<String>> rawDataTable;
-    private List<List<String>> nameCategoryTable;
-    private List<List<String>> separatedRawDataTable;
-    private List<List<String>> testedRawDataTable;
+
     private List<List<String>> normalizedSeparatedRawDataTable;
     private List<List<String>> covarianceCoefficients;
     private List<List<String>> significanceOfFactors;
@@ -48,21 +46,66 @@ public class ProjectManager extends ObservableDS {
     private List<List<String>> koefficientA;
     private List<List<String>> koefficientB;
 
-    private Plan planExperiment;
+    private Plan planExperiment = planExperiment = Plan.getInstance();
     private FactorManager factorManager;
 
     private ProjectManager() {
 
     }
 
-    public void openProject(String pathToProject) {
+    public void openProject(String pathToProject) throws FileNotFoundException {
         LoggerP.logger.log(Level.SEVERE, "openProject", "LoggerP");
         getDefaultSettings().getMap().put(Settings.Keys.PROJECT_PATH,pathToProject);
+        openProjectSettings();
+        openTableData();
+    }
+
+    public void openTableData() throws FileNotFoundException {
+        project.setRawDataTable(openData(Settings.Values.RAW_DATA_TABLE_CSV ));
+        project.setNameCategoryTable(openData(Settings.Values.NAME_CATEGORY_TABLE_CSV));
+        project.setSeparatedRawDataTable(openData(Settings.Values.SEPARATED_RAW_DATA_TABLE_CSV ));
+        project.setTestedRawDataTable(openData(Settings.Values.TESTED_RAW_DATA_TABLE_CSV));
+
+        project.setNormalizedSeparatedRawDataTable(openData(Settings.Values.NORMALIZED_SEPARATED_RAW_DATA_TABLE_CSV));
+        project.setCovarianceCoefficients(openData(Settings.Values.COVARIANCE_COEFFICIENTS_SEPARATED_RAW_DATA_TABLE_CSV));
+        project.setSignificanceOfFactors(openData(Settings.Values.SIGNIFICANCE_FACTORS_SEPARATED_RAW_DATA_TABLE_CSV));
+
+        project.setCharacteristicsSeparatedRawDataTable(openData(Settings.Values.CHARACTERISTICS_SEPARATED_RAW_DATA_TABLE_CSV));
+        project.setCharacteristicsDimensionlessSeparatedRawDataTable(openData(Settings.Values.CHARACTERISTICS_DIMENSIONLESS_SEPARATED_RAW_DATA_TABLE_CSV));
+
+        planExperiment = (Plan) openDataJson(Settings.Values.EXPERIMENT_PLAN_JSON, planExperiment);
+
+//        saveData(koefficientA,Settings.Values.ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV);
+//        saveData(koefficientB,Settings.Values.ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV);
+
+    }
+
+    private List<List<String>> openData(String fileName) {
+        String path = io.file.Paths.getPathToDirectory(getProjectPath()+"//"+fileName);
+        fileName = io.file.Paths.getShortFileName(getProjectPath()+"//"+fileName);
+        return readTableFromFile(path +"//"+fileName);
+    }
+
+    private Object openDataJson(String fileName, Object objectFromGson) throws FileNotFoundException {
+       // String path = io.file.Paths.getPathToDirectory(getProjectPath()+"//"+fileName);
+       // fileName = io.file.Paths.getShortFileName(getProjectPath()+"//"+fileName);
+        return  Reader.readFromGsonFile(getProjectPath()+"//"+fileName, objectFromGson);
+    }
+
+    public void openProjectSettings() {
+        projectSettings.setMap(openDataSetting(getProjectPath(), EnumSettings.PROJECT.getFileName()));
+        globalSettings.setMap(openDataSetting(getProjectPath(), EnumSettings.GLOBAL.getFileName()));
+    }
+
+    public Map<String, String> openDataSetting(String projectPath, String fileName) {
+        String path = io.file.Paths.getPathToDirectory(projectPath+"//"+fileName);
+        fileName = io.file.Paths.getShortFileName(projectPath+"//"+fileName);
+        return EnumSettings.readSettingsFromFile(path, fileName);
     }
 
     public void saveProject() {
         saveProjectSettings();
-        saveRawData();
+        saveTableData();
     }
 
     public void saveAsProject(String pathToProject) {
@@ -107,20 +150,13 @@ public class ProjectManager extends ObservableDS {
         }
     }
 
-    public List<List<String>> getRawDataTable() {
-        return rawDataTable;
-    }
-
-    public void setRawDataTable(List<List<String>> rawDataTable) {
-        this.rawDataTable = rawDataTable;
-    }
 
     public void uploadRawData(String fullFileName) {
-        rawDataTable = readTableFromFile(fullFileName);
+        project.setRawDataTable(readTableFromFile(fullFileName));
     }
 
     public void uploadNameCategory(String fullFileName) {
-        nameCategoryTable = readTableFromFile(fullFileName);
+        project.setNameCategoryTable(readTableFromFile(fullFileName));
     }
 
     public List<List<String>> readTableFromFile(String fullFileName) {
@@ -138,17 +174,22 @@ public class ProjectManager extends ObservableDS {
         return table;
     }
 
-    public void saveRawData() {
-        saveData(rawDataTable,Settings.Values.RAW_DATA_TABLE_CSV );
-        saveData(nameCategoryTable,Settings.Values.NAME_CATEGORY_TABLE_CSV);
-        saveData(separatedRawDataTable,Settings.Values.SEPARATED_RAW_DATA_TABLE_CSV );
-        saveData(testedRawDataTable,Settings.Values.TESTED_RAW_DATA_TABLE_CSV );
-        saveData(normalizedSeparatedRawDataTable,Settings.Values.NORMALIZED_SEPARATED_RAW_DATA_TABLE_CSV);
-        saveData(covarianceCoefficients,Settings.Values.COVARIANCE_COEFFICIENTS_SEPARATED_RAW_DATA_TABLE_CSV);
-        saveData(significanceOfFactors,Settings.Values.SIGNIFICANCE_FACTORS_SEPARATED_RAW_DATA_TABLE_CSV);
+    public void saveTableData() {
+        saveData(project.getRawDataTable(),Settings.Values.RAW_DATA_TABLE_CSV );
+        saveData(project.getNameCategoryTable(),Settings.Values.NAME_CATEGORY_TABLE_CSV);
+        saveData(project.getSeparatedRawDataTable(),Settings.Values.SEPARATED_RAW_DATA_TABLE_CSV );
+        saveData(project.getTestedRawDataTable(),Settings.Values.TESTED_RAW_DATA_TABLE_CSV );
 
-        saveData(characteristicsSeparatedRawDataTable,Settings.Values.CHARACTERISTICS_SEPARATED_RAW_DATA_TABLE_CSV);
-        saveData(characteristicsDimensionlessSeparatedRawDataTable,Settings.Values.CHARACTERISTICS_DIMENSIONLESS_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(project.getNormalizedSeparatedRawDataTable(),Settings.Values.NORMALIZED_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(project.getCovarianceCoefficients(),Settings.Values.COVARIANCE_COEFFICIENTS_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(project.getSignificanceOfFactors(),Settings.Values.SIGNIFICANCE_FACTORS_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(project.getCharacteristicsSeparatedRawDataTable(),Settings.Values.CHARACTERISTICS_SEPARATED_RAW_DATA_TABLE_CSV);
+        saveData(project.getCharacteristicsDimensionlessSeparatedRawDataTable(),Settings.Values.CHARACTERISTICS_DIMENSIONLESS_SEPARATED_RAW_DATA_TABLE_CSV);
+
+        saveDataJson( Settings.Values.EXPERIMENT_PLAN_JSON, planExperiment);
+
+
+
 
         saveData(koefficientA,Settings.Values.ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV);
         saveData(koefficientB,Settings.Values.ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV);
@@ -167,61 +208,19 @@ public class ProjectManager extends ObservableDS {
         }
     }
 
+    private void saveDataJson( String fileName, Object objectToGson) {
+        String path = io.file.Paths.getPathToDirectory(getProjectPath()+"//"+fileName);
+        fileName = io.file.Paths.getShortFileName(getProjectPath()+"//"+fileName);
+        Writer.saveToGsonFile( path,fileName, objectToGson);
+    }
+
     public boolean separatedRawData() {
-        if (Objects.isNull(rawDataTable) || rawDataTable.isEmpty()) {
-            return false;
-        }
-
-        Double partOfTestData = Objects.isNull(projectSettings.getMap().get(Settings.Keys.PART_OF_THE_TEST_DATA))
-            ? Double.parseDouble(defaultSettings.getMap().get(Settings.Keys.DEFAULT_PART_OF_THE_TEST_DATA))
-            : Double.parseDouble(projectSettings.getMap().get(Settings.Keys.PART_OF_THE_TEST_DATA));
-        projectSettings.getMap().put(Settings.Keys.PART_OF_THE_TEST_DATA, partOfTestData.toString() );
-
-
-
-        Random random = new Random();
-        List<List<String>> tempRawDataTable = new ArrayList<>(rawDataTable);
-        List<String> headerRow = tempRawDataTable.remove(0);
-        int testSeparetedSize = (int) ((tempRawDataTable.size())*partOfTestData);
-
-
-        separatedRawDataTable = new ArrayList<>();
-        Map<Integer,List<String>> mapTestSeparatedRawDataTable = new HashMap<>();
-
-        while (mapTestSeparatedRawDataTable.size() <= testSeparetedSize ) {
-            int randomNumber = random.nextInt(rawDataTable.size()-1);
-            List<String> row =tempRawDataTable.get(randomNumber);
-
-            if (!mapTestSeparatedRawDataTable.containsKey(randomNumber)) {
-                mapTestSeparatedRawDataTable.put(randomNumber,row);
-            }
-        }
-
-        List<Integer> testedKeys =  mapTestSeparatedRawDataTable.keySet().stream().sorted().collect(Collectors.toList());
-
-
-
-        testedRawDataTable = new ArrayList<>();
-        testedRawDataTable.add(headerRow);
-        testedKeys.forEach(number -> testedRawDataTable.add(tempRawDataTable.get(number)));
-
-        separatedRawDataTable = new ArrayList<>(rawDataTable);
-        separatedRawDataTable.removeAll(testedRawDataTable);
-        separatedRawDataTable.add(0,headerRow);
-
+        project.separatedRawData(projectSettings,defaultSettings);
         return true;
-
     }
 
     public void createFactors() {
-
-        factorManager = new FactorManager(separatedRawDataTable);
-        normalizedSeparatedRawDataTable=factorManager.getNormalazeSeparatedRawDataTable();
-        covarianceCoefficients =factorManager.getCovarianceCoefficients();
-        significanceOfFactors = factorManager.getSignificanceOfFactors();
-        characteristicsSeparatedRawDataTable =factorManager.getCharacteristicsSeparatedRawDataTable();
-        characteristicsDimensionlessSeparatedRawDataTable =factorManager.getCharacteristicsDimensionlessSeparatedRawDataTable();
-
+        project.createFactors();
     }
 
     public void calculateCoefficientsOneParameterModel_a_b() {
@@ -231,8 +230,7 @@ public class ProjectManager extends ObservableDS {
         koefficientB = oneParameterModel.getKoefficientB();
     }
 
-    public void downloadExperimentPlan(String fullFileName) {
-        planExperiment = Plan.getInstance();
+    public void downloadExperimentPlan(String fullFileName) throws FileNotFoundException {
         planExperiment =(Plan) Reader.readFromGsonFile(fullFileName, planExperiment);
     }
 
@@ -272,5 +270,13 @@ public class ProjectManager extends ObservableDS {
 
     public void setProject(AppProject project) {
         this.project = project;
+    }
+
+    public void setProjectSettings(Settings projectSettings) {
+        this.projectSettings = projectSettings;
+    }
+
+    public void setGlobalSettings(Settings globalSettings) {
+        this.globalSettings = globalSettings;
     }
 }
