@@ -1,0 +1,17 @@
+{
+  "outputFactors": [
+    "13.TLSP",
+    "1.SEVERE PERSISTENT"
+  ],
+  "inputFactors": [
+    "1.SEVERE PERSISTENT",
+    "2.Atopic dermatitis",
+    "4.Bronchial asthma in relatives of second generation",
+    "12.CD8 10*3 cells",
+    "3.Number of years from the first symptoms",
+    "13.TLSP"
+  ],
+  "typesOfModels": [
+    "one-parameter linear dependence"
+  ]
+}

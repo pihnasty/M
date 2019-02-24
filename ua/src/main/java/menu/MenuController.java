@@ -69,7 +69,10 @@ public class MenuController extends InitializableDS {
     private MenuItem saveGraphToPdfItem;
 
     @FXML
-    private MenuItem calculateCoefficientsTwoParameterModelItem;
+    private MenuItem buildDataGraphTwoModelItem;
+
+    @FXML
+    private MenuItem twoModelSaveGraphToPdfItem;
 
     @FXML
     private MenuItem fastStartItem;
@@ -97,7 +100,8 @@ public class MenuController extends InitializableDS {
         downloadExperimentPlanItem.setAccelerator(KeyCombination.keyCombination("Ctrl+T"));
         createTemplatePlanItem.setAccelerator(KeyCombination.keyCombination("Ctrl+I"));
         saveGraphToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
-        calculateCoefficientsTwoParameterModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+T"));
+        buildDataGraphTwoModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+3"));
+        twoModelSaveGraphToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+4"));
     }
 
 //------------------- menu File ------------------------------------
@@ -182,18 +186,13 @@ public class MenuController extends InitializableDS {
 
     //------------------- menu Analysis->Two.factor.model ------------------------------------
     @FXML
-    private void handleCalculateCoefficientsTwoParameterModelAction (ActionEvent event) {
-        new CalculateCoefficientsOneParameterModel_a_bHandler().create_a_b(menuModel.getObservableDS());
+    private void handlebuildDataGraphTwoModelAction(ActionEvent event) {
+        new CreateChartScrollPaneTwoModelHandler().buildGraph(modelObservableDS);
     }
 
     @FXML
-    private void handleRawDataGraphTwoParameterModelAction(ActionEvent event) {
-        new CreateChartScrollPaneHandler().buildGraph(modelObservableDS);
-    }
-
-    @FXML
-    private void handleSaveToPdfTwoParameterModelAction(ActionEvent event) {
-        new CreateChartScrollPaneHandler().saveToPDF(modelObservableDS);
+    private void handleTwoModelSaveToPdfAction(ActionEvent event) {
+        new CreateChartScrollPaneTwoModelHandler().saveToPDF(modelObservableDS);
     }
 
     @FXML
@@ -207,44 +206,5 @@ public class MenuController extends InitializableDS {
 private void handleFastStartAction(ActionEvent event) {
     ((ProjectManager)menuModel.getObservableDS()).fastStart();
 }
-
-
-//------------------- menu Dictionary ------------------------------------
-    @FXML
-    private void handleRowWorkAction (ActionEvent event) {
-   //     new MVC(DictionaryModel.class, DictionaryController.class, DictionaryView.class, this.menuModel, MenuModel.Rule.RowWork  );
-}
-    @FXML
-    private void handleRowTypemachineAction (ActionEvent event) {
-  //      new MVC(DictionaryModel.class, DictionaryController.class, DictionaryView.class, this.menuModel, MenuModel.Rule.RowTypemachine );
-
-    }
-    @FXML
-    private void handleRowFunctiondistAction (ActionEvent event) {
-  //      new MVC(DictionaryModel.class, DictionaryController.class, DictionaryView.class, this.menuModel, MenuModel.Rule.RowFunctiondist );
-    }
-
-    @FXML
-    private void handleRowUnitAction (ActionEvent event) {
-  //      new MVC(DictionaryModel.class, DictionaryController.class, DictionaryView.class, this.menuModel, MenuModel.Rule.RowUnit );
-    }
-    @FXML
-    private void handleRowOperationAction (ActionEvent event) {
-  //      new MVC(DictionaryModel.class, DictionaryController.class, DictionaryView.class, this.menuModel, MenuModel.Rule.RowOperation );
-    }
-
-    //------------------- menu MachineTest ------------------------------------
-    @FXML
-    private void handleMachineTestAction (ActionEvent event) {    menuModel.clickTestOfMachineItem();   }
-
-    //------------------- menu Window->OpenPerspective ------------------------------------
-    @FXML
-    private void handleResourcesLinksPerspectiveAction (ActionEvent event) { menuModel.clickResourcesLinksPerspectiveItem(); }
-
-    @FXML
-    private void handleRoutePerspectiveAction (ActionEvent event) { menuModel.clickRoutePerspectiveItem(); }
-
-    @FXML
-    private void handleOrderPlaningPerspectiveAction (ActionEvent event) { menuModel.clickOrderPlaninigPerspectiveItem(); }
 
 }

@@ -1,6 +1,10 @@
 .default-color0.chart-series-line { -fx-stroke: transparent;}
 .default-color1.chart-series-line { -fx-stroke: red; }
 .default-color2.chart-series-line { -fx-stroke: blue; }
+.default-color3.chart-series-line { -fx-stroke: green; }
+.default-color4.chart-series-line { -fx-stroke: brown; }
+.default-color5.chart-series-line { -fx-stroke: violet; }
+.default-color6.chart-series-line { -fx-stroke: orange; }
 
 .default-color0.chart-line-symbol {
     -fx-background-color: black;
@@ -16,8 +20,35 @@
     -fx-background-radius: 3px;
     -fx-padding: 3px;
 }
-
 .default-color2.chart-line-symbol {
+    -fx-background-color: transparent, transparent;
+    -fx-stroke-width: 100;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3px;
+    -fx-padding: 3px;
+}
+.default-color3.chart-line-symbol {
+    -fx-background-color: transparent, transparent;
+    -fx-stroke-width: 100;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3px;
+    -fx-padding: 3px;
+}
+.default-color4.chart-line-symbol {
+    -fx-background-color: transparent, transparent;
+    -fx-stroke-width: 100;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3px;
+    -fx-padding: 3px;
+}
+.default-color5.chart-line-symbol {
+    -fx-background-color: transparent, transparent;
+    -fx-stroke-width: 100;
+    -fx-background-insets: 0, 2;
+    -fx-background-radius: 3px;
+    -fx-padding: 3px;
+}
+.default-color6.chart-line-symbol {
     -fx-background-color: transparent, transparent;
     -fx-stroke-width: 100;
     -fx-background-insets: 0, 2;
@@ -27,11 +58,22 @@
 
 .default-color0.chart-legend-item-symbol{
     -fx-background-color: black;
-
 }
 .default-color1.chart-legend-item-symbol{
     -fx-background-color: red;
 }
 .default-color2.chart-legend-item-symbol{
     -fx-background-color: blue;
+}
+.default-color3.chart-legend-item-symbol{
+    -fx-background-color: green;
+}
+.default-color4.chart-legend-item-symbol{
+    -fx-background-color: brown;
+}
+.default-color5.chart-legend-item-symbol{
+    -fx-background-color: violet;
+}
+.default-color6.chart-legend-item-symbol{
+    -fx-background-color: orange;
 }

@@ -40,10 +40,10 @@ public  class LineChartP extends HBox implements Observer{
 
     public void viewgrafic(){
         NumberAxis xAxis = new NumberAxis(o.getTitleX(), o.getxMin(),o.getxMax(), o.getxTickUnit());
-        xAxis.setTickLabelFill(Color.BROWN);
+        xAxis.setTickLabelFill(Color.BLACK);
 
         NumberAxis yAxis = new NumberAxis(o.getTitleY(),  o.getyMin(),o.getyMax(),o.getyTickUnit() );
-        yAxis.setTickLabelFill(Color.BROWN);
+        yAxis.setTickLabelFill(Color.BLACK);
         // yAxis.setTickLabelGap(1);
         yAxis.setSide(Side.LEFT);
         //yAxis.setAutoRanging(false);
@@ -53,8 +53,8 @@ public  class LineChartP extends HBox implements Observer{
         chart.setLayoutX(50);
         chart.setLayoutY(10);
         chart.setCursor(Cursor.CROSSHAIR);
-        chart.setStyle("-fx-font:bold 12 Arial; -fx-text-fill:brown;");
-        chart.setPrefSize(500, 400);
+        chart.setStyle("-fx-font:bold 14 Arial; -fx-text-fill:black;");
+        chart.setPrefSize(480, 500);
         chart.setTitle(o.getTitleGraph());
         chart.setTitleSide(Side.TOP);
         chart.setLegendVisible(true);

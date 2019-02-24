@@ -42,9 +42,11 @@
                       onAction="#handleSaveToPdfAction"/>
         </Menu>
         <Menu text="%two.factor.model">
-            <MenuItem text="%calculate.coefficients.two.parameter.model" fx:id="calculateCoefficientsTwoParameterModelItem"
-                      onAction="#handleCalculateCoefficientsOneParameterModelAction"/>
+            <MenuItem text="%two.model.build.data.graph" fx:id="buildDataGraphTwoModelItem"
+                      onAction="#handlebuildDataGraphTwoModelAction"/>
             <SeparatorMenuItem/>
+            <MenuItem text="%two.model.save.graph.pdf" fx:id="twoModelSaveGraphToPdfItem"
+                      onAction="#handleTwoModelSaveToPdfAction"/>
         </Menu>
         <SeparatorMenuItem/>
         <MenuItem text="%SeparatedRawData" fx:id="separatedRowDataItem2" onAction="#handleSeparatedRawDataAction"/>
