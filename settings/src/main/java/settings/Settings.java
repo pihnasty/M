@@ -36,9 +36,9 @@ public interface Settings {
 
 
 
-        public static String ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV ="one_parameter_model//koef_a_table.csv";
-        public static String ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV ="one_parameter_model//koef_b_table.csv";
-        public static String ONE_PARAMETER_MODEL_PDF_OPM_PAGE ="one_parameter_model//pdf5//opm_book_page";
+        public static String ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV ="result//one_parameter_model//koef_a_table.csv";
+        public static String ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV ="result//one_parameter_model//koef_b_table.csv";
+        public static String ONE_PARAMETER_MODEL_PDF_OPM_PAGE ="result//one_parameter_model//pdf//opm_book_page";
         public static String SETTINGS ="settings";
 
         public static String TEMPLATE_EXPERIMENT_PLAN_JSON ="template_experiment_plan.json";

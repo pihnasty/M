@@ -24,6 +24,7 @@ public class MenuController extends InitializableDS {
 
 
     private MenuModel menuModel;
+    ObservableDS modelObservableDS;
 
     @FXML
     private Menu fileMenu;
@@ -65,21 +66,18 @@ public class MenuController extends InitializableDS {
     private MenuItem rawDataGraphItem;
 
     @FXML
+    private MenuItem saveGraphToPdfItem;
+
+    @FXML
+    private MenuItem calculateCoefficientsTwoParameterModelItem;
+
+    @FXML
     private MenuItem fastStartItem;
-
-    @FXML
-    private MenuItem orderPlaningPerspectiveItem;
-    @FXML
-    private MenuItem routesPerspectiveItem;
-    @FXML
-    private MenuItem resourcesLinksPerspectiveItem;
-    @FXML
-    private MenuItem  testOfMachineItem;
-
 
     public MenuController(ObservableDS observableDS) {
         super(observableDS);
         this.menuModel = (MenuModel) observableDS;
+        this.modelObservableDS=menuModel.getObservableDS();
     }
 
     @Override
@@ -98,16 +96,8 @@ public class MenuController extends InitializableDS {
         rawDataGraphItem.setAccelerator(KeyCombination.keyCombination("Ctrl+2"));
         downloadExperimentPlanItem.setAccelerator(KeyCombination.keyCombination("Ctrl+T"));
         createTemplatePlanItem.setAccelerator(KeyCombination.keyCombination("Ctrl+I"));
-
-//
-//        defaultPerspectiveItem.setAccelerator(KeyCombination.keyCombination("Ctrl+D"));
-//        orderPlaningPerspectiveItem.setAccelerator(KeyCombination.keyCombination("Alt+O"));
-//        routesPerspectiveItem.setAccelerator(KeyCombination.keyCombination("Ctrl+M"));
-//        resourcesLinksPerspectiveItem.setAccelerator(KeyCombination.keyCombination("Ctrl+R"));
-//
-//        testOfMachineItem.setAccelerator(KeyCombination.keyCombination("Ctrl+T"));
-//        rowOperationItem.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
-
+        saveGraphToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
+        calculateCoefficientsTwoParameterModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+T"));
     }
 
 //------------------- menu File ------------------------------------
@@ -151,12 +141,6 @@ public class MenuController extends InitializableDS {
     @FXML
     private void handleSeparatedRawDataAction(ActionEvent event) {
         new SeparatedRawDataHandler().separatedRawData(menuModel.getObservableDS());
-
-
-//        if(!((ProjectManager)menuModel.getObservableDS()).separatedRawData()) {
-//            AlertDialog.getAlert(MainWindowView.loaderRecource.getResources().getString("title.message.alert.separated.rawData")
-//                , MainWindowView.loaderRecource.getResources().getString("message.alert.separated.rawData"));
-//        }
     }
 //------------------- menu Analysis ------------------------------------
     @FXML
@@ -178,21 +162,47 @@ public class MenuController extends InitializableDS {
     //------------------- menu Analysis->One.factor.model ------------------------------------
     @FXML
     private void handleCalculateCoefficientsOneParameterModelAction (ActionEvent event) {
-        ((ProjectManager)menuModel.getObservableDS()).calculateCoefficientsOneParameterModel_a_b();
+        new CalculateCoefficientsOneParameterModel_a_bHandler().create_a_b(menuModel.getObservableDS());
     }
 
     @FXML
-    private void handleRawDataGraphItemAction(ActionEvent event) {
-        menuModel.buildRawDataGraph();
+    private void handleRawDataGraphAction(ActionEvent event) {
+            new CreateChartScrollPaneHandler().buildGraph(modelObservableDS);
     }
 
     @FXML
-    private void handleDefaultItemAction(ActionEvent event) {
-        menuModel.defaultAction();
+    private void handleSaveToPdfAction(ActionEvent event) {
+         new CreateChartScrollPaneHandler().saveToPDF(modelObservableDS);
+    }
+
+    @FXML
+    private void handleDefaultAction(ActionEvent event) {
+        new DefaultScrollPaneHandler().clean(modelObservableDS);
+    }
+
+    //------------------- menu Analysis->Two.factor.model ------------------------------------
+    @FXML
+    private void handleCalculateCoefficientsTwoParameterModelAction (ActionEvent event) {
+        new CalculateCoefficientsOneParameterModel_a_bHandler().create_a_b(menuModel.getObservableDS());
+    }
+
+    @FXML
+    private void handleRawDataGraphTwoParameterModelAction(ActionEvent event) {
+        new CreateChartScrollPaneHandler().buildGraph(modelObservableDS);
+    }
+
+    @FXML
+    private void handleSaveToPdfTwoParameterModelAction(ActionEvent event) {
+        new CreateChartScrollPaneHandler().saveToPDF(modelObservableDS);
+    }
+
+    @FXML
+    private void handleDefaultTwoParameterModelAction(ActionEvent event) {
+        new DefaultScrollPaneHandler().clean(modelObservableDS);
     }
 
 
-//------------------- menu Settings ------------------------------------
+    //------------------- menu Settings ------------------------------------
 @FXML
 private void handleFastStartAction(ActionEvent event) {
     ((ProjectManager)menuModel.getObservableDS()).fastStart();

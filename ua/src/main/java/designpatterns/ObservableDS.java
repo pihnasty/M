@@ -24,6 +24,11 @@ public class ObservableDS extends Observable {
         notifyObservers();
     }
 
+    public void changed(String param) {
+        setChanged();
+        notifyObservers(param);
+    }
+
     public ObservableDS getObservableDS() {
         return observableDS;
     }

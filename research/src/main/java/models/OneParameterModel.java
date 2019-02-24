@@ -19,17 +19,17 @@ public class OneParameterModel {
         koefficientB = new ArrayList<>();
 
         covarianceСoefficients.forEach(
-            row-> {
+            row -> {
                 List<String> rowA = new ArrayList<>();
-                row.forEach(                    cell-> rowA.add(cell)     );
+                row.forEach(cell -> rowA.add(cell));
                 koefficientA.add(rowA);
             }
         );
 
         covarianceСoefficients.forEach(
-            row-> {
+            row -> {
                 List<String> rowB = new ArrayList<>();
-                row.forEach(                    cell-> rowB.add(cell)     );
+                row.forEach(cell -> rowB.add(cell));
                 koefficientB.add(rowB);
             }
         );

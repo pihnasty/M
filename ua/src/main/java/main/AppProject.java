@@ -1,25 +1,11 @@
 package main;
 
 import designpatterns.ObservableDS;
-import experiment.Plan;
 import factors.FactorManager;
-import fio.FileUI;
-import io.csv.read.CsvReaderP;
-import io.csv.write.CsvWriterP;
-import io.gson.read.Reader;
-import io.gson.write.Writer;
-import logging.LoggerP;
 import models.OneParameterModel;
-import settings.EnumSettings;
-import settings.ProviderSettings;
 import settings.Settings;
-import string.StringUtil;
-
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class AppProject extends ObservableDS {
@@ -41,12 +27,12 @@ public class AppProject extends ObservableDS {
     private List<List<String>> characteristicsSeparatedRawDataTable;
     private List<List<String>> characteristicsDimensionlessSeparatedRawDataTable;
 
-
-
-
-
     private List<List<String>> koefficientA;
     private List<List<String>> koefficientB;
+
+
+
+
 
     private FactorManager factorManager;
 
@@ -119,6 +105,8 @@ public class AppProject extends ObservableDS {
     public void fastStart() {
 
     }
+
+
 
     public FactorManager getFactorManager() {
         return factorManager;
@@ -202,5 +190,13 @@ public class AppProject extends ObservableDS {
 
     public void setCharacteristicsDimensionlessSeparatedRawDataTable(List<List<String>> characteristicsDimensionlessSeparatedRawDataTable) {
         this.characteristicsDimensionlessSeparatedRawDataTable = characteristicsDimensionlessSeparatedRawDataTable;
+    }
+
+    public void setKoefficientA(List<List<String>> koefficientA) {
+        this.koefficientA = koefficientA;
+    }
+
+    public void setKoefficientB(List<List<String>> koefficientB) {
+        this.koefficientB = koefficientB;
     }
 }

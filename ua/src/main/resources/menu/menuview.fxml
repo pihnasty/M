@@ -36,14 +36,21 @@
                       onAction="#handleCalculateCoefficientsOneParameterModelAction"/>
             <SeparatorMenuItem/>
             <MenuItem text="%Raw.data.graph" fx:id="rawDataGraphItem"
-                      onAction="#handleRawDataGraphItemAction"/>
-            <MenuItem text="DEFAULT" fx:id="defaultItem"
-                      onAction="#handleDefaultItemAction"/>
+                      onAction="#handleRawDataGraphAction"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="%Save.graph.pdf" fx:id="saveGraphToPdfItem"
+                      onAction="#handleSaveToPdfAction"/>
+        </Menu>
+        <Menu text="%two.factor.model">
+            <MenuItem text="%calculate.coefficients.two.parameter.model" fx:id="calculateCoefficientsTwoParameterModelItem"
+                      onAction="#handleCalculateCoefficientsOneParameterModelAction"/>
+            <SeparatorMenuItem/>
         </Menu>
         <SeparatorMenuItem/>
         <MenuItem text="%SeparatedRawData" fx:id="separatedRowDataItem2" onAction="#handleSeparatedRawDataAction"/>
         <SeparatorMenuItem/>
-
+        <MenuItem text="DEFAULT" fx:id="defaultItem"
+                  onAction="#handleDefaultAction"/>
     </Menu>
     <Menu text="%Settings">
         <MenuItem text="%Fast.start" fx:id="fastStartItem" onAction="#handleFastStartAction"/>

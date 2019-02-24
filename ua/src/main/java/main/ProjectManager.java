@@ -1,5 +1,6 @@
 package main;
 
+import com.sun.javafx.print.PrinterJobImpl;
 import designpatterns.ObservableDS;
 import experiment.Plan;
 import factors.FactorManager;
@@ -8,6 +9,9 @@ import io.csv.read.CsvReaderP;
 import io.csv.write.CsvWriterP;
 import io.gson.read.Reader;
 import io.gson.write.Writer;
+import javafx.print.PrinterJob;
+import javafx.scene.Node;
+import javafx.scene.control.ScrollPane;
 import logging.LoggerP;
 import models.OneParameterModel;
 import settings.EnumSettings;
@@ -15,10 +19,17 @@ import settings.ProviderSettings;
 import settings.Settings;
 import string.StringUtil;
 
+import javax.print.attribute.PrintRequestAttributeSet;
+import javax.print.attribute.standard.Destination;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Function;
+import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -35,19 +46,13 @@ public class ProjectManager extends ObservableDS {
     private Settings projectSettings = ProviderSettings.getSettings(EnumSettings.PROJECT);
     private Settings globalSettings = ProviderSettings.getSettings(EnumSettings.GLOBAL);
 
-
-    private List<List<String>> normalizedSeparatedRawDataTable;
-    private List<List<String>> covarianceCoefficients;
-    private List<List<String>> significanceOfFactors;
-
-    private List<List<String>> characteristicsSeparatedRawDataTable;
-    private List<List<String>> characteristicsDimensionlessSeparatedRawDataTable;
-
-    private List<List<String>> koefficientA;
-    private List<List<String>> koefficientB;
-
     private Plan planExperiment = planExperiment = Plan.getInstance();
-    private FactorManager factorManager;
+
+    private Object scrollPane;
+
+    private Function<Boolean, ScrollPane> functionScrollPane;
+
+
 
     private ProjectManager() {
 
@@ -75,8 +80,8 @@ public class ProjectManager extends ObservableDS {
 
         planExperiment = (Plan) openDataJson(Settings.Values.EXPERIMENT_PLAN_JSON, planExperiment);
 
-//        saveData(koefficientA,Settings.Values.ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV);
-//        saveData(koefficientB,Settings.Values.ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV);
+        project.setKoefficientA(openData(Settings.Values.ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV));
+        project.setKoefficientB(openData(Settings.Values.ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV));
 
     }
 
@@ -187,12 +192,8 @@ public class ProjectManager extends ObservableDS {
         saveData(project.getCharacteristicsDimensionlessSeparatedRawDataTable(),Settings.Values.CHARACTERISTICS_DIMENSIONLESS_SEPARATED_RAW_DATA_TABLE_CSV);
 
         saveDataJson( Settings.Values.EXPERIMENT_PLAN_JSON, planExperiment);
-
-
-
-
-        saveData(koefficientA,Settings.Values.ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV);
-        saveData(koefficientB,Settings.Values.ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV);
+        saveData(project.getKoefficientA(),Settings.Values.ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV);
+        saveData(project.getKoefficientB(),Settings.Values.ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV);
 
 }
 
@@ -224,10 +225,7 @@ public class ProjectManager extends ObservableDS {
     }
 
     public void calculateCoefficientsOneParameterModel_a_b() {
-        OneParameterModel oneParameterModel = new OneParameterModel();
-        oneParameterModel.calculateKoefficientB(covarianceCoefficients, characteristicsSeparatedRawDataTable);
-        koefficientA = oneParameterModel.getKoefficientA();
-        koefficientB = oneParameterModel.getKoefficientB();
+        project.calculateCoefficientsOneParameterModel_a_b();
     }
 
     public void downloadExperimentPlan(String fullFileName) throws FileNotFoundException {
@@ -251,19 +249,6 @@ public class ProjectManager extends ObservableDS {
         this.planExperiment = planExperiment;
     }
 
-    public FactorManager getFactorManager() {
-        return factorManager;
-    }
-
-    public List<List<String>> getKoefficientA() {
-        return koefficientA;
-    }
-
-    public List<List<String>> getKoefficientB() {
-        return koefficientB;
-    }
-
-
     public AppProject getProject() {
         return project;
     }
@@ -279,4 +264,76 @@ public class ProjectManager extends ObservableDS {
     public void setGlobalSettings(Settings globalSettings) {
         this.globalSettings = globalSettings;
     }
+
+    public void changeScrollPane(Object scrollPane) {
+        this.scrollPane = scrollPane;
+        changed("changeScrollPane");
+    }
+
+    public void changeScrollPane(Function<Boolean,ScrollPane> functionScrollPane) {
+        this.functionScrollPane = functionScrollPane;
+        changed("changeScrollPane");
+    }
+
+    public void cleanScrollPane() {
+        changed("cleanScrollPane");
+    }
+
+    public Object getScrollPane() {
+        return scrollPane;
+    }
+
+    public void setScrollPane(Object scrollPane) {
+        this.scrollPane = scrollPane;
+    }
+
+    public Function<Boolean, ScrollPane> getFunctionScrollPane() {
+        return functionScrollPane;
+    }
+
+    public void setFunctionScrollPane(Function<Boolean, ScrollPane> functionScrollPane) {
+        this.functionScrollPane = functionScrollPane;
+    }
+
+    public void saveNodeToPdf(Node node, String filePath) {
+        System.out.println("To Printer : "+filePath);
+        String path =  io.file.Paths.getPathToDirectory(filePath);
+
+        Path p1 = Paths.get(path);
+        if (Files.notExists(p1)) {
+            try {
+                Files.createDirectories(p1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        PrinterJob job = PrinterJob.createPrinterJob();
+        if(job != null){
+            addPathToPdfFile(job,"file://"+filePath);
+            //           job.getJobSettings();
+//            job.showPageSetupDialog( node.getScene().getWindow());
+//            job.showPrintDialog(node.getScene().getWindow());
+            job.printPage(node);
+            job.endJob();
+        }
+    }
+
+    private void addPathToPdfFile(PrinterJob job, String filePath) {
+        try {
+            java.lang.reflect.Field field = job.getClass().getDeclaredField("jobImpl");
+            field.setAccessible(true);
+            PrinterJobImpl jobImpl = (PrinterJobImpl) field.get(job);
+            field.setAccessible(false);
+
+            field = jobImpl.getClass().getDeclaredField("printReqAttrSet");
+            field.setAccessible(true);
+            PrintRequestAttributeSet printReqAttrSet = (PrintRequestAttributeSet) field.get(jobImpl);
+            field.setAccessible(false);
+
+            printReqAttrSet.add(new Destination(new java.net.URI(filePath)));
+        } catch (Exception e) {
+            System.err.println(e);
+        }
+    }
+
 }

@@ -31,6 +31,8 @@ public class StringUtil {
     }
 
 
-
+    public static String addBrackets(String value) {
+        return "["+value.trim()+"]";
+    }
 
 }
