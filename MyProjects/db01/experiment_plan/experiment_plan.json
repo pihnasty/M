@@ -1,0 +1,21 @@
+{
+  "outputFactors": [
+    "1.Started",
+    "2.Total",
+    "3.C",
+    "4.F",
+    "5.D",
+    "6.E"
+  ],
+  "inputFactors": [
+    "1.Started",
+    "2.Total",
+    "3.C",
+    "4.F",
+    "5.D",
+    "6.E"
+  ],
+  "typesOfModels": [
+    "one-parameter linear dependence"
+  ]
+}

@@ -50,7 +50,8 @@ public class DataP extends ObservableDS implements LineChartInterface {
 
     @Override
     public double getxTickUnit() {
-        return 1;
+        int deltaTick = (int) ((xMax-xMin)/10);
+        return deltaTick<1 ? 0.1: deltaTick;
     }
 
     @Override
@@ -65,7 +66,8 @@ public class DataP extends ObservableDS implements LineChartInterface {
 
     @Override
     public double getyTickUnit() {
-        return 1;
+        int deltaTick = (int) ((yMax-yMin)/10);
+        return deltaTick<1 ? 0.1: deltaTick;
     }
 
     @Override

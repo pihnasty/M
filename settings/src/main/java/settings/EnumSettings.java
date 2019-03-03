@@ -137,4 +137,8 @@ public enum EnumSettings implements Settings {
         return Objects.isNull(subDirectory) ? "" : subDirectory;
     }
 
+    @Override
+    public String toString() {
+        return super.toString();
+    }
 }

@@ -47,12 +47,19 @@
             <SeparatorMenuItem/>
             <MenuItem text="%two.model.save.graph.pdf" fx:id="twoModelSaveGraphToPdfItem"
                       onAction="#handleTwoModelSaveToPdfAction"/>
+            <Menu text="%two.factor.model.probit">
+                <MenuItem text="%two.factor.probit.boundary.value.graph" fx:id="twoFactorProbitBoundaryValueGraphItem"
+                          onAction="#handletwoFactorProbitBoundaryValueGraphAction"/>
+                <SeparatorMenuItem/>
+                <MenuItem text="%two.factor.probit.boundary.value.save.graph.pdf" fx:id="twoFactorProbitBoundaryValueSaveGraphToPdfItem"
+                          onAction="#handletwoFactorProbitBoundaryValueSaveToPdfAction"/>
+            </Menu>
+
         </Menu>
         <SeparatorMenuItem/>
         <MenuItem text="%SeparatedRawData" fx:id="separatedRowDataItem2" onAction="#handleSeparatedRawDataAction"/>
         <SeparatorMenuItem/>
-        <MenuItem text="DEFAULT" fx:id="defaultItem"
-                  onAction="#handleDefaultAction"/>
+        <MenuItem text="DEFAULT" fx:id="defaultItem"  onAction="#handleDefaultAction"/>
     </Menu>
     <Menu text="%Settings">
         <MenuItem text="%Fast.start" fx:id="fastStartItem" onAction="#handleFastStartAction"/>

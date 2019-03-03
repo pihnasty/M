@@ -75,6 +75,12 @@ public class MenuController extends InitializableDS {
     private MenuItem twoModelSaveGraphToPdfItem;
 
     @FXML
+    private MenuItem twoFactorProbitBoundaryValueGraphItem;
+
+    @FXML
+    private MenuItem twoFactorProbitBoundaryValueSaveGraphToPdfItem;
+
+    @FXML
     private MenuItem fastStartItem;
 
     public MenuController(ObservableDS observableDS) {
@@ -102,6 +108,8 @@ public class MenuController extends InitializableDS {
         saveGraphToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+P"));
         buildDataGraphTwoModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+3"));
         twoModelSaveGraphToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+4"));
+        twoFactorProbitBoundaryValueGraphItem.setAccelerator(KeyCombination.keyCombination("Ctrl+5"));
+        twoFactorProbitBoundaryValueSaveGraphToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+6"));
     }
 
 //------------------- menu File ------------------------------------
@@ -200,6 +208,16 @@ public class MenuController extends InitializableDS {
         new DefaultScrollPaneHandler().clean(modelObservableDS);
     }
 
+    //------------------- menu Analysis->Two.factor.model->Probit ------------------------------------
+    @FXML
+    private void handletwoFactorProbitBoundaryValueGraphAction(ActionEvent event) {
+        new CreateChartScrollPaneTwoModelBoundaryProbitHandler().buildGraph(modelObservableDS);
+    }
+
+    @FXML
+    private void handletwoFactorProbitBoundaryValueSaveToPdfAction(ActionEvent event) {
+        new CreateChartScrollPaneTwoModelBoundaryProbitHandler().saveToPDF(modelObservableDS);
+    }
 
     //------------------- menu Settings ------------------------------------
 @FXML
