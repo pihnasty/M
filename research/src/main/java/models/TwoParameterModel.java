@@ -18,6 +18,8 @@ public class TwoParameterModel {
     private double koefficientB1;
     private double koefficientB2;
 
+    private double standartDeviationY;
+
 
     public TwoParameterModel(List<List<String>> covarianceСoefficients, List<List<String>> characteristicsSeparatedRawDataTable) {
         this.covarianceСoefficients = covarianceСoefficients;
@@ -47,7 +49,7 @@ public class TwoParameterModel {
         koefficientBeta1 = (r_x1_y1 - r_x2_y1 * r_x1_x2) / (1.0 - r_x1_x2 * r_x1_x2);
         koefficientBeta2 = (r_x2_y1 - r_x1_y1 * r_x1_x2) / (1.0 - r_x1_x2 * r_x1_x2);
 
-        double standartDeviationY =
+        standartDeviationY =
             Double.parseDouble(
                 characteristicsSeparatedRawDataTable.get(2).get(outputFactorNumber).replace(",", ".")
             );
@@ -99,5 +101,9 @@ public class TwoParameterModel {
 
     public double getKoefficientB2() {
         return koefficientB2;
+    }
+
+    public double getStandartDeviationY() {
+        return standartDeviationY;
     }
 }

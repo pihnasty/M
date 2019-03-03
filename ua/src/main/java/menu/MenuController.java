@@ -81,6 +81,12 @@ public class MenuController extends InitializableDS {
     private MenuItem twoFactorProbitBoundaryValueSaveGraphToPdfItem;
 
     @FXML
+    private MenuItem twoFactorProbitBuildGraphItem;
+
+    @FXML
+    private MenuItem twoFactorProbitGraphSaveToPdfItem;
+
+    @FXML
     private MenuItem fastStartItem;
 
     public MenuController(ObservableDS observableDS) {
@@ -110,6 +116,8 @@ public class MenuController extends InitializableDS {
         twoModelSaveGraphToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+4"));
         twoFactorProbitBoundaryValueGraphItem.setAccelerator(KeyCombination.keyCombination("Ctrl+5"));
         twoFactorProbitBoundaryValueSaveGraphToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+6"));
+        twoFactorProbitBuildGraphItem.setAccelerator(KeyCombination.keyCombination("Ctrl+7"));
+        twoFactorProbitGraphSaveToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+8"));
     }
 
 //------------------- menu File ------------------------------------
@@ -209,6 +217,7 @@ public class MenuController extends InitializableDS {
     }
 
     //------------------- menu Analysis->Two.factor.model->Probit ------------------------------------
+
     @FXML
     private void handletwoFactorProbitBoundaryValueGraphAction(ActionEvent event) {
         new CreateChartScrollPaneTwoModelBoundaryProbitHandler().buildGraph(modelObservableDS);
@@ -219,6 +228,15 @@ public class MenuController extends InitializableDS {
         new CreateChartScrollPaneTwoModelBoundaryProbitHandler().saveToPDF(modelObservableDS);
     }
 
+    @FXML
+    private void handletwoFactorProbitBuildGraphAction(ActionEvent event) {
+         new CreateChartScrollPaneTwoModelProbitHandler().buildGraph(modelObservableDS);
+    }
+
+    @FXML
+    private void handletwoFactorProbitSaveGraphAction(ActionEvent event) {
+        new CreateChartScrollPaneTwoModelProbitHandler().saveToPDF(modelObservableDS);
+    }
     //------------------- menu Settings ------------------------------------
 @FXML
 private void handleFastStartAction(ActionEvent event) {

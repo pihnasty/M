@@ -47,13 +47,19 @@
             <SeparatorMenuItem/>
             <MenuItem text="%two.model.save.graph.pdf" fx:id="twoModelSaveGraphToPdfItem"
                       onAction="#handleTwoModelSaveToPdfAction"/>
-            <Menu text="%two.factor.model.probit">
-                <MenuItem text="%two.factor.probit.boundary.value.graph" fx:id="twoFactorProbitBoundaryValueGraphItem"
-                          onAction="#handletwoFactorProbitBoundaryValueGraphAction"/>
-                <SeparatorMenuItem/>
-                <MenuItem text="%two.factor.probit.boundary.value.save.graph.pdf" fx:id="twoFactorProbitBoundaryValueSaveGraphToPdfItem"
-                          onAction="#handletwoFactorProbitBoundaryValueSaveToPdfAction"/>
-            </Menu>
+                <Menu text="%two.factor.model.probit">
+                    <MenuItem text="%two.factor.probit.boundary.value.graph" fx:id="twoFactorProbitBoundaryValueGraphItem"
+                              onAction="#handletwoFactorProbitBoundaryValueGraphAction"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="%two.factor.probit.boundary.value.save.graph.pdf" fx:id="twoFactorProbitBoundaryValueSaveGraphToPdfItem"
+                              onAction="#handletwoFactorProbitBoundaryValueSaveToPdfAction"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="%two.factor.probit.build.graph" fx:id="twoFactorProbitBuildGraphItem"
+                              onAction="#handletwoFactorProbitBuildGraphAction"/>
+                    <SeparatorMenuItem/>
+                    <MenuItem text="%two.factor.probit.save.graph" fx:id="twoFactorProbitGraphSaveToPdfItem"
+                              onAction="#handletwoFactorProbitSaveGraphAction"/>
+                </Menu>
 
         </Menu>
         <SeparatorMenuItem/>

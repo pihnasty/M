@@ -1,8 +1,6 @@
 package experiment;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static common.ProjectConstant.ModelNanes.ONE_PARAMETER_LINEAR_DEPENDENCE;
 
@@ -10,6 +8,7 @@ public class Plan {
     private List<String> outputFactors = new ArrayList<>();
     private List<String> inputFactors = new ArrayList<>();
     private List<String> typesOfModels = new ArrayList<>();
+    private Map<String,String> boundaryConditions = new HashMap<>();
 
     private static Plan ourInstance = new Plan();
 
@@ -60,5 +59,13 @@ public class Plan {
 
     public void setTypesOfModels(List<String> typesOfModels) {
         this.typesOfModels = typesOfModels;
+    }
+
+    public Map<String, String> getBoundaryConditions() {
+        return boundaryConditions;
+    }
+
+    public void setBoundaryConditions(Map<String, String> boundaryConditions) {
+        this.boundaryConditions = boundaryConditions;
     }
 }

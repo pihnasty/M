@@ -54,7 +54,7 @@ public  class LineChartP extends HBox implements Observer{
         chart.setLayoutY(10);
         chart.setCursor(Cursor.CROSSHAIR);
         chart.setStyle("-fx-font:bold 14 Arial; -fx-text-fill:black;");
-        chart.setPrefSize(480, 500);
+        chart.setPrefSize(420, 450);
         chart.setTitle(o.getTitleGraph());
         chart.setTitleSide(Side.TOP);
         chart.setLegendVisible(true);

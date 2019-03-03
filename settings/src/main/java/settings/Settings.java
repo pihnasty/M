@@ -41,6 +41,7 @@ public interface Settings {
         public static String ONE_PARAMETER_MODEL_PDF_OPM_PAGE ="result//two_parameter_model//pdfOneFactor//opm_book_page";
         public static String TWO_PARAMETER_MODEL_PDF_OPM_PAGE ="result//two_parameter_model//pdfTwoFactor//opm_book_page";
         public static String TWO_PARAMETER_MODEL_PDF_PDF_BOUNDARY_VALUE ="result//two_parameter_model//pdfBoundaryValue//opm_book_boundary_value_page";
+        public static String TWO_PARAMETER_MODEL_PROBIT ="result//two_parameter_model//pdf_probit//opm_book_probit_page";
         public static String SETTINGS ="settings";
 
         public static String TEMPLATE_EXPERIMENT_PLAN_JSON ="template_experiment_plan.json";
