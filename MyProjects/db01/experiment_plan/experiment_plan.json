@@ -17,5 +17,6 @@
   ],
   "typesOfModels": [
     "one-parameter linear dependence"
-  ]
+  ],
+  "boundaryConditions": {}
 }

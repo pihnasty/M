@@ -48,7 +48,7 @@ public class CreateChartScrollPaneTwoModelProbitTask extends Task<Void> {
     private ScrollPane calculateChart(boolean iSsaveToPDF) {
         ScrollPane scrollPane = new ScrollPane();
         VBox vBox = new VBox();
-
+        MathP.Counter titleCounter = MathP.getCounter(1,1);
         MathP.Counter counter = MathP.getCounter(1,1);
         Plan planPlanExperiment = projectManager.getPlanExperiment();
         FactorManager factorManager = projectManager.getProject().getFactorManager();
@@ -102,7 +102,7 @@ public class CreateChartScrollPaneTwoModelProbitTask extends Task<Void> {
 
                                 data.setTitleX(inputFactor1CategoryIdAndName);
                                 data.setTitleY("Probability");
-                                data.setTitleGraph("Dependence of the factor " +outputFactorCategoryIdAndName
+                                data.setTitleGraph(titleCounter.get().toString()+". Dependence of the factor " +outputFactorCategoryIdAndName
                                     +"\n on the factor "+inputFactor1CategoryIdAndName
                                     +"\n and on the factor "+inputFactor2CategoryIdAndName);
 
@@ -259,11 +259,11 @@ public class CreateChartScrollPaneTwoModelProbitTask extends Task<Void> {
         , double koefficientBeta2 ) {
         return new Label(
             "Regression model                        :   " + StringUtil.addBrackets(outputFactorCategoryIdAndName)
-                + "=" + String.format("%.2f",twoModelValueCoefficientA) + (coefficientB1 > 0 ? " + " : "") +  String.format("%.2f",coefficientB1) + " * " + StringUtil.addBrackets(inputFactor1CategoryIdAndName)
-                + (coefficientB2 > 0 ? " + " : "") +  String.format("%.2f",coefficientB2) + " * " + StringUtil.addBrackets(inputFactor2CategoryIdAndName) + "\n"
+                + "=" + String.format("%.2f",twoModelValueCoefficientA) + (coefficientB1 >= 0 ? " + " : "") +  String.format("%.2f",coefficientB1) + " * " + StringUtil.addBrackets(inputFactor1CategoryIdAndName)
+                + (coefficientB2 >= 0 ? " + " : "") +  String.format("%.2f",coefficientB2) + " * " + StringUtil.addBrackets(inputFactor2CategoryIdAndName) + "\n"
                 + "Regression model (short)             :   " + "Y = "
-                +  String.format("%.2f",twoModelValueCoefficientA) + (coefficientB1 > 0 ? " + " : "") +  String.format("%.2f",coefficientB1) + " * X1" + (coefficientB2 > 0 ? " + " : "") +  String.format("%.2f",coefficientB2) + " * X2"+ "\n"
-                + "Dimensionless regression model :   " + "G = "+  String.format("%.2f",koefficientBeta1) + " * Z1"  +  (koefficientBeta2 > 0 ? " + " : "") +  String.format("%.2f",koefficientBeta2) + " * Z2"+ "\n"
+                +  String.format("%.2f",twoModelValueCoefficientA) + (coefficientB1 > 0 ? " + " : "") +  String.format("%.2f",coefficientB1) + " * X1" + (coefficientB2 >= 0 ? " + " : "") +  String.format("%.2f",coefficientB2) + " * X2"+ "\n"
+                + "Dimensionless regression model :   " + "G = "+  String.format("%.2f",koefficientBeta1) + " * Z1"  +  (koefficientBeta2 >= 0 ? " + " : "") +  String.format("%.2f",koefficientBeta2) + " * Z2"+ "\n"
                 + "\n"
         );
     }
@@ -294,7 +294,7 @@ public class CreateChartScrollPaneTwoModelProbitTask extends Task<Void> {
         for (int iInputFactorNumber=0; iInputFactorNumber<numberOfX; iInputFactorNumber++) {
             double x = inputFactor.getMinValue()+dx*iInputFactorNumber;
             double y = valueCoefficientA+valueCoefficientB*x;
-            double pi = 1.0/(1.0+ Math.exp( 0.6267*y));
+            double pi =  1.0/(1.0+ Math.exp(0.6267*y));   //1.0 - 1.0/(1.0+ Math.exp(- 0.6267*y));
             listRegression.add(new Point2D.Double(x,pi));
         }
         return listRegression;

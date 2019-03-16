@@ -88,25 +88,21 @@ public class CreateChartScrollPaneTwoModelBoundaryProbitTask extends Task<Void> 
                             .forEach(
                             inputFactor2CategoryIdAndName -> {
 
-
-                                DataP data = new DataP();
-
-
-
-                                data.setTitleX(outputFactorCategoryIdAndName);
-                                data.setTitleY("Squared error");
-                                data.setLegend("experiment");
-                                data.setTitleGraph("Dependence of the factor " +outputFactorCategoryIdAndName
-                                    +"\n on the factor "+inputFactor1CategoryIdAndName
-                                    +"\n and on the factor "+inputFactor2CategoryIdAndName);
-
                                 List<String> nameCoefficient = covarianceCoefficients.get(0).stream().map(name -> name.trim()).collect(Collectors.toList());
 
                                 int outputFactorNumber = nameCoefficient.indexOf(outputFactorCategoryIdAndName);
                                 int inputFactor_1_Number = nameCoefficient.indexOf(inputFactor1CategoryIdAndName);
 //-------------------------------------------------------------------------------------------------------------------
                                 if(!inputFactor2CategoryIdAndName.equalsIgnoreCase(inputFactor1CategoryIdAndName)) {
+                                    Integer numberChart = counter.get();
 
+                                    DataP data = new DataP();
+                                    data.setTitleX(outputFactorCategoryIdAndName);
+                                    data.setTitleY("Squared error");
+                                    data.setLegend("experiment");
+                                    data.setTitleGraph(  numberChart.toString()+". Dependence of the factor " +outputFactorCategoryIdAndName
+                                        +"\n on the factor "+inputFactor1CategoryIdAndName
+                                        +"\n and on the factor "+inputFactor2CategoryIdAndName);
                                     Factor inputFactor2 = factors.get(inputFactor2CategoryIdAndName);
                                     twoParameterModel.calculateKoefficientsBeta(outputFactor, inputFactor1, inputFactor2);
 
@@ -211,7 +207,7 @@ public class CreateChartScrollPaneTwoModelBoundaryProbitTask extends Task<Void> 
                                         );
                                     vBox.getChildren().add(labelForTwoModel);
                                     if (iSsaveToPDF) {
-                                        saveToPdf(counter, LineChart1MVC,labelForTwoModel);
+                                        saveToPdf(numberChart, LineChart1MVC,labelForTwoModel);
                                     }
 
                                 }
@@ -230,7 +226,7 @@ public class CreateChartScrollPaneTwoModelBoundaryProbitTask extends Task<Void> 
         return scrollPane;
     }
 
-    private void saveToPdf(MathP.Counter counter, MVC lineChart1MVC, Label  labelForTwoModel) {
+    private void saveToPdf(int numberChart, MVC lineChart1MVC, Label  labelForTwoModel) {
         VBox tempVbox = new VBox();
         tempVbox.getChildren().add((LineChartP) lineChart1MVC.getView());
         tempVbox.getChildren().add(labelForTwoModel);
@@ -238,7 +234,7 @@ public class CreateChartScrollPaneTwoModelBoundaryProbitTask extends Task<Void> 
             , ProviderSettings.getProjectSettingsMapValue(
                 Settings.Keys.PROJECT_PATH) + "//"
                 + Settings.Values.TWO_PARAMETER_MODEL_PDF_PDF_BOUNDARY_VALUE
-                + String.format("%03d", counter.get())+ ".pdf");
+                + String.format("%03d", numberChart)+ ".pdf");
     }
 
     private Label getLabelToTwoModel(

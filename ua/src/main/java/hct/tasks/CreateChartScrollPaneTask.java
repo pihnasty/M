@@ -50,7 +50,7 @@ public class CreateChartScrollPaneTask extends Task<Void> {
     private ScrollPane calculateChart(boolean iSsaveToPDF) {
         ScrollPane scrollPane = new ScrollPane();
         VBox vBox = new VBox();
-
+        MathP.Counter titleCounter = MathP.getCounter(1,1);
         MathP.Counter counter = MathP.getCounter(1,1);
         Plan planPlanExperiment = projectManager.getPlanExperiment();
         FactorManager factorManager = projectManager.getProject().getFactorManager();
@@ -98,7 +98,7 @@ public class CreateChartScrollPaneTask extends Task<Void> {
                         data.setTitleY(outputFactorCategoryIdAndName);
 
                         data.setLegend("experiment");
-                        data.setTitleGraph("Dependence of the factor " +outputFactorCategoryIdAndName +"\n on the factor "+inputFactorCategoryIdAndName);
+                        data.setTitleGraph(titleCounter.get().toString()+". Dependence of the factor " +outputFactorCategoryIdAndName +"\n on the factor "+inputFactorCategoryIdAndName);
 
                         List<String> nameCoefficientA = projectManager.getProject().getKoefficientA().get(0).stream().map(name -> name.trim()).collect(Collectors.toList());
 

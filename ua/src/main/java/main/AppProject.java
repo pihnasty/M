@@ -52,7 +52,7 @@ public class AppProject extends ObservableDS {
 
 
 
-        Random random = new Random();
+        Random random = new Random(31);
         List<List<String>> tempRawDataTable = new ArrayList<>(rawDataTable);
         List<String> headerRow = tempRawDataTable.remove(0);
         int testSeparetedSize = (int) ((tempRawDataTable.size())*partOfTestData);

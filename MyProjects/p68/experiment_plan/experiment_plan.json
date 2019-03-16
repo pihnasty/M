@@ -3,10 +3,6 @@
     "13.TLSP",
     "1.SEVERE PERSISTENT"
   ],
-  "boundaryConditions": {
-    "13.TLSP":"64.0",
-    "1.SEVERE PERSISTENT":"0.40"
-  },
   "inputFactors": [
     "1.SEVERE PERSISTENT",
     "2.Atopic dermatitis",
@@ -17,5 +13,9 @@
   ],
   "typesOfModels": [
     "one-parameter linear dependence"
-  ]
+  ],
+  "boundaryConditions": {
+    "13.TLSP": "64.0",
+    "1.SEVERE PERSISTENT": "0.40"
+  }
 }

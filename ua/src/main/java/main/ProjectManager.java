@@ -33,6 +33,8 @@ import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
+
+
 public class ProjectManager extends ObservableDS {
     private static ProjectManager ourInstance = new ProjectManager();
 
@@ -105,7 +107,9 @@ public class ProjectManager extends ObservableDS {
     public Map<String, String> openDataSetting(String projectPath, String fileName) {
         String path = io.file.Paths.getPathToDirectory(projectPath+"//"+fileName);
         fileName = io.file.Paths.getShortFileName(projectPath+"//"+fileName);
-        return EnumSettings.readSettingsFromFile(path, fileName);
+        Map<String, String> dataSetting = EnumSettings.readSettingsFromFile(path, fileName);
+        dataSetting.put(Settings.Keys.PROJECT_PATH ,projectPath);
+        return dataSetting;
     }
 
     public void saveProject() {
@@ -115,6 +119,7 @@ public class ProjectManager extends ObservableDS {
 
     public void saveAsProject(String pathToProject) {
         getDefaultSettings().getMap().put(Settings.Keys.PROJECT_PATH, pathToProject.replace("\\","//"));
+        getProjectSettings().getMap().put(Settings.Keys.PROJECT_PATH, pathToProject.replace("\\","//"));
         saveProject();
     }
 
