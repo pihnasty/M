@@ -27,7 +27,13 @@ public class StringUtil {
         int lengthHeaderValue = headerValue.length();
         return  String.format(" " + "%"
             + (lengthHeaderValue<lengthCell?lengthCell:lengthHeaderValue)
-            + ".2f ", value);
+            + ".4f ", value);
+    }
+
+    public static  String getDoubleFormatValue (Double value, int lengthHeaderValue, int lengthCell) {
+        return  String.format(" " + "%"
+            + (lengthHeaderValue<lengthCell?lengthCell:lengthHeaderValue)
+            + ".4f ", value);
     }
 
 

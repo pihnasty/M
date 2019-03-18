@@ -72,6 +72,7 @@ public class MainWindowView extends BorderPaneObserverDS {
         if("changeScrollPane".equalsIgnoreCase(arg.toString())) {
      //       setCenter((Node)projectManager.getScrollPane());
             ScrollPane scrollPane =  projectManager.getFunctionScrollPane().apply(false);
+            scrollPane.setStyle("-fx-background-color:blue");
             setCenter(scrollPane);
         }
         if("cleanScrollPane".equalsIgnoreCase(arg.toString())) {

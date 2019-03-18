@@ -655,7 +655,7 @@ public class DataSet {
     //-------------------------------------------------------------------------------
     public <cL> cL createObject( RowIdNameDescription row) {
         Object m = null;
-//= SectionDataSet: Trest =============================================================================================/
+
         if (row.getClass() == RowTrest.class) {
             m =new Trest(row.getId(), row.getName(),
                     select(row, tabWorks, tabTrestsWorks),     //  ArrayList<Work> works
@@ -674,7 +674,7 @@ public class DataSet {
                     row.getDescription());
         }
 
-//= SectionDataSet: TypeMachine ========================================================================================/
+
 //----------------------------------------------------------------------------------------------------------------------
         if (row.getClass() == RowTypemachine.class) {
             m = new Typemachine( row.getId(), row.getName(),
@@ -769,19 +769,7 @@ public class DataSet {
 //            m = new Operation(((RowOperation) row).getId(), ((RowOperation) row).getName(), ((RowOperation) row).getDescription());
 //        }
 
-        if (row.getClass() == RowEmployee.class) {
-            m = new Employee(row.getId(), row.getName(), row.getDescription());
-        }
 
-        if (row.getClass() == RowResource.class) {
-            m = new Resource(((RowResource) row).getId(), ((RowResource) row).getName(), ((RowResource) row).getDescription());
-        }
-        if (row.getClass() == RowFunctionOEM.class) {
-            m = new FunctionOEM(((RowFunctionOEM) row).getId(), ((RowFunctionOEM) row).getName(), ((RowFunctionOEM) row).getPathFileFR(), ((RowFunctionOEM) row).getDescription());
-        }
-        if (row.getClass() == RowUnit.class) {
-            m = new Unit(((RowUnit) row).getId(), ((RowUnit) row).getName(), ((RowUnit) row).getDescription());
-        }
 
         if (row.getClass() ==  RowOrder.class)  m = new Order(row.getId(),
                                                               row.getName(),

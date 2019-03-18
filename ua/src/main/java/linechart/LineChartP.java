@@ -52,6 +52,7 @@ public  class LineChartP extends HBox implements Observer{
         LineChart<Number,Number> chart = new LineChart<>(xAxis,yAxis);
         chart.setLayoutX(50);
         chart.setLayoutY(10);
+        chart.setStyle("-fx-background-color:blue");
         chart.setCursor(Cursor.CROSSHAIR);
         chart.setStyle("-fx-font:bold 14 Arial; -fx-text-fill:black;");
         chart.setPrefSize(420, 450);
@@ -68,21 +69,9 @@ public  class LineChartP extends HBox implements Observer{
         chart.setCreateSymbols(true);
 
         XYChart.Series seriesAirTem= new XYChart.Series();
-        //seriesAirTem.setName("Температура воздуха");
-    /*Text text1=new Text("21");
-    text1.setFill(Color.BROWN);
-    Text text7=new Text("33");
-    text7.setFill(Color.BROWN);
-    Text text12=new Text("23");
-    text12.setFill(Color.BROWN);
-*/
-        //seriesAirTem.getData().addAll(data1, new XYChart.Data(category.get(1),0), new XYChart.Data(category.get(2),24), new XYChart.Data(category.get(3),27), new XYChart.Data(category.get(4),30), new XYChart.Data(category.get(5),32), data7, new XYChart.Data(category.get(7),33), new XYChart.Data(category.get(8),31), new XYChart.Data(category.get(9),29), new XYChart.Data(category.get(10),26),data12);
 
 
-        //seriesWaterTem.setName("Температура воды");
 
-
-  //      chart.getStylesheets().add(getClass().getResource( "D://A//M//ua//src//main//java//linechart//chart.css").toExternalForm());
 
 //        chart.getStylesheets().add(getResource("root.css").toExternalForm());
 

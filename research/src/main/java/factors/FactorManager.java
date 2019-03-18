@@ -366,10 +366,7 @@ public class FactorManager {
 
     private String getDoubleFormatValue (Double value, int lengthHeaderValue) {
         int lengthCell = Integer.parseInt(ProviderSettings.getProjectSettingsMapValue(Settings.Keys.LENGTH_CELL));
-
-        return  String.format(" " + "%"
-            + (lengthHeaderValue<lengthCell?lengthCell:lengthHeaderValue)
-            + ".2f ", value);
+        return  StringUtil.getDoubleFormatValue (value, lengthHeaderValue, lengthCell);
     }
 
 
