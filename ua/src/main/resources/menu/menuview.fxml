@@ -62,6 +62,14 @@
                 </Menu>
 
         </Menu>
+        <Menu text="%multi.model">
+            <MenuItem text="%calculate.coefficient.multi.param.model" fx:id="calculateCoefficientsMultiParameterModelItem"
+                      onAction="#handleCalculateCoefficientsMultiParameterModelAction"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="%multi.model.build.residual.plot" fx:id="buildResidualPlotMultiModelItem"
+                      onAction="#handleBuildResidualPlotMultiModelAction"/>
+            <SeparatorMenuItem/>
+        </Menu>
         <SeparatorMenuItem/>
         <MenuItem text="%SeparatedRawData" fx:id="separatedRowDataItem2" onAction="#handleSeparatedRawDataAction"/>
         <SeparatorMenuItem/>

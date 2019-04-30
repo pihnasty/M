@@ -10,6 +10,7 @@
 
 .chart-legend {
     -fx-background-color: white;
+    -fx-font-size: 0.8em;
 }
 
 .chart-title {

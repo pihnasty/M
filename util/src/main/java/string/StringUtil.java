@@ -36,9 +36,27 @@ public class StringUtil {
             + ".4f ", value);
     }
 
+    public static String getDoubleFormatValue(Double value, String headerValue) {
+        return String.format(" " + "%"
+            + headerValue.length()
+            + ".4f ", value);
+    }
+
+    public static String getDoubleFormatValue(Double value, int headerValueLength) {
+        return String.format(" " + "%"
+            + headerValueLength
+            + ".4f ", value);
+    }
+
 
     public static String addBrackets(String value) {
         return "["+value.trim()+"]";
+    }
+
+    public static double parseToDouble (String expression) {
+        return Double.parseDouble(
+            expression.replace(",", ".")
+        );
     }
 
 }

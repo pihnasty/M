@@ -44,6 +44,9 @@ public interface Settings {
         public static String TWO_PARAMETER_MODEL_PROBIT ="result//two_parameter_model//pdf_probit//opm_book_probit_page";
         public static String SETTINGS ="settings";
 
+        public static String MULTI_MODEL_DIMENSION_LESS_KOEF_CSV ="result//multi_model//dimension_less_koef_table.csv";
+        public static String MULTI_MODEL_DIMENSION_KOEF_CSV ="result//multi_model//dimension_koef_table.csv";
+
         public static String TEMPLATE_EXPERIMENT_PLAN_JSON ="template_experiment_plan.json";
         public static String EXPERIMENT_PLAN_JSON ="experiment_plan//experiment_plan.json";
 

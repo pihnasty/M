@@ -64,9 +64,7 @@ public class CreateChartScrollPaneTask extends Task<Void> {
 
         planPlanExperiment.getOutputFactors().forEach(
             outputFactorCategoryIdAndName -> {
-
-
-                planPlanExperiment.getInputFactors().forEach(
+                planPlanExperiment.getInputFactors().stream().filter(factor1-> !outputFactorCategoryIdAndName.equals(factor1)).forEach(
                     inputFactorCategoryIdAndName-> {
 
                         DataP data = new DataP();

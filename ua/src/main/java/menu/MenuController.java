@@ -5,6 +5,7 @@ import designpatterns.ObservableDS;
 import dialogs.AlertDialog;
 import fio.FileUI;
 import hct.handlers.*;
+import hct.handlers.multi.CalculateCoefficientsMultiParameterModelHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -87,6 +88,12 @@ public class MenuController extends InitializableDS {
     private MenuItem twoFactorProbitGraphSaveToPdfItem;
 
     @FXML
+    private MenuItem buildResidualPlotMultiModelItem;
+
+    @FXML
+    private MenuItem calculateCoefficientsMultiParameterModelItem;
+
+    @FXML
     private MenuItem fastStartItem;
 
     public MenuController(ObservableDS observableDS) {
@@ -118,6 +125,8 @@ public class MenuController extends InitializableDS {
         twoFactorProbitBoundaryValueSaveGraphToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+6"));
         twoFactorProbitBuildGraphItem.setAccelerator(KeyCombination.keyCombination("Ctrl+7"));
         twoFactorProbitGraphSaveToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+8"));
+        buildResidualPlotMultiModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+9"));
+        calculateCoefficientsMultiParameterModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+M"));
     }
 
 //------------------- menu File ------------------------------------
@@ -237,6 +246,19 @@ public class MenuController extends InitializableDS {
     private void handletwoFactorProbitSaveGraphAction(ActionEvent event) {
         new CreateChartScrollPaneTwoModelProbitHandler().saveToPDF(modelObservableDS);
     }
+
+    //------------------- menu Analysis->Multi.factor.model ------------------------------------
+    @FXML
+    private void handleCalculateCoefficientsMultiParameterModelAction(ActionEvent event) {
+        new CalculateCoefficientsMultiParameterModelHandler().calculate(modelObservableDS);
+    }
+
+    @FXML
+    private void handleBuildResidualPlotMultiModelAction(ActionEvent event) {
+        new CreateResidualPlotMultiModelHandler().buildResidualPlot(modelObservableDS);
+    }
+
+
     //------------------- menu Settings ------------------------------------
 @FXML
 private void handleFastStartAction(ActionEvent event) {

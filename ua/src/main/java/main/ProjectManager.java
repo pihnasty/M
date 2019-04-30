@@ -84,6 +84,8 @@ public class ProjectManager extends ObservableDS {
 
         project.setKoefficientA(openData(Settings.Values.ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV));
         project.setKoefficientB(openData(Settings.Values.ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV));
+        project.setMultiModelDimensionlessKoefficients(openData(Settings.Values.MULTI_MODEL_DIMENSION_LESS_KOEF_CSV));
+        project.setMultiModelDimensionKoefficients(openData(Settings.Values.MULTI_MODEL_DIMENSION_KOEF_CSV));
 
     }
 
@@ -199,6 +201,11 @@ public class ProjectManager extends ObservableDS {
         saveDataJson( Settings.Values.EXPERIMENT_PLAN_JSON, planExperiment);
         saveData(project.getKoefficientA(),Settings.Values.ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV);
         saveData(project.getKoefficientB(),Settings.Values.ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV);
+        saveData(project.getMultiModelDimensionlessKoefficients(),Settings.Values.MULTI_MODEL_DIMENSION_LESS_KOEF_CSV);
+        saveData(project.getMultiModelDimensionKoefficients(),Settings.Values.MULTI_MODEL_DIMENSION_KOEF_CSV);
+
+
+
 
 }
 
@@ -231,6 +238,13 @@ public class ProjectManager extends ObservableDS {
 
     public void calculateCoefficientsOneParameterModel_a_b() {
         project.calculateCoefficientsOneParameterModel_a_b();
+    }
+
+    public void calculateCoefficientsMultiParameterModel() {
+        project.calculateCoefficientsMultiParameterModel(
+            getPlanExperiment().getOutputFactors()
+            , getPlanExperiment().getInputFactors()
+        );
     }
 
     public void downloadExperimentPlan(String fullFileName) throws FileNotFoundException {

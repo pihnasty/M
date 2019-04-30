@@ -26,15 +26,15 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-public class CreateChartScrollPaneTwoModelTask extends Task<Void> {
+public class CreateResidualPlotMultiModelTask extends Task<Void> {
 
     private ProjectManager projectManager;
     boolean isSaveAsPdf;
 
-    public CreateChartScrollPaneTwoModelTask(ProjectManager projectManager, boolean isSaveAsPdf) {
+    public CreateResidualPlotMultiModelTask(ProjectManager projectManager, boolean isSaveAsPdf) {
         this.projectManager=projectManager;
         this.isSaveAsPdf=isSaveAsPdf;
-        LoggerP.write(Level.INFO, "CreateChartScrollPaneTwoModelTask started...");
+        LoggerP.write(Level.INFO, "CreateResidualPlotMultiModelTask started...");
     }
 
     @Override
