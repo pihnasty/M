@@ -2,10 +2,9 @@ package menu;
 
 import designpatterns.InitializableDS;
 import designpatterns.ObservableDS;
-import dialogs.AlertDialog;
-import fio.FileUI;
 import hct.handlers.*;
 import hct.handlers.multi.CalculateCoefficientsMultiParameterModelHandler;
+import hct.handlers.multi.CreateResidualPlotMultiModelHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,13 +12,10 @@ import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 import main.ProjectManager;
-import mainwindows.MainWindowView;
 
 
 import java.net.URL;
 import java.util.ResourceBundle;
-
-import static settings.Settings.Values.TEMPLATE_EXPERIMENT_PLAN_JSON;
 
 public class MenuController extends InitializableDS {
 

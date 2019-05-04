@@ -10,8 +10,6 @@ import main.ProjectManager;
 
 abstract public class BaseHandler {
 
-    public abstract void calculate(ObservableDS observableDS) ;
-
     protected void addCallBack(BaseTask task, BaseCallBack baseCallBack) {
 
         task.stateProperty().addListener(

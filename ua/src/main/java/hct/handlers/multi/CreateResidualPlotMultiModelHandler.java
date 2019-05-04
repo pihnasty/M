@@ -1,4 +1,4 @@
-package hct.handlers;
+package hct.handlers.multi;
 
 import designpatterns.ObservableDS;
 import hct.callbacks.CreateChartScrollPaneTwoModelCallBack;
@@ -12,6 +12,8 @@ public class CreateResidualPlotMultiModelHandler {
 
     public void buildResidualPlot(ObservableDS observableDS) {
         ProjectManager projectManager = ((ProjectManager) observableDS);
+
+
         CreateResidualPlotMultiModelTask createResidualPlotMultiModelTask
             = new CreateResidualPlotMultiModelTask(projectManager,false);
         addCallBack(createResidualPlotMultiModelTask);

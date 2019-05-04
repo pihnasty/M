@@ -14,6 +14,10 @@ public interface Settings {
         public static String LENGTH_CELL = "length-cell";
         public static String PROJECT_NAME = "project-name";
 
+
+        // for the parameters of the multi-model
+        public static String NUMBER_REGRESSORS = "number-regressors";
+
     }
 
     class Values {
@@ -34,6 +38,10 @@ public interface Settings {
 
         public static String NAME_NUMBER_FACTOR = "0.number";
 
+        // for the parameters of the multi-model
+        public static String MODEL_NUMBER_FACTOR = "0.Model";
+        public static String OUTPUT_FACTOR = "0.OutputFactors";
+        public static String COEFFICIENT_A = "0.A";
 
 
         public static String ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV ="result//one_parameter_model//koef_a_table.csv";

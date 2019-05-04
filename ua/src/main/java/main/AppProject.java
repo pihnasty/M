@@ -3,6 +3,7 @@ package main;
 import designpatterns.ObservableDS;
 import experiment.Plan;
 import factors.FactorManager;
+import logging.LoggerP;
 import math.Combinatorics;
 import math.MathP;
 import models.MultiParameterModel;
@@ -13,6 +14,7 @@ import string.StringUtil;
 
 import java.util.*;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public class AppProject extends ObservableDS {
@@ -108,7 +110,7 @@ public class AppProject extends ObservableDS {
         koefficientB = oneParameterModel.getKoefficientB();
     }
 
-    public void calculateCoefficientsMultiParameterModel(List<String> outputFactors, List<String> inputFactors ) {
+    public void calculateCoefficientsMultiParameterModel(List<String> outputFactors, List<String> inputFactors, Map<String,String> parametersOfModel ) {
 
         multiModelDimensionlessKoefficients = new ArrayList<>();
         multiModelDimensionKoefficients = new ArrayList<>();
@@ -116,29 +118,44 @@ public class AppProject extends ObservableDS {
         int lengthCell = Integer.parseInt(ProviderSettings.getProjectSettingsMapValue(Settings.Keys.LENGTH_CELL));
 
         List<String> headerMultiModelDimensionlessKoefficient = new ArrayList<>();
-        headerMultiModelDimensionlessKoefficient.add(StringUtil.getStringFormat("0.Model",lengthCell));
-        headerMultiModelDimensionlessKoefficient.add(StringUtil.getStringFormat("0.OutputFactors",lengthCell));
+        headerMultiModelDimensionlessKoefficient.add(StringUtil.getStringFormat(Settings.Values.MODEL_NUMBER_FACTOR,lengthCell));
+        headerMultiModelDimensionlessKoefficient.add(StringUtil.getStringFormat(Settings.Values.OUTPUT_FACTOR,lengthCell));
         inputFactors.forEach( inputFactorCategoryIdAndName
             ->  headerMultiModelDimensionlessKoefficient.add(StringUtil.getStringFormat(inputFactorCategoryIdAndName,lengthCell))
         );
         multiModelDimensionlessKoefficients.add(headerMultiModelDimensionlessKoefficient);
 
         List<String> headerMultiModelDimensionKoefficient = new ArrayList<>();
-        headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat("0.Model",lengthCell));
-        headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat("0.OutputFactors",lengthCell));
-        headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat("0.A",lengthCell));
+        headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat(Settings.Values.MODEL_NUMBER_FACTOR,lengthCell));
+        headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat(Settings.Values.OUTPUT_FACTOR,lengthCell));
+        headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat(Settings.Values.COEFFICIENT_A,lengthCell));
         inputFactors.forEach( inputFactorCategoryIdAndName
             ->  headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat(inputFactorCategoryIdAndName,lengthCell))
         );
         multiModelDimensionKoefficients.add(headerMultiModelDimensionKoefficient);
 
-
-        int n = 25;
-        List<List<Long>> variantsOfNumber = Combinatorics.getVariants(n, inputFactors.size());
+        List<List<Long>> variantsOfNumber = Combinatorics.getVariants(
+            Integer.parseInt(parametersOfModel.get(Settings.Keys.NUMBER_REGRESSORS))
+            , inputFactors.size());
 
         MultiParameterModel model = new  MultiParameterModel(covarianceCoefficients, characteristicsSeparatedRawDataTable);
 
         MathP.Counter titleCounter = MathP.getCounter(1,1);
+
+        LoggerP.write(Level.INFO, "Number of the model "+variantsOfNumber.size());
+
+        final int delta;
+        if (variantsOfNumber.size()<1000) {
+            if (variantsOfNumber.size()<100) {
+                delta = 1;
+            } else {
+                delta = 10;
+            }
+        } else {
+            delta = variantsOfNumber.size()/1000;
+        }
+
+
 
         outputFactors.forEach(
             outputFactorCategoryIdAndName -> {
@@ -147,7 +164,8 @@ public class AppProject extends ObservableDS {
                         boolean isCalculated = model.calculateKoefficients(outputFactorCategoryIdAndName, combinatoricsSetFactors(rowOfNumber,inputFactors));
 
                         if(isCalculated) {
-                            String numberOfModel = titleCounter.get().toString();
+                            Integer count = titleCounter.get();
+                            String numberOfModel =count.toString();
 
                             List<String> rowLessKoefficients = new ArrayList<>();
                             fillDefault(headerMultiModelDimensionlessKoefficient, outputFactorCategoryIdAndName, numberOfModel, rowLessKoefficients);
@@ -159,15 +177,16 @@ public class AppProject extends ObservableDS {
                             fillDimension(headerMultiModelDimensionKoefficient, model, rowOfNumber, rowKoefficients);
                             multiModelDimensionKoefficients.add(rowKoefficients);
 
-                            System.out.println("numberOfModel = "+numberOfModel);
+                            if (count / delta * delta == count) {
+                                LoggerP.write(Level.INFO, "Calculated the model with number " + numberOfModel);
+                            }
 
                         }
                     }
                 );
             });
 
-        System.out.println("variantsOfNumber = "+variantsOfNumber.size());
-
+        LoggerP.write(Level.INFO, "Number of the model "+variantsOfNumber.size());
 
     }
 

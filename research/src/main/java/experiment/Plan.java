@@ -9,6 +9,7 @@ public class Plan {
     private List<String> inputFactors = new ArrayList<>();
     private List<String> typesOfModels = new ArrayList<>();
     private Map<String,String> boundaryConditions = new HashMap<>();
+    private Map<String,String> parametersOfModel = new HashMap<>();
 
     private static Plan ourInstance = new Plan();
 
@@ -67,5 +68,13 @@ public class Plan {
 
     public void setBoundaryConditions(Map<String, String> boundaryConditions) {
         this.boundaryConditions = boundaryConditions;
+    }
+
+    public Map<String, String> getParametersOfModel() {
+        return parametersOfModel;
+    }
+
+    public void setParametersOfModel(Map<String, String> parametersOfModel) {
+        this.parametersOfModel = parametersOfModel;
     }
 }

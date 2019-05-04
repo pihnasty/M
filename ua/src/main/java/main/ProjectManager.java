@@ -244,6 +244,7 @@ public class ProjectManager extends ObservableDS {
         project.calculateCoefficientsMultiParameterModel(
             getPlanExperiment().getOutputFactors()
             , getPlanExperiment().getInputFactors()
+            , getPlanExperiment().getParametersOfModel()
         );
     }
 
