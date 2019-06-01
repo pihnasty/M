@@ -112,33 +112,43 @@ public class AppProject extends ObservableDS {
 
     public void calculateCoefficientsMultiParameterModel(List<String> outputFactors, List<String> inputFactors, Map<String,String> parametersOfModel ) {
 
+
+        MultiParameterModel model = new  MultiParameterModel(
+            covarianceCoefficients
+            , characteristicsSeparatedRawDataTable
+            , separatedRawDataTable
+            , inputFactors
+        );
         multiModelDimensionlessKoefficients = new ArrayList<>();
         multiModelDimensionKoefficients = new ArrayList<>();
 
-        int lengthCell = Integer.parseInt(ProviderSettings.getProjectSettingsMapValue(Settings.Keys.LENGTH_CELL));
-
-        List<String> headerMultiModelDimensionlessKoefficient = new ArrayList<>();
-        headerMultiModelDimensionlessKoefficient.add(StringUtil.getStringFormat(Settings.Values.MODEL_NUMBER_FACTOR,lengthCell));
-        headerMultiModelDimensionlessKoefficient.add(StringUtil.getStringFormat(Settings.Values.OUTPUT_FACTOR,lengthCell));
-        inputFactors.forEach( inputFactorCategoryIdAndName
-            ->  headerMultiModelDimensionlessKoefficient.add(StringUtil.getStringFormat(inputFactorCategoryIdAndName,lengthCell))
+        List<String> headerMultiModelDimensionlessParameters = Arrays.asList(
+            Settings.Values.MODEL_NUMBER_FACTOR,
+            Settings.Values.OUTPUT_FACTOR,
+                  Settings.Values.NUMBER_OBSERVATIONS,
+                  Settings.Values.NUMBER_CONSTRAINTS,
+                  Settings.Values.SSE,
+                  Settings.Values.MSE,
+                  Settings.Values.stDeviationMSE
         );
-        multiModelDimensionlessKoefficients.add(headerMultiModelDimensionlessKoefficient);
 
-        List<String> headerMultiModelDimensionKoefficient = new ArrayList<>();
-        headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat(Settings.Values.MODEL_NUMBER_FACTOR,lengthCell));
-        headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat(Settings.Values.OUTPUT_FACTOR,lengthCell));
-        headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat(Settings.Values.COEFFICIENT_A,lengthCell));
-        inputFactors.forEach( inputFactorCategoryIdAndName
-            ->  headerMultiModelDimensionKoefficient.add(StringUtil.getStringFormat(inputFactorCategoryIdAndName,lengthCell))
+
+
+        multiModelDimensionlessKoefficients.add(
+            model.fillDimensionLessHeader(headerMultiModelDimensionlessParameters,inputFactors)
         );
-        multiModelDimensionKoefficients.add(headerMultiModelDimensionKoefficient);
+
+
+        List<String> headerMultiModelDimensionParameters = new ArrayList<>(headerMultiModelDimensionlessParameters);
+        headerMultiModelDimensionParameters.add(Settings.Values.COEFFICIENT_A);
+        multiModelDimensionKoefficients.add(
+            model.fillDimensionHeader(headerMultiModelDimensionParameters,inputFactors)
+        );
+
 
         List<List<Long>> variantsOfNumber = Combinatorics.getVariants(
             Integer.parseInt(parametersOfModel.get(Settings.Keys.NUMBER_REGRESSORS))
             , inputFactors.size());
-
-        MultiParameterModel model = new  MultiParameterModel(covarianceCoefficients, characteristicsSeparatedRawDataTable);
 
         MathP.Counter titleCounter = MathP.getCounter(1,1);
 
@@ -168,13 +178,13 @@ public class AppProject extends ObservableDS {
                             String numberOfModel =count.toString();
 
                             List<String> rowLessKoefficients = new ArrayList<>();
-                            fillDefault(headerMultiModelDimensionlessKoefficient, outputFactorCategoryIdAndName, numberOfModel, rowLessKoefficients);
-                            fillDimensionLess(headerMultiModelDimensionlessKoefficient, model, rowOfNumber, rowLessKoefficients);
+                            model.fillDefaultDimensionLess(outputFactorCategoryIdAndName, numberOfModel, rowLessKoefficients);
+                            model.fillDimensionLess(rowOfNumber, rowLessKoefficients);
                             multiModelDimensionlessKoefficients.add(rowLessKoefficients);
 
                             List<String> rowKoefficients = new ArrayList<>();
-                            fillDefault(headerMultiModelDimensionKoefficient, outputFactorCategoryIdAndName, numberOfModel, rowKoefficients);
-                            fillDimension(headerMultiModelDimensionKoefficient, model, rowOfNumber, rowKoefficients);
+                            model.fillDefaultDimension(outputFactorCategoryIdAndName, numberOfModel, rowKoefficients);
+                            model.fillDimension(rowOfNumber, rowKoefficients);
                             multiModelDimensionKoefficients.add(rowKoefficients);
 
                             if (count / delta * delta == count) {
@@ -188,59 +198,6 @@ public class AppProject extends ObservableDS {
 
         LoggerP.write(Level.INFO, "Number of the model "+variantsOfNumber.size());
 
-    }
-
-    private void fillDimension(List<String> headerMultiModelDimensionKoefficient, MultiParameterModel model, List<Long> rowOfNumber, List<String> rowKoefficients) {
-
-        rowKoefficients.set(2,
-            StringUtil.getDoubleFormatValue(
-                model.getDimensionKoefficientA(),
-                headerMultiModelDimensionKoefficient.get(3).length() - 2
-            )
-        );
-
-        rowOfNumber.forEach(
-            number -> {
-                int index = rowOfNumber.indexOf(number);
-                rowKoefficients.set(Math.toIntExact(number) + 3,
-                    StringUtil.getDoubleFormatValue(
-                        model.getDimensionKoefficientsB().get(index),
-                        headerMultiModelDimensionKoefficient.get(Math.toIntExact(number) + 2).length() - 2
-                    )
-                );
-            }
-        );
-    }
-
-
-    private void fillDimensionLess(List<String> headerMultiModelDimensionKoefficient, MultiParameterModel model, List<Long> rowOfNumber, List<String> rowLessKoefficients) {
-        rowOfNumber.forEach(
-            number -> {
-                int index = rowOfNumber.indexOf(number);
-                rowLessKoefficients.set(Math.toIntExact(number) + 2,
-                    StringUtil.getDoubleFormatValue(
-                        model.getDimensionlessKoefficients().get(index),
-                        headerMultiModelDimensionKoefficient.get(Math.toIntExact(number) + 2).length() - 2
-                    )
-                );
-            }
-        );
-    }
-
-    private void fillDefault(List<String> headerMultiModelDimensionlessKoefficient, String outputFactorCategoryIdAndName, String numberOfModel, List<String> rowLessKoefficients) {
-        headerMultiModelDimensionlessKoefficient.forEach(
-            headerName -> {
-                if (headerMultiModelDimensionlessKoefficient.indexOf(headerName) == 0) {
-                    rowLessKoefficients.add(StringUtil.getStringFormat(numberOfModel, headerName.length()-2));
-                }
-                if (headerMultiModelDimensionlessKoefficient.indexOf(headerName) == 1) {
-                    rowLessKoefficients.add(StringUtil.getStringFormat(outputFactorCategoryIdAndName, headerName.length()-2));
-                }
-                if (headerMultiModelDimensionlessKoefficient.indexOf(headerName) > 1) {
-                    rowLessKoefficients.add(StringUtil.getStringFormat("-", headerName.length()-2));
-                }
-            }
-        );
     }
 
     private List<String> combinatoricsSetFactors (List<Long> rowOfNumber, List<String> inputFactors) {

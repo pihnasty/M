@@ -17,6 +17,8 @@ public interface Settings {
 
         // for the parameters of the multi-model
         public static String NUMBER_REGRESSORS = "number-regressors";
+        public static String MAX_NUMBER_MODELS = "max-number-models";
+
 
     }
 
@@ -42,6 +44,11 @@ public interface Settings {
         public static String MODEL_NUMBER_FACTOR = "0.Model";
         public static String OUTPUT_FACTOR = "0.OutputFactors";
         public static String COEFFICIENT_A = "0.A";
+        public static String NUMBER_OBSERVATIONS = "0.Observations";
+        public static String NUMBER_CONSTRAINTS = "0.Constraints";
+        public static String SSE = "0.SSE";
+        public static String MSE = "0.MSE";
+        public static String  stDeviationMSE = "0.stDevMSE";
 
 
         public static String ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV ="result//one_parameter_model//koef_a_table.csv";
@@ -54,6 +61,7 @@ public interface Settings {
 
         public static String MULTI_MODEL_DIMENSION_LESS_KOEF_CSV ="result//multi_model//dimension_less_koef_table.csv";
         public static String MULTI_MODEL_DIMENSION_KOEF_CSV ="result//multi_model//dimension_koef_table.csv";
+        public static String MULTI_MODEL_RESIDUAL_PLOT_PAGE_PDF ="result//multi_model//pdfResidualPlot//ResidualPlotPage";
 
         public static String TEMPLATE_EXPERIMENT_PLAN_JSON ="template_experiment_plan.json";
         public static String EXPERIMENT_PLAN_JSON ="experiment_plan//experiment_plan.json";

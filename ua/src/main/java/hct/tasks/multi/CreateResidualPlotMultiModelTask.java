@@ -1,9 +1,10 @@
-package hct.tasks;
+package hct.tasks.multi;
 
 import designpatterns.MVC;
 import experiment.Plan;
 import factors.Factor;
 import factors.FactorManager;
+import hct.tasks.base.BaseTask;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.scene.control.Label;
@@ -26,28 +27,18 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
-public class CreateResidualPlotMultiModelTask extends Task<Void> {
+public class CreateResidualPlotMultiModelTask extends BaseTask {
 
-    private ProjectManager projectManager;
-    boolean isSaveAsPdf;
 
     public CreateResidualPlotMultiModelTask(ProjectManager projectManager, boolean isSaveAsPdf) {
-        this.projectManager=projectManager;
-        this.isSaveAsPdf=isSaveAsPdf;
+        super(projectManager,isSaveAsPdf);
         LoggerP.write(Level.INFO, "CreateResidualPlotMultiModelTask started...");
     }
 
-    @Override
-    protected Void call() {
-     Platform.runLater(() -> {
-            projectManager.changeScrollPane(e->calculateChart(isSaveAsPdf));
-        });
-        return null;
-    }
-
-    private ScrollPane calculateChart(boolean iSsaveToPDF) {
+    protected ScrollPane calculateChart() {
         ScrollPane scrollPane = new ScrollPane();
         VBox vBox = new VBox();
+
         MathP.Counter titleCounter = MathP.getCounter(1,1);
         MathP.Counter counter = MathP.getCounter(1,1);
         Plan planPlanExperiment = projectManager.getPlanExperiment();
@@ -184,7 +175,7 @@ public class CreateResidualPlotMultiModelTask extends Task<Void> {
                                         );
                                     vBox.getChildren().add(labelForOneModel);
                                     vBox.getChildren().add(labelForTwoModel);
-                                    if (iSsaveToPDF) {
+                                    if (isSaveAsPdf) {
                                         saveToPdf(counter, LineChart1MVC, labelForOneModel,labelForTwoModel);
                                     }
 
@@ -212,7 +203,7 @@ public class CreateResidualPlotMultiModelTask extends Task<Void> {
         projectManager.saveNodeToPdf(tempVbox
             , ProviderSettings.getProjectSettingsMapValue(
                 Settings.Keys.PROJECT_PATH) + "//"
-                + Settings.Values.TWO_PARAMETER_MODEL_PDF_OPM_PAGE
+                + Settings.Values.MULTI_MODEL_RESIDUAL_PLOT_PAGE_PDF
                 + String.format("%03d", counter.get())+ ".pdf");
     }
 

@@ -35,15 +35,20 @@ public class BaseTask extends Task<Void> {
         this.projectManager=projectManager;
     }
 
+    public BaseTask(ProjectManager projectManager, boolean isSaveAsPdf) {
+        this(projectManager);
+        this.isSaveAsPdf=isSaveAsPdf;
+    }
+
     protected Void call() {
      Platform.runLater(() -> {
-            projectManager.changeScrollPane(e->calculateChart(isSaveAsPdf));
+            projectManager.changeScrollPane(e->calculateChart());
         });
         return null;
     }
 
 
-    protected ScrollPane calculateChart(boolean iSsaveToPDF) {
+    protected ScrollPane calculateChart() {
         return null;
     }
 

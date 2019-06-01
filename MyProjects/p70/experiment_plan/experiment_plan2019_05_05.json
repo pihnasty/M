@@ -35,6 +35,6 @@
     "1.SEVERE PERSISTENT": "0.40"
   },
   "parametersOfModel": {
-    "number-regressors": "10"
+    "number-regressors": "2"
   }
 }

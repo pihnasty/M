@@ -40,12 +40,12 @@ public class CreateChartScrollPaneTwoModelProbitTask extends Task<Void> {
     @Override
     protected Void call() {
      Platform.runLater(() -> {
-            projectManager.changeScrollPane(e->calculateChart(isSaveAsPdf));
+            projectManager.changeScrollPane(e->calculateChart());
         });
         return null;
     }
 
-    private ScrollPane calculateChart(boolean iSsaveToPDF) {
+    private ScrollPane calculateChart() {
         ScrollPane scrollPane = new ScrollPane();
         VBox vBox = new VBox();
         MathP.Counter titleCounter = MathP.getCounter(1,1);
@@ -201,7 +201,7 @@ public class CreateChartScrollPaneTwoModelProbitTask extends Task<Void> {
                                     vBox.getChildren().add(labelForOneModel);
                                     vBox.getChildren().add(labelForTwoModel);
                                     vBox.getChildren().add(labelForTwoModelProbit);
-                                    if (iSsaveToPDF) {
+                                    if (isSaveAsPdf) {
                                         saveToPdf(counter, LineChart1MVC, labelForOneModel,labelForTwoModel,labelForTwoModelProbit );
                                     }
 

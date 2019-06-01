@@ -1,5 +1,6 @@
 package math;
 
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class MathP {
@@ -33,5 +34,21 @@ public class MathP {
             return (counterCommon++ % i)==0 ? counter++ : counter;
         }
     }
+
+    public static double integration (double startValue, double finishValue, Function<Double, Double > function, double dt) {
+        double sum = 0;
+        for (double value = startValue; value<=finishValue; value+=dt) {
+            sum += function.apply(value);
+        }
+        return sum * dt;
+    }
+
+    public static double inverseFunction (Function<Double, Double > function, double tau) {
+
+
+
+        return 0.0;
+    }
+
 
 }
