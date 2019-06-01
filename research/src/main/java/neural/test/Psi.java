@@ -10,7 +10,7 @@ public class Psi {
     public Psi(double m) {
         this.m=m;
         this.gamma0 = (3 + m) / 24.0;
-        this.gamma0 = gamma1;
+        this.gamma1 = gamma0;
         this.w = m * Math.PI;
         this.fi =  m * Math.PI / 4.0;
     }

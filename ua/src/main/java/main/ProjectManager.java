@@ -209,7 +209,7 @@ public class ProjectManager extends ObservableDS {
 
 }
 
-    private void saveData(List<List<String>> dataTable, String fileName) {
+    public void saveData(List<List<String>> dataTable, String fileName) {
 
         String path = io.file.Paths.getPathToDirectory(getProjectPath()+"//"+fileName);
         fileName = io.file.Paths.getShortFileName(getProjectPath()+"//"+fileName);

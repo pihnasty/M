@@ -90,7 +90,7 @@ public class TransportSystem {
     }
 
 
-    private Section getSectionByName(Double name) {
+    public Section getSectionByName(Double name) {
         List<Section> filteredSection = sections.stream().filter(section-> name.equals(section.getName())).collect(Collectors.toList());
         if ( filteredSection.isEmpty()) {
             System.out.println("filteredSection isEmpty");
@@ -102,7 +102,9 @@ public class TransportSystem {
         return sections.stream().filter(section -> Objects.isNull(section.getParents())).collect(Collectors.toList());
     }
 
-
+    public List<Section> getSections() {
+        return sections;
+    }
 
     public static void main(String[] args) {
         double tau = 0.0;
@@ -111,9 +113,6 @@ public class TransportSystem {
         transportSystem.getRootSection().stream().forEach(
             section -> transportSystem.executeSection(transportSystem.getSectionByName(section.getName()),tau)
         );
-
-
-
         System.out.println();
 
     }

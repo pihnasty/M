@@ -66,6 +66,8 @@ public interface Settings {
         public static String TEMPLATE_EXPERIMENT_PLAN_JSON ="template_experiment_plan.json";
         public static String EXPERIMENT_PLAN_JSON ="experiment_plan//experiment_plan.json";
 
+        public static String NEURAL_NETWORk_MODEL_TEST_DATA_CSV ="result//neural_network_model//test_data.csv";
+
     }
 
     String getName();

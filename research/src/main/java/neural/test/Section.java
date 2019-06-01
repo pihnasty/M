@@ -24,6 +24,7 @@ public class Section {
     private double inputValue;
     private double psiValue;
     private double outputValue;
+    double delayValue;
 
     private Delay delay;
     private TreeMap<Double, Double> densities;
@@ -63,7 +64,7 @@ public class Section {
         psiValue =psi.apply(tau);
         double G_minus_ksi = delay.getFunctionValue(tau)-ksi;
         if (G_minus_ksi>0 ) {
-            double delayValue =  delay.getDelay(tau,ksi);
+            delayValue =  delay.getDelay(tau,ksi);
             double density_Tau_DelayValue = densities.get(( densities).tailMap(tau-delayValue).firstKey());
             outputValue=density_Tau_DelayValue*speedValue;
         } else {
@@ -120,5 +121,13 @@ public class Section {
 
     public double getName() {
         return name;
+    }
+
+    public double getKsi() {
+        return ksi;
+    }
+
+    public double getDelayValue() {
+        return delayValue;
     }
 }
