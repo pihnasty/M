@@ -17,7 +17,10 @@ public class TransportSystem {
 
     double M;
 
-    public TransportSystem() {
+    static public int VARIANT;
+
+    public TransportSystem(int variant) {
+        VARIANT = variant;
         M=8;
         initTransportSystem ();
     }
@@ -86,7 +89,7 @@ public class TransportSystem {
             sections.forEach(child -> executeSection(child,tau));
         }
         section.execute(tau);
-        System.out.println(section.getName());
+        // System.out.println(section.getName());
     }
 
 
@@ -108,7 +111,7 @@ public class TransportSystem {
 
     public static void main(String[] args) {
         double tau = 0.0;
-        TransportSystem transportSystem = new TransportSystem();
+        TransportSystem transportSystem = new TransportSystem(1);
 
         transportSystem.getRootSection().stream().forEach(
             section -> transportSystem.executeSection(transportSystem.getSectionByName(section.getName()),tau)

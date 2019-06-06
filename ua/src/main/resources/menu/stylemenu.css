@@ -22,7 +22,7 @@
 #rowOperationItem   { -fx-background-image: url("../../../../src/main/resources/images/icons/rowunit.png");  }
 .menu-item {
 /*    -fx-skin: "com.sun.javafx.scene.control.skin.MenuItemSkin";*/
-    -fx-background-color: chartreuse;
+    -fx-background-color: rgba(0, 0, 0, 0.04);
     -fx-background-repeat:no-repeat;
     -fx-padding: 0pt 0pt 0pt 18pt;
     -fx-background-position: 0,left;

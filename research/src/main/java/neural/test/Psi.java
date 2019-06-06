@@ -15,8 +15,8 @@ public class Psi {
         this.fi =  m * Math.PI / 4.0;
     }
 
-    public Double getValue(Double tau) {
-        return gamma0 + gamma1 * Math.sin(w * tau + fi);
+    public Double getValue(Double ksi) {
+        return gamma0 + gamma1 * Math.sin(w * ksi + fi);
     }
 
     public double getName() {

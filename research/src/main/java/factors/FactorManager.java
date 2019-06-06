@@ -396,7 +396,7 @@ public class FactorManager {
                   (row1, row2) -> {
                       Double doubleRow1 = Double.parseDouble(row1.get(0).replace(",", "."));
                       Double doubleRow2 = Double.parseDouble(row2.get(0).replace(",", "."));
-                    return   (doubleRow1 > doubleRow2) ?  1 : -1;
+                    return doubleRow1.compareTo(doubleRow2);
                   }
               ).collect(Collectors.toList());
       }catch (IllegalArgumentException e) {

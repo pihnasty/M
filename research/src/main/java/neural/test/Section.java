@@ -22,6 +22,7 @@ public class Section {
 
     private double speedValue;
     private double inputValue;
+    private double densityValue;
     private double psiValue;
     private double outputValue;
     double delayValue;
@@ -70,7 +71,8 @@ public class Section {
         } else {
             outputValue=psi.apply(-G_minus_ksi)*speedValue;
         }
-        densities.put(tau,inputValue/speedValue);
+        densityValue = inputValue/speedValue;
+        densities.put(tau, densityValue);
     }
 
     public double getSpeedValue() {
@@ -116,7 +118,7 @@ public class Section {
     }
 
     public double getOutputToParent (Section section) {
-        return Objects.isNull(outputDistribution) ? 1.0 : outputDistribution.get(section)*outputValue/sumDisrtibution;
+        return Objects.isNull(outputDistribution) ? outputValue : outputDistribution.get(section)*outputValue/sumDisrtibution;
     }
 
     public double getName() {
@@ -129,5 +131,9 @@ public class Section {
 
     public double getDelayValue() {
         return delayValue;
+    }
+
+    public double getDensityValue() {
+        return densityValue;
     }
 }

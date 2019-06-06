@@ -1,5 +1,7 @@
 package neural.test;
 
+import static neural.test.TransportSystem.VARIANT;
+
 public class Input {
     double gamma0;
     double gamma1;
@@ -16,7 +18,24 @@ public class Input {
     }
 
     public Double getValue(Double tau) {
-        return gamma0 + gamma1 * Math.sin(w * tau + fi);
+        switch (VARIANT) {
+            case 1:
+                return gamma0;
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+                return gamma0 + gamma1 * Math.sin(w * tau + fi);
+            case 7:
+                return 0.5;
+            case 9:
+                return gamma0 + gamma1 * Math.sin(w * tau + fi);
+            case 10:
+                return gamma0 + gamma1 * Math.sin(w * tau + fi);
+            default:
+                return 1.0*gamma0;
+        }
     }
 
     public double getName() {

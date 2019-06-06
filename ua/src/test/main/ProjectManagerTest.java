@@ -18,9 +18,10 @@ public class ProjectManagerTest {
 
         ProjectManager projectManager = ProjectManager.getInstance();
         double deltaTau = 0.01;
-        double tauMax = 5.0;
+        double tauMax = 100.0;
+        int variant= 10;
 
-        TransportSystem transportSystem = new TransportSystem();
+        TransportSystem transportSystem = new TransportSystem(variant);
 
 
 
@@ -29,30 +30,32 @@ public class ProjectManagerTest {
         List<String> headear = new ArrayList<>();
         headear.add("   0.NN   ");
         transportSystem.getSections().forEach( section ->{
-            headear.add(" "+section.getName()+".input"+" ");
-            headear.add(" "+section.getName()+".speed"+" ");
-            headear.add(" "+section.getName()+".ksiD"+" ");
-            headear.add(" "+section.getName()+".output"+" ");
-            headear.add(" "+section.getName()+".delay"+" ");
+            headear.add(" "+(int)section.getName()+".input"+" ");
+            headear.add(" "+(int)section.getName()+".speed"+" ");
+            headear.add(" "+(int)section.getName()+".ksiD"+" ");
+            headear.add(" "+(int)section.getName()+".density"+" ");
+            headear.add(" "+(int)section.getName()+".output"+" ");
+            headear.add(" "+(int)section.getName()+".delay"+" ");
             }
         );
 
         tableTest.add(headear);
 
-        for (double tau=0.0; tau < tauMax; tau+=deltaTau ) {
-            double tau2=tau;
+        for (double tau = 0.0; tau < tauMax; tau += deltaTau) {
+            double tau2 = tau;
             transportSystem.getRootSection().stream().forEach(
                 section -> transportSystem.executeSection(transportSystem.getSectionByName(section.getName()), tau2)
             );
             List<String> row = new ArrayList<>();
-            row.add(StringUtil.getDoubleFormatValue(tau2, headear.get(0).length()-additionSize));
+            row.add(StringUtil.getDoubleFormatValue(tau2, headear.get(0).length() - additionSize));
 
-            transportSystem.getSections().forEach( section ->{
-                row .add(StringUtil.getDoubleFormatValue(section.getInputValue(), headear.get(1).length()-additionSize));
-                row .add(StringUtil.getDoubleFormatValue(section.getSpeedValue(), headear.get(2).length()-additionSize));
-                row .add(StringUtil.getDoubleFormatValue(section.getKsi(), headear.get(3).length()-additionSize));
-                row .add(StringUtil.getDoubleFormatValue(section.getOutputValue(), headear.get(4).length()-additionSize));
-                row .add(StringUtil.getDoubleFormatValue(section.getDelayValue(), headear.get(5).length()-additionSize));
+            transportSystem.getSections().forEach(section -> {
+                    row.add(StringUtil.getDoubleFormatValue(section.getInputValue(), headear.get(1).length() - additionSize));
+                    row.add(StringUtil.getDoubleFormatValue(section.getSpeedValue(), headear.get(2).length() - additionSize));
+                    row.add(StringUtil.getDoubleFormatValue(section.getKsi(), headear.get(3).length() - additionSize));
+                    row.add(StringUtil.getDoubleFormatValue(section.getDensityValue(), headear.get(4).length() - additionSize));
+                    row.add(StringUtil.getDoubleFormatValue(section.getOutputValue(), headear.get(5).length() - additionSize));
+                    row.add(StringUtil.getDoubleFormatValue(section.getDelayValue(), headear.get(6).length() - additionSize));
                 }
             );
             tableTest.add(row);
