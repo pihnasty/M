@@ -1,0 +1,28 @@
+{
+  "outputFactors": [
+    "8.output",
+    "7.output"
+  ],
+  "inputFactors": [
+    "1.input",
+    "1.speed",
+    "2.input",
+    "2.speed",
+    "4.input",
+    "4.speed",
+    "5.input",
+    "5.speed",
+    "8.density"
+  ],
+  "typesOfModels": [
+    "one-parameter linear dependence"
+  ],
+  "boundaryConditions": {
+    "8.0.output": "1.0",
+    "7.0.output": "1.0"
+  },
+  "parametersOfModel": {
+    "number-regressors": "8",
+    "max-number-models": "100"
+  }
+}
