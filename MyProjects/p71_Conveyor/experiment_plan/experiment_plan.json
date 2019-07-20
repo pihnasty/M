@@ -11,8 +11,7 @@
     "4.input",
     "4.speed",
     "5.input",
-    "5.speed",
-    "8.density"
+    "5.speed"
   ],
   "typesOfModels": [
     "one-parameter linear dependence"
@@ -22,7 +21,13 @@
     "7.0.output": "1.0"
   },
   "parametersOfModel": {
-    "number-regressors": "8",
+    "number-regressors": "0",
     "max-number-models": "100"
+  },
+  "hiddenLevels": {
+    "1" : {
+      "count-node" : "5",
+      "activation-function" : "5"
+    }
   }
 }

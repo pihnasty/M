@@ -48,7 +48,7 @@ public class ProjectManager extends ObservableDS {
     private Settings projectSettings = ProviderSettings.getSettings(EnumSettings.PROJECT);
     private Settings globalSettings = ProviderSettings.getSettings(EnumSettings.GLOBAL);
 
-    private Plan planExperiment = planExperiment = Plan.getInstance();
+    private Plan planExperiment = Plan.getInstance();
 
     private Object scrollPane;
 

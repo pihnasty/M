@@ -8,6 +8,14 @@ import java.util.List;
 public class Combinatorics {
 
     public static void forDynamyc(int N, int n, int k, List<List<Long>> sample, List<Long> row) {
+        if (n==0) {
+            row = new ArrayList<>();
+            for (long i=n; i<N; i++) {
+                row.add(i);
+            }
+            sample.add(row);
+            return;
+        }
         for (long i = k; i < N; i++) {
             if (k == 0) {
                 row = new ArrayList<>();
@@ -53,7 +61,9 @@ public class Combinatorics {
             Combinatorics.forDynamyc(fromN,n,0,variants, null );
         } else {
             Combinatorics.forDynamyc(fromN, fromN -n,0,variants, null );
-            variants = Combinatorics.reverse (fromN, variants);
+            if(n<fromN) {
+                variants = Combinatorics.reverse (fromN, variants);
+            }
         }
         return variants;
     }

@@ -9,6 +9,9 @@ public class Plan {
     private List<String> inputFactors = new ArrayList<>();
     private List<String> typesOfModels = new ArrayList<>();
     private Map<String,String> boundaryConditions = new HashMap<>();
+
+    private Map<String,Map<String,String>> hiddenLevels = new HashMap<>();
+
     private Map<String,String> parametersOfModel = new HashMap<>();
 
     private static Plan ourInstance = new Plan();
