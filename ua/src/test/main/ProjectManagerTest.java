@@ -21,7 +21,7 @@ public class ProjectManagerTest {
         double tauMax = 100.0;
         int variant= 10;
 
-        TransportSystem transportSystem = new TransportSystem(variant);
+        TransportSystem transportSystem = new TransportSystem(variant, deltaTau);
 
 
 

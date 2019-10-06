@@ -1,4 +1,4 @@
-package neural.test;
+package neural.test.papameters;
 
 import static neural.test.TransportSystem.VARIANT;
 

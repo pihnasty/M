@@ -1,4 +1,4 @@
-package neural.test;
+package neural.test.papameters;
 
 import java.util.Map;
 import java.util.TreeMap;
@@ -73,7 +73,7 @@ public class Delay {
     }
 
 
-    public double getDelay(double tau, double ksi) {
+    public double getDelayValue(double tau, double ksi) {
         double tau_ksi = getValue(getFunctionValue(tau) - ksi);
         return tau_ksi > 0 ? tau - tau_ksi : -1.0;
     }
@@ -89,9 +89,9 @@ public class Delay {
 
         System.out.println("delay.getValue(  ) = " + delay.getFunctionValue(10.0));
 
-        //System.out.println("delay.getValue(  ) = " + delay.getValue( 144.0));
+        System.out.println("delay.getValue(  ) = " + delay.getValue( 168.0));
 
-        System.out.println("        delay.getDelay(1.0, 1.0) =" + delay.getDelay(0.9999999, 1.0));
+    //    System.out.println("        delay.getDelay(1.0, 1.0) =" + delay.getDelay(0.9999999, 1.0));
 
     }
 }

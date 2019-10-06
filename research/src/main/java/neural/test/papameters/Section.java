@@ -1,4 +1,4 @@
-package neural.test;
+package neural.test.papameters;
 
 import java.util.*;
 import java.util.function.Function;
@@ -13,9 +13,6 @@ public class Section {
     private boolean isLeaf =true;
 
     private double ksi;
-    private double startIntegrationValue;
-    private double finishIntegrationValue;
-
     private Function<Double, Double > speed;
     private Function<Double, Double > input;
     private Function<Double, Double > psi;
@@ -25,16 +22,18 @@ public class Section {
     private double densityValue;
     private double psiValue;
     private double outputValue;
-    double delayValue;
+    private double delayValue;
+    private double startIntegrationValue;
+    private double finishIntegrationValue;
 
-    private Delay delay;
+    private DelayControl delay;
     private TreeMap<Double, Double> densities;
     private double name;
 
 
     public Section(
-        double name,
-        double ksi
+        double name
+        ,double ksi
         , double startIntegrationValue
         , double finishIntegrationValue
         , Function<Double, Double> input
@@ -42,17 +41,18 @@ public class Section {
         , Function<Double, Double> psi) {
 
         this.name=name;
-        this.startIntegrationValue=startIntegrationValue;
-        this.finishIntegrationValue=finishIntegrationValue;
+        this.startIntegrationValue = startIntegrationValue;
+        this.finishIntegrationValue = finishIntegrationValue;
         this.ksi = ksi;
 
         this.speed = speed;
         this.input = input;
         this.psi = psi;
-        this.delay = new Delay(startIntegrationValue, finishIntegrationValue, speed, 0.001);
+        this.delay = new DelayControl(startIntegrationValue, speed);
         this.densities = new TreeMap<>();
 
     }
+
 
     public void execute(double tau) {
         if(isLeaf) {
@@ -65,14 +65,21 @@ public class Section {
         psiValue =psi.apply(tau);
         double G_minus_ksi = delay.getFunctionValue(tau)-ksi;
         if (G_minus_ksi>0 ) {
-            delayValue =  delay.getDelay(tau,ksi);
-            double density_Tau_DelayValue = densities.get(( densities).tailMap(tau-delayValue).firstKey());
+            double density_Tau_DelayValue = getDensity_tau_delayValue(tau);
             outputValue=density_Tau_DelayValue*speedValue;
         } else {
             outputValue=psi.apply(-G_minus_ksi)*speedValue;
         }
         densityValue = inputValue/speedValue;
         densities.put(tau, densityValue);
+    }
+
+    public double getDensity_tau_delayValue(double tau) {
+        delayValue =  delay.getDelayValue(tau,ksi);
+        if (delayValue<0.0) {
+            return psi.apply(1.0-delay.getFunctionValue(tau));
+        }
+        return densities.get(( densities).tailMap(tau-delayValue).firstKey());
     }
 
     public double getSpeedValue() {
@@ -135,5 +142,13 @@ public class Section {
 
     public double getDensityValue() {
         return densityValue;
+    }
+
+    public Function<Double, Double> getPsi() {
+        return psi;
+    }
+
+    public DelayControl getDelay() {
+        return delay;
     }
 }

@@ -1,4 +1,4 @@
-package neural.test;
+package neural.test.papameters;
 
 import static neural.test.TransportSystem.VARIANT;
 
@@ -30,9 +30,13 @@ public class Input {
             case 7:
                 return 0.5;
             case 9:
-                return gamma0 + gamma1 * Math.sin(w * tau + fi);
             case 10:
                 return gamma0 + gamma1 * Math.sin(w * tau + fi);
+            case 11:
+            case 12:
+            case 13:
+            case 14:            case 15:            case 16:
+                return 1.0;
             default:
                 return 1.0*gamma0;
         }

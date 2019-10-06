@@ -1,57 +1,27 @@
 package neural.test;
 
 
+import neural.test.papameters.Input;
+import neural.test.papameters.Psi;
+import neural.test.papameters.Section;
+import neural.test.papameters.Speed;
+
 import java.util.*;
-import java.util.stream.Collectors;
 
-public class TransportSystem {
-    private List<Double> ksis;
-    private List<Speed> speeds;
-    private List<Input> inputs;
-    private List<Psi> psis;
+public class TransportSystem extends BaseTransportSystem{
 
-    double startIntegrationValue;
-    double finishIntegrationValue;
-
-    private List<Section> sections;
-
-    double M;
-
-    static public int VARIANT;
-
-    public TransportSystem(int variant) {
-        VARIANT = variant;
-        M=8;
-        initTransportSystem ();
+    public TransportSystem(int variant, double deltaTau) {
+        super(variant, deltaTau);
     }
 
-    private void initTransportSystem () {
+    protected void initTransportSystem () {
+        M=8;
         ksis = Arrays.asList(1.0,0.5,0.7,0.8
                             ,1.5,1.0,1.5,0.6);
 
         startIntegrationValue=0.0;
         finishIntegrationValue=1.0;
-        inputs = new ArrayList<>();
-        speeds = new ArrayList<>();
-        psis = new ArrayList<>();
-
-        sections = new ArrayList<>();
-
-        for (double m=1.0; m<=M; m++) {
-             inputs.add(new Input(m));
-             speeds.add(new Speed(m));
-             psis.add(new Psi(m));
-             int name = (int)(m-1);
-             sections.add(new Section(
-                 name+1.0
-                 ,ksis.get(name)
-                 ,startIntegrationValue
-                 ,finishIntegrationValue
-                 ,t->inputs.get(name).getValue(t)
-                 ,t->speeds.get(name).getValue(t)
-                 ,t->psis.get(name).getValue(t)
-             ));
-        }
+        initSections();
 
         getSectionByName(1.0).setParents(Arrays.asList(getSectionByName(3.0)));
         getSectionByName(2.0).setParents(Arrays.asList(getSectionByName(3.0)));
@@ -79,39 +49,28 @@ public class TransportSystem {
 
     }
 
+    protected void initSections() {
+        for (double name=1.0; name<=M; name++) {
+            int count = (int)(name-1);
+            inputs.add(new Input(name));
+            speeds.add(new Speed(name));
+            psis.add(new Psi(name));
 
-    public void  executeSection (Section section, double tau) {
-        if(Objects.isNull(section)) {
-            return;
+            sections.add(new Section(
+                name
+                ,ksis.get(count)
+                ,startIntegrationValue
+                ,finishIntegrationValue
+                ,t->inputs.get(count).getValue(t)
+                ,t->speeds.get(count).getValue(t)
+                ,t->psis.get(count).getValue(t)
+            ));
         }
-        List<Section> sections =section.getChildren();
-        if(!Objects.isNull(sections)) {
-            sections.forEach(child -> executeSection(child,tau));
-        }
-        section.execute(tau);
-        // System.out.println(section.getName());
-    }
-
-
-    public Section getSectionByName(Double name) {
-        List<Section> filteredSection = sections.stream().filter(section-> name.equals(section.getName())).collect(Collectors.toList());
-        if ( filteredSection.isEmpty()) {
-            System.out.println("filteredSection isEmpty");
-        }
-        return filteredSection.get(0);
-    }
-
-    public List<Section> getRootSection() {
-        return sections.stream().filter(section -> Objects.isNull(section.getParents())).collect(Collectors.toList());
-    }
-
-    public List<Section> getSections() {
-        return sections;
     }
 
     public static void main(String[] args) {
         double tau = 0.0;
-        TransportSystem transportSystem = new TransportSystem(1);
+        TransportSystem transportSystem = new TransportSystem(1, deltaTau);
 
         transportSystem.getRootSection().stream().forEach(
             section -> transportSystem.executeSection(transportSystem.getSectionByName(section.getName()),tau)
