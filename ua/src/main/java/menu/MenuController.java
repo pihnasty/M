@@ -5,6 +5,7 @@ import designpatterns.ObservableDS;
 import hct.handlers.*;
 import hct.handlers.multi.CalculateCoefficientsMultiParameterModelHandler;
 import hct.handlers.multi.CreateResidualPlotMultiModelHandler;
+import hct.handlers.neural.LearningNeuralNetHandler;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -90,6 +91,9 @@ public class MenuController extends InitializableDS {
     private MenuItem calculateCoefficientsMultiParameterModelItem;
 
     @FXML
+    private MenuItem learningNeuralNetItem;
+
+    @FXML
     private MenuItem fastStartItem;
 
     public MenuController(ObservableDS observableDS) {
@@ -123,6 +127,7 @@ public class MenuController extends InitializableDS {
         twoFactorProbitGraphSaveToPdfItem.setAccelerator(KeyCombination.keyCombination("Ctrl+8"));
         buildResidualPlotMultiModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+9"));
         calculateCoefficientsMultiParameterModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+M"));
+        learningNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+B"));
     }
 
 //------------------- menu File ------------------------------------
@@ -252,6 +257,12 @@ public class MenuController extends InitializableDS {
     @FXML
     private void handleBuildResidualPlotMultiModelAction(ActionEvent event) {
         new CreateResidualPlotMultiModelHandler().buildResidualPlot(modelObservableDS);
+    }
+
+    //------------------- menu Analysis->Learning.neural.net ------------------------------------
+    @FXML
+    private void handleLearningNeuralNetAction(ActionEvent event) {
+        new LearningNeuralNetHandler().learning(modelObservableDS);
     }
 
 

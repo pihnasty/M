@@ -248,6 +248,14 @@ public class ProjectManager extends ObservableDS {
         );
     }
 
+    public void learningNeuralNet() {
+        project.learningNeuralNet(
+            getPlanExperiment().getOutputFactors()
+            , getPlanExperiment().getInputFactors()
+            , getPlanExperiment().getParametersOfModel()
+        );
+    }
+
     public void downloadExperimentPlan(String fullFileName) throws FileNotFoundException {
         planExperiment =(Plan) Reader.readFromGsonFile(fullFileName, planExperiment);
     }

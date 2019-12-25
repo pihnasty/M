@@ -27,7 +27,17 @@
   "hiddenLevels": {
     "1" : {
       "count-node" : "5",
-      "activation-function" : "5"
+      "activation-function" : "5",
+      "distribute-error" : "1",
+      "optimization-method" : "5",
+      "is-end-node" : "false"
+    },
+    "10" : {
+      "count-node" : "5",
+      "activation-function" : "5",
+      "distribute-error" : "1",
+      "optimization-method" : "5",
+      "is-end-node" : "true"
     }
   }
 }

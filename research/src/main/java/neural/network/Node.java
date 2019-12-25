@@ -1,9 +1,9 @@
 package neural.network;
 
 public class Node {
-    int id;
-    double value;
-    double error;
+    private int id;
+    private double value;
+    private double error;
 
     public Node(int id) {
         this.id = id;

@@ -15,6 +15,7 @@
         <module>logger</module>
         <module>util-fx</module>
         <module>research</module>
+        <module>article</module>
     </modules>
 
 </project>
