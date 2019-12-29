@@ -19,6 +19,14 @@ public interface Settings {
         public static String NUMBER_REGRESSORS = "number-regressors";
         public static String MAX_NUMBER_MODELS = "max-number-models";
 
+        // for the parameters of the neural
+        public static String COUNT_NODE = "count-node";
+        public static String ACTIVATION_FUNCTION = "activation-function";
+        public static String DISTRIBUTE_ERROR = "distribute-error";
+        public static String OPTIMIZATION_METHOD = "optimization-method";
+        public static String TYPE_LAYER = "type-layer";
+
+
 
     }
 

@@ -3,10 +3,12 @@ package math.linear;
 import org.apache.commons.math3.linear.*;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class SolvingLinearSystemsTest {
 
@@ -84,19 +86,12 @@ public class SolvingLinearSystemsTest {
         for (int i = 0 ; i<N; i++)  {
             x[i]=i+1;
         }
-
-
-
-
-
         for (int i = 0 ; i<N; i++)  {
             b[i] = 0.0;
             for (int j = 0 ; j<N; j++) {
                 b[i] = b[i]+ g[i][j]*x[j];
             }
         }
-
-
         Long putElementTime = System.currentTimeMillis();
         System.out.println("Time="  +(putElementTime-startTime));
 
@@ -118,4 +113,48 @@ public class SolvingLinearSystemsTest {
 
     }
 
+    @Test
+    public void multiply() {
+
+        List<Double> xS = new ArrayList<>();
+        xS.add(0.9);
+        xS.add(0.1);
+        xS.add(0.8);
+
+        List<List<Double>> wS = new ArrayList<>();
+        List<Double> row1 = new ArrayList<>();
+        List<Double> row2 = new ArrayList<>();
+        List<Double> row3 = new ArrayList<>();
+        row1.add(0.9);        row1.add(0.3);        row1.add(0.4);
+        row2.add(0.2);        row2.add(0.8);        row2.add(0.2);
+        row3.add(0.1);        row3.add(0.5);        row3.add(0.6);
+        wS.add(row1);
+        wS.add(row2);
+        wS.add(row3);
+
+
+        List<Double> xStest = new ArrayList<>();
+        xStest.add(1.16);
+        xStest.add(0.42);
+        xStest.add(0.62);
+
+        List<Double> output = SolvingLinearSystems.multiply(wS,xS);
+
+
+        for(int i=0; i<output.size();i++) {
+            assertEquals(xStest.get(i), output.get(i), 0.001);
+        }
+
+
+
+
+        System.out.println();
+
+
+
+
+
+
+
+    }
 }

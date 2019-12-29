@@ -24,20 +24,48 @@
     "number-regressors": "0",
     "max-number-models": "100"
   },
-  "hiddenLevels": {
-    "1" : {
+  "hiddenLayers": {
+    "3" : {
       "count-node" : "5",
-      "activation-function" : "5",
+      "activation-function" : "1",
       "distribute-error" : "1",
       "optimization-method" : "5",
-      "is-end-node" : "false"
+      "type-layer" : "between"
     },
     "10" : {
       "count-node" : "5",
-      "activation-function" : "5",
+      "activation-function" : "1",
       "distribute-error" : "1",
       "optimization-method" : "5",
-      "is-end-node" : "true"
+      "type-layer" : "head"
+    },
+    "21" : {
+      "count-node" : "15",
+      "activation-function" : "1",
+      "distribute-error" : "1",
+      "optimization-method" : "5",
+      "type-layer" : "between"
+    },
+    "50" : {
+      "count-node" : "8",
+      "activation-function" : "1",
+      "distribute-error" : "1",
+      "optimization-method" : "5",
+      "type-layer" : "tail"
+    },
+    "100" : {
+      "count-node" : "15",
+      "activation-function" : "1",
+      "distribute-error" : "1",
+      "optimization-method" : "5",
+      "type-layer" : "between"
+    },
+    "110" : {
+      "count-node" : "12",
+      "activation-function" : "1",
+      "distribute-error" : "1",
+      "optimization-method" : "5",
+      "type-layer" : "tail"
     }
   }
 }

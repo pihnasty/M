@@ -1,7 +1,5 @@
 package persistence.loader;
 
-import entityProduction.*;
-
 import org.w3c.dom.DOMException;
 import persistence.loader._util._Date;
 import persistence.loader.tabDataSet.*;
@@ -656,113 +654,6 @@ public class DataSet {
     public <cL> cL createObject( RowIdNameDescription row) {
         Object m = null;
 
-        if (row.getClass() == RowTrest.class) {
-            m =new Trest(row.getId(), row.getName(),
-                    select(row, tabWorks, tabTrestsWorks),     //  ArrayList<Work> works
-                    row.getDescription());
-        }
-
-        if (row.getClass() == RowWork.class) {
-            ArrayList<Employee> employees = select(row, tabEmployees, tabWorksEmployees);
-            ArrayList<Subject_labour> subject_labours = new ArrayList<Subject_labour>();
-            ArrayList<Order> orders = new ArrayList<>();
-            m = new Work(row.getId(), row.getName(),( (RowWork) row).getScheme(), ( (RowWork) row).getOverallSize(), ( (RowWork) row).getScaleEquipment(),
-                    select(row, tabMachines, tabWorksMachines),     //  ArrayList<Machine> machines
-                    null,
-                    select(row, tabSubject_labours, tabWorksSubject_labours),     //  ArrayList<Subject_labour> machines
-                    select(row, tabOrders, tabWorksOrders),                       //  ArrayList<Subject_labour> orders
-                    row.getDescription());
-        }
-
-
-//----------------------------------------------------------------------------------------------------------------------
-        if (row.getClass() == RowTypemachine.class) {
-            m = new Typemachine( row.getId(), row.getName(),
-                    select (row, tabModelmachines, tabTypemachineModelmachines),    //  ArrayList<Modelmachines> modelmachines
-                    row.getDescription());
-        }
-//----------------------------------------------------------------------------------------------------------------------
-        if (row.getClass() == RowModelmachine.class) { //noinspection ConstantConditions
-             m = new Modelmachine(row.getId(),row.getName(),
-                    ((RowModelmachine) row).getImg(),
-                    select(row, tabMachines, tabModelmachineMachines ),   //  ArrayList<Machine> machines
-                    ((RowModelmachine) row).getOverallDimensionX(), ((RowModelmachine) row).getOverallDimensionY(),
-                    ((RowModelmachine) row).getWorkSizeX(), ((RowModelmachine) row).getWorkSizeY(),  row.getDescription()
-            );
-        }
-//----------------------------------------------------------------------------------------------------------------------
-        if (row.getClass() == RowMachine.class) {    //noinspection ConstantConditions
-            m =  new Machine(row.getId(), row.getName(),((RowMachine) row).getLocationX(), ((RowMachine) row).getLocationY(), ((RowMachine) row).getAngle(),  ((RowMachine) row).getState(),row.getDescription());
-        }
-//=====================================================================================================================/
-        if (row.getClass() == RowFunctiondist.class) {
-            ArrayList<Parametrfunctiondist>  ps = select(row, tabParametrfunctiondists, tabFunctiondistsParametrfunctiondistsTest, RowParametrfunctiondist.class, RowFunctiondistParametrfunctiondist.class);
-            m =   new Functiondist(row.getId(), row.getName(),   ps, row.getDescription());
-        }
-
-
-    if (row.getClass() == RowParametrfunctiondist.class) { //noinspection ConstantConditions
-        m = new Parametrfunctiondist(row.getId(),
-                row.getName(),
-                ((RowParametrfunctiondist) row).getAverageValue(),
-                ((RowParametrfunctiondist) row).getMeanSquareDeviation(),
-                ((RowParametrfunctiondist) row).getPathData(),
-                row.getDescription());
-    }
-//----------------------------------------------------------------------------------------------------------------------
-        if (row.getClass() == RowSubject_labour.class) { //noinspection ConstantConditions
-            m = new Subject_labour( row.getId(),
-                                    row.getName(),
-                                    ((RowSubject_labour)row).getPrice(),
-                                      (select(row, tabUnits, tabLinespecsUnits).isEmpty()) ? new Unit().getName() : ((Unit) select(row, tabUnits, tabLinespecsUnits).get(0)).getName(),
-                                    select(row, tabRoutes, tabSubject_laboursRoutes ),   // ArrayList<Route> routes
-                                    row.getDescription()
-                                   );
-        }
-//----------------------------------------------------------------------------------------------------------------------
-                if (row.getClass() == RowRoute.class) { //noinspection ConstantConditions
-                    m = new Route( row.getId(),
-                            row.getName(),
-                            select(row, tabLineroutes, tabRoutesLineroutes ),   // ArrayList<LineRoute> Lineroutes,
-                            row.getDescription()
-                    );
-                }
-//----------------------------------------------------------------------------------------------------------------------
-        if (row.getClass() == RowLineroute.class) { //noinspection ConstantConditions
-            m = new Lineroute(row.getId(),
-                            row.getName(),
-                            (Operation)select(row, tabOperations, tabLineroutesOperations).get(0),
-                            (Machine)select(row, tabMachines, tabLineroutesMachines ).get(0),
-                            select(row, tabLinespecs, tabLineroutesLinespecs ),    // ArrayList<Linespec> linespecs,
-                            ((RowLineroute)row).getNumberWork(),
-                            ((RowLineroute)row).getInputBufferMin(),
-                            ((RowLineroute)row).getInputBuffer(),
-                            ((RowLineroute)row).getInputBufferMax(),
-                            ((RowLineroute)row).getOutputBufferMin(),
-                            ((RowLineroute)row).getOutputBuffer(),
-                            ((RowLineroute)row).getOutputBufferMax(),
-                             row.getDescription()
-            );
-        }
-//----------------------------------------------------------------------------------------------------------------------
-        if (row.getClass() == RowOperation.class) { //noinspection ConstantConditions
-            m = new Operation(row.getId(),
-                    row.getName(),
-                    row.getDescription()
-            );
-        }
-//----------------------------------------------------------------------------------------------------------------------
-        if (row.getClass() == RowLinespec.class) { //noinspection ConstantConditions
-            m = new Linespec( row.getId(),
-                    row.getName(),
-                    (Resource)select(row, tabResources, tabLinespecsResources).get(0),
-                    ((RowLinespec)row).getM(),
-                    ((RowLinespec)row).getSigma(),
-                    (FunctionOEM) select(row, tabFunctionOEMs, tabLinespecsFunctionOEMs).get(0),
-                    (select(row, tabUnits, tabLinespecsUnits).isEmpty()) ? new Unit() : (Unit) select(row, tabUnits, tabLinespecsUnits).get(0),
-                    row.getDescription()
-            );
-        }
 
 //----------------------------------------------------------------------------------------------------------------------
 //        if (row.getClass() == RowOperation.class) {
@@ -771,23 +662,6 @@ public class DataSet {
 
 
 
-        if (row.getClass() ==  RowOrder.class)  m = new Order(row.getId(),
-                                                              row.getName(),
-                                                              ((RowOrder) row).getDateBegin(),
-                                                              ((RowOrder) row).getDateEnd(),
-                                                              row.getDescription(),
-                                                              select(row, tabLines, tabOrdersLines)     // ArrayList<Line> lines,
-                                                              );
-
-        if (row.getClass() ==  RowLine.class)  m = new Line(row.getId(),
-                                                            row.getName(),
-                                                            (Subject_labour)select(row, tabSubject_labours, tabLinesSubject_labours).get(0),
-                                                            select(row, tabUnits, tabLinesUnits).isEmpty() ? new Unit() : (Unit) select(row, tabUnits, tabLinesUnits).get(0),
-                                                            ((RowLine)row).getQuantity(),
-                                                            ((RowLine) row).getDateBegin(),
-                                                            ((RowLine) row).getDateEnd(),
-                                                            row.getDescription()
-                                                            );
         return (cL)m;
     }
 
@@ -826,63 +700,6 @@ public class DataSet {
      */
     public <T> ArrayList<T> getTabIND(Class cL) {
         // используется для дерева Trest.class а для таблиц RowTrest.class
-
-        if (cL == Employee.class || cL == RowEmployee.class) {
-            return (ArrayList<T>) getTabEmployees();
-        }
-        if (cL == FunctionOEM.class || cL == RowFunctionOEM.class) {
-            return (ArrayList<T>) getTabFunctionOEMs();
-        }
-        if (cL == Line.class || cL == RowLine.class) {
-            return (ArrayList<T>) getTabLines();
-        }
-        if (cL == Lineroute.class || cL == RowLineroute.class) {
-            return (ArrayList<T>) getTabLineroutes();
-        }
-        if (cL == Linespec.class || cL == RowLinespec.class) {
-            return (ArrayList<T>) getTabLinespecs();
-        }
-        if (cL == Machine.class || cL == RowMachine.class) {
-            return (ArrayList<T>) getTabMachines();
-        }
-        if (cL == Operation.class || cL == RowOperation.class) {
-            return (ArrayList<T>) getTabOperations();
-        }
-        if (cL == Order.class || cL == RowOrder.class) {
-            return (ArrayList<T>) getTabOrders();
-        }
-        if (cL == Resource.class || cL == RowResource.class) {
-            return (ArrayList<T>) getTabResources();
-        }
-        if (cL == Route.class || cL == RowRoute.class) {
-            return (ArrayList<T>) getTabRoutes();
-        }
-        if (cL == Subject_labour.class || cL == RowSubject_labour.class) {
-            return (ArrayList<T>) getTabProducts();
-        }
-        if (cL == Trest.class || cL == RowTrest.class) {
-            return (ArrayList<T>) getTabTrests();
-        }
-        if (cL == Unit.class || cL == RowUnit.class) {
-            return (ArrayList<T>) getTabUnits();
-        }
-        if (cL == Work.class || cL == RowWork.class) {
-            return (ArrayList<T>) getTabWorks();
-        }
-        if (cL == Modelmachine.class || cL == RowModelmachine.class) {
-            return (ArrayList<T>) getTabModelmachines();
-        }
-        if (cL == Typemachine.class || cL == RowTypemachine.class) {
-            return (ArrayList<T>) getTabTypemachines();
-        }
-        if (cL == Functiondist.class || cL == RowFunctiondist.class) {
-            return (ArrayList<T>) getTabFunctiondists();
-        }
-
-        if (cL == Parametrfunctiondist.class || cL == RowParametrfunctiondist.class) {
-            return (ArrayList<T>) getTabParametrfunctiondists();
-        }
-
 
         return null;
     }

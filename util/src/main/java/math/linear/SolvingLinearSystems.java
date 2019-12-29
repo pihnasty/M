@@ -84,4 +84,26 @@ public class SolvingLinearSystems {
         return list;
     }
 
+    public static List<Double> multiply (List<List<Double>> wS, List<Double> xS) {
+        List<List<Double>> x2S = new ArrayList<>();
+        xS.forEach(value -> {
+            List<Double> element = new ArrayList<>();
+            element.add(value);
+            x2S.add(element);
+        });
+
+        double[][]  wAs = convertListToArray2(wS);
+        double[][]  xAs = convertListToArray2(x2S);
+        RealMatrix wmAs = MatrixUtils.createRealMatrix(wAs);
+        RealMatrix xmAs = MatrixUtils.createRealMatrix(xAs);
+        RealMatrix result_wmAs_xmWs = wmAs.multiply(xmAs);
+
+
+        List<Double> result = new ArrayList<>();
+        convertArrayToList2(result_wmAs_xmWs.getData()).forEach(
+            row->result.add(row.get(0))
+        );
+        return result;
+    }
+
 }

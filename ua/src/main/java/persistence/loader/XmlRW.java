@@ -3,7 +3,6 @@
  */
 package persistence.loader;
 
-import entityProduction.*;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.stage.DirectoryChooser;
@@ -289,40 +288,7 @@ public class XmlRW
      */
     static public  void FieldToField_ifClass(DataSet ds, Object o)
     {   
-    	if ( o.getClass()== Employee.class)		// Если выделенный узел Employee.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabEmployees)
-     	   for (RowEmployee r: ds.getTabEmployees())if (((Employee)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 	// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== FunctionOEM.class)		// Если выделенный узел Employee.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabEmployees)
-     	   for (RowFunctionOEM r: ds.getTabFunctionOEMs())if (((FunctionOEM)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 	// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Line.class)		// Если выделенный узел Order.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabOrders)
-    		for (RowLine r: ds.getTabLines())		if (((Line)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 	// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Lineroute.class)		// Если выделенный узел Order.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabOrders)
-    		for (RowLineroute r: ds.getTabLineroutes())		if (((Lineroute)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 	// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Linespec.class)		// Если выделенный узел Order.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabOrders)
-    		for (RowLinespec r: ds.getTabLinespecs())		if (((Linespec)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 	// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Machine.class)		// Если выделенный узел Machine.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabMachines)
-    		for (RowMachine r: ds.getTabMachines())	if (((Machine)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 		// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Operation.class)		// Если выделенный узел Machine.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabMachines)
-    		for (RowOperation r: ds.getTabOperations())	if (((Operation)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 		// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Order.class)		// Если выделенный узел Order.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabOrders)
-    		for (RowOrder r: ds.getTabOrders())		if (((Order)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 	// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Resource.class)		// Если выделенный узел Order.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabOrders)
-    		for (RowResource r: ds.getTabResources())		if (((Resource)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 	// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Route.class)		// Если выделенный узел Order.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabOrders)
-    		for (RowRoute r: ds.getTabRoutes())		if (((Route)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 	// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Subject_labour.class)		// Если выделенный узел Order.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabOrders)
-    		for (RowSubject_labour r: ds.getTabSubject_labours())		if (((Subject_labour)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 	// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Trest.class)			// Если выделенный узел Trest.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabTrests)
-    		for (RowTrest r: ds.getTabTrests())		if (((Trest)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 			// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Unit.class)			// Если выделенный узел Trest.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabTrests)
-    		for (RowUnit r: ds.getTabUnits())		if (((Unit)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 			// выбираем нужную строку таблицы для изменения. Изменяем.
-    	if ( o.getClass()== Work.class)			// Если выделенный узел Work.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabWorks)
-    		for (RowWork r: ds.getTabWorks())		if (((Work)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 				// выбираем нужную строку таблицы для изменения. Изменяем.
 
-    
-
-   
-    	if ( o.getClass()== Line.class)		// Если выделенный узел Order.class, то приводим выделенный объект, хранящийся в узле, к нужному типу и записываем изменения в 	DataSet для соответствующей таблице (tabOrders)
-    		for (RowLine r: ds.getTabLines())		if (((Line)o).getId()==r.getId()) XmlRW.FieldToField(r, o); 	 	// выбираем нужную строку таблицы для изменения. Изменяем.
      }
 
 	/**

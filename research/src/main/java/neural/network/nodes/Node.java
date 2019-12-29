@@ -1,11 +1,13 @@
-package neural.network;
+package neural.network.nodes;
 
 public class Node {
+    private final String factorName;
     private int id;
     private double value;
     private double error;
 
-    public Node(int id) {
+    public Node(int id, String factorName) {
+        this.factorName = factorName;
         this.id = id;
     }
 

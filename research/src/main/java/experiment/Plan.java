@@ -10,7 +10,7 @@ public class Plan {
     private List<String> typesOfModels = new ArrayList<>();
     private Map<String,String> boundaryConditions = new HashMap<>();
 
-    private Map<String,Map<String,String>> hiddenLevels = new HashMap<>();
+    private Map<String,Map<String,String>> hiddenLayers = new HashMap<>();
 
     private Map<String,String> parametersOfModel = new HashMap<>();
 
@@ -79,5 +79,13 @@ public class Plan {
 
     public void setParametersOfModel(Map<String, String> parametersOfModel) {
         this.parametersOfModel = parametersOfModel;
+    }
+
+    public Map<String, Map<String, String>> getHiddenLayers() {
+        return hiddenLayers;
+    }
+
+    public void setHiddenLayers(Map<String, Map<String, String>> hiddenLayers) {
+        this.hiddenLayers = hiddenLayers;
     }
 }

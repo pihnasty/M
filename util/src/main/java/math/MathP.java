@@ -9,8 +9,8 @@ public class MathP {
         return new Counter (i);
     }
 
-    static public Counter getCounter(int initialCount, int i) {
-        return new Counter (initialCount,i);
+    static public Counter getCounter(int initialCount, int step) {
+        return new Counter (initialCount,step);
     }
 
     public static class Counter implements Supplier {

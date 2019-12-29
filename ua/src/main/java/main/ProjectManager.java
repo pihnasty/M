@@ -3,7 +3,6 @@ package main;
 import com.sun.javafx.print.PrinterJobImpl;
 import designpatterns.ObservableDS;
 import experiment.Plan;
-import factors.FactorManager;
 import fio.FileUI;
 import io.csv.read.CsvReaderP;
 import io.csv.write.CsvWriterP;
@@ -13,7 +12,8 @@ import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import logging.LoggerP;
-import models.OneParameterModel;
+import neural.network.NeuralManager;
+import neural.network.NeuralModel;
 import settings.EnumSettings;
 import settings.ProviderSettings;
 import settings.Settings;
@@ -21,7 +21,6 @@ import string.StringUtil;
 
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Destination;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -29,7 +28,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -249,12 +247,36 @@ public class ProjectManager extends ObservableDS {
     }
 
     public void learningNeuralNet() {
-        project.learningNeuralNet(
-            getPlanExperiment().getOutputFactors()
-            , getPlanExperiment().getInputFactors()
-            , getPlanExperiment().getParametersOfModel()
+
+        NeuralModel neuralModel = new NeuralModel();
+        NeuralManager neuralManager = NeuralManager.getManager();
+        neuralManager.setNeuralModel(neuralModel);
+
+        List<String> inputFactors = getPlanExperiment().getInputFactors();
+        List<String> outputFactors = getPlanExperiment().getOutputFactors();
+
+
+        List<List<String>> separatedRawDataTable = project.getSeparatedRawDataTable();
+
+        neuralManager.buildArchitecture(
+            inputFactors,
+            getPlanExperiment().getHiddenLayers(),
+            outputFactors
         );
+        neuralManager.randomInitWs();
+
+        neuralManager.prepareForLearningTable(inputFactors, outputFactors, separatedRawDataTable);
+
+        neuralManager.learningNeuralNet();
+
+
+        System.out.println();
+
+
+
+
     }
+
 
     public void downloadExperimentPlan(String fullFileName) throws FileNotFoundException {
         planExperiment =(Plan) Reader.readFromGsonFile(fullFileName, planExperiment);

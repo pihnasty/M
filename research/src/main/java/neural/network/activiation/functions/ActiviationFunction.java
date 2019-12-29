@@ -1,8 +1,8 @@
-package neural.network.activiation;
+package neural.network.activiation.functions;
 
 import java.util.function.Function;
 
-interface ActiviationFunction {
+public interface ActiviationFunction {
 
     Function<Double, Double> getFunction();
     Function<Double, Double> getDerivativeFunction();
