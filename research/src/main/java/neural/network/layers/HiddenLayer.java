@@ -2,12 +2,9 @@ package neural.network.layers;
 
 
 
-import neural.network.activiation.functions.ActiviationFunction;
 import neural.network.activiation.functions.FunctionManager;
 import neural.network.nodes.HiddenNode;
-
 import settings.Settings;
-
 
 import java.util.Map;
 
@@ -25,6 +22,7 @@ public class HiddenLayer extends Layer {
 
         setActiviationFunction(FunctionManager.getFunction(activationFunctionName));
 
+        setDistributeErrorName(distributeErrorName);
 
         for(Integer i=1; i<=countNode;i++) {
             getNodes().add(new HiddenNode(i,i.toString()));

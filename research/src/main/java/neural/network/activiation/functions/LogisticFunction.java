@@ -11,7 +11,17 @@ public class LogisticFunction implements ActiviationFunction {
     }
 
     @Override
-    public Function<Double, Double> getDerivativeFunction() {
-        return x -> function.apply(x) * (1.0 - function.apply(x));
+    public Function<Double, Double> getDerivativeFunction(String mode) {
+        Function<Double, Double> derivativeFunction;
+        switch (mode.toUpperCase()) {
+            case "S" :  derivativeFunction = x -> function.apply(x) * (1.0 - function.apply(x));
+                break;
+            case "F(S)" :  derivativeFunction = x -> x * (1.0 - x);
+                break;
+                default: derivativeFunction = errorFunction;
+                break;
+        }
+        return derivativeFunction;
     }
+
 }

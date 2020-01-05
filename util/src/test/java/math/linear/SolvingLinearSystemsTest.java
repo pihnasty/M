@@ -114,7 +114,7 @@ public class SolvingLinearSystemsTest {
     }
 
     @Test
-    public void multiply() {
+    public void multiplyTest() {
 
         List<Double> xS = new ArrayList<>();
         xS.add(0.9);
@@ -144,17 +144,168 @@ public class SolvingLinearSystemsTest {
         for(int i=0; i<output.size();i++) {
             assertEquals(xStest.get(i), output.get(i), 0.001);
         }
+        System.out.println();
+    }
 
+    @Test
+    public void inverseMatrixTest() {
+
+        List<List<Double>> wS = new ArrayList<>();
+        List<Double> row1 = new ArrayList<>();
+        List<Double> row2 = new ArrayList<>();
+        List<Double> row3 = new ArrayList<>();
+        row1.add(0.9);        row1.add(0.3);        row1.add(0.4);
+        row2.add(0.2);        row2.add(0.8);        row2.add(0.2);
+        row3.add(0.1);        row3.add(0.5);        row3.add(0.6);
+        wS.add(row1);
+        wS.add(row2);
+        wS.add(row3);
+
+        List<List<Double>> wSinverse = SolvingLinearSystems.inverseMatrix(wS);
+        List<List<Double>> wSinverse2 = SolvingLinearSystems.inverseMatrix(wSinverse);
+
+        for(int i1=0; i1<wSinverse2.size(); i1++) {
+            for(int i2=0; i2<wSinverse2.get(0).size(); i2++) {
+                assertEquals(wS.get(i1).get(i2), wSinverse2.get(i1).get(i2), 0.001);
+            }
+        }
+
+//===================================================================================================
+        List<List<Double>> wSrow4 = new ArrayList<>();
+        List<Double> row4 = new ArrayList<>();
+        row4.add(1.2);        row4.add(2.0);        row4.add(4.0);
+        wSrow4.add(row4);
+
+
+  //      List<List<Double>> wSinverse3 = SolvingLinearSystems.inverseMatrix(wSrow4);
+
+
+        System.out.println();
+    }
+
+    @Test
+    public void transponeMatrixTest() {
+
+        List<List<Double>> wS = new ArrayList<>();
+        List<Double> row1 = new ArrayList<>();
+        List<Double> row2 = new ArrayList<>();
+        List<Double> row3 = new ArrayList<>();
+        row1.add(0.9);        row1.add(0.3);        row1.add(0.4);
+        row2.add(0.2);        row2.add(0.8);        row2.add(0.2);
+        row3.add(0.1);        row3.add(0.5);        row3.add(0.6);
+        wS.add(row1);
+        wS.add(row2);
+        wS.add(row3);
+
+        List<List<Double>> wStranspone = SolvingLinearSystems.transponeMatrix(wS);
+
+
+        for(int i1=0; i1<wStranspone.size(); i1++) {
+            for(int i2=0; i2<wStranspone.get(0).size(); i2++) {
+                assertEquals(wS.get(i2).get(i1), wStranspone.get(i1).get(i2), 0.001);
+            }
+        }
 
 
 
         System.out.println();
-
-
-
-
-
-
-
     }
+
+    @Test
+    public void proportionalChangeMatrixTest() {
+
+        List<List<Double>> wS = new ArrayList<>();
+        List<Double> row1 = new ArrayList<>();
+        List<Double> row2 = new ArrayList<>();
+        List<Double> row3 = new ArrayList<>();
+        row1.add(0.9);        row1.add(0.3);        row1.add(0.4);
+        row2.add(0.2);        row2.add(0.8);        row2.add(0.2);
+        row3.add(0.1);        row3.add(0.5);        row3.add(0.6);
+        wS.add(row1);
+        wS.add(row2);
+        wS.add(row3);
+
+        List<Double> changeRow = new ArrayList<>();
+        changeRow.add(0.5);        changeRow.add(0.25);        changeRow.add(0.1);
+
+
+        List<List<Double>> wSchange = SolvingLinearSystems.proportionalChangeMatrix(wS,changeRow);
+
+
+        for(int i1=0; i1<wSchange.size(); i1++) {
+            for(int i2=0; i2<wSchange.get(0).size(); i2++) {
+                assertEquals(wS.get(i1).get(i2)*changeRow.get(i1), wSchange.get(i1).get(i2), 0.001);
+            }
+        }
+
+
+
+        System.out.println(wSchange);
+    }
+
+    @Test
+    public void multiplyColumnToRowTest() {
+
+
+        List<Double> row1 = new ArrayList<>();
+        List<Double> row2 = new ArrayList<>();
+        row1.add(1.0);        row1.add(2.0);        row1.add(3.0);
+        row2.add(4.0);        row2.add(5.0);        row2.add(6.0);
+
+
+
+        List<List<Double>> wSchange = SolvingLinearSystems.multiplyColumnToRow(row1,row2);
+
+
+//        for(int i1=0; i1<wSchange.size(); i1++) {
+//            for(int i2=0; i2<wSchange.get(0).size(); i2++) {
+//                assertEquals(wS.get(i1).get(i2)*changeRow.get(i1), wSchange.get(i1).get(i2), 0.001);
+//            }
+//        }
+
+
+
+        System.out.println(wSchange);
+    }
+
+    @Test
+    public void subtractMatrixTest() {
+
+        List<List<Double>> wS = new ArrayList<>();
+        List<Double> row1 = new ArrayList<>();
+        List<Double> row2 = new ArrayList<>();
+        List<Double> row3 = new ArrayList<>();
+        row1.add(0.9);        row1.add(0.3);        row1.add(0.4);
+        row2.add(0.2);        row2.add(0.8);        row2.add(0.2);
+        row3.add(0.1);        row3.add(0.5);        row3.add(0.6);
+        wS.add(row1);
+        wS.add(row2);
+        wS.add(row3);
+
+
+        List<List<Double>> wS2 = new ArrayList<>();
+        List<Double> row12 = new ArrayList<>();
+        List<Double> row22 = new ArrayList<>();
+        List<Double> row32 = new ArrayList<>();
+        row12.add(0.9);        row12.add(0.3);        row12.add(0.4);
+        row22.add(0.2);        row22.add(0.8);        row22.add(0.2);
+        row32.add(0.1);        row32.add(0.5);        row32.add(0.6);
+        wS2.add(row12);
+        wS2.add(row22);
+        wS2.add(row32);
+
+        List<List<Double>> deltaWs2 = SolvingLinearSystems.subtract(wS,wS2);
+
+
+        for(int i1=0; i1<deltaWs2.size(); i1++) {
+            for(int i2=0; i2<deltaWs2.get(0).size(); i2++) {
+                assertEquals(0,deltaWs2.get(i1).get(i2), 0.001);
+            }
+        }
+
+
+
+        System.out.println(deltaWs2);
+    }
+
 }

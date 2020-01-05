@@ -69,8 +69,11 @@ public class ProjectManagerTest {
 
     }
 
+    /*
+    * Billous Anna
+    * */
     @Test
-    public void learningNeuralNet() {
+    public void learningNeuralNetTest() {
         NeuralModel neuralModel = new NeuralModel();
         NeuralManager neuralManager = NeuralManager.getManager();
         neuralManager.setNeuralModel(neuralModel);
@@ -155,10 +158,14 @@ public class ProjectManagerTest {
                     layer.getW().getListWs().stream().forEach(
                         wS -> {
                             wS.forEach( w -> System.out.print(StringUtil.getDoubleFormatValue(w, formatStr)));
-                        System.out.println();
+                            System.out.println();
                         }
                     );
                 }
+                System.out.println("--error---");
+                layer.getNodes().stream().forEach(
+                    node->System.out.println(StringUtil.getDoubleFormatValue(node.getError(),formatStr))
+                );
 
                 System.out.println("==================================================");
             }

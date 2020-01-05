@@ -1,8 +1,11 @@
 package neural.network.activiation.functions;
 
+import math.linear.SolvingLinearSystems;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Ws {
 
@@ -21,6 +24,12 @@ public class Ws {
             }
             listWs.add(row);
         }
+    }
+
+    public Ws (List<List<Double>> listWs) {
+        this.numberNodes=listWs.size();
+        this.numberNodesPreviousLauer = listWs.get(0).size();
+        this.listWs = listWs;
     }
 
 
@@ -49,5 +58,33 @@ public class Ws {
 
     public void setListWs(List<List<Double>> listWs) {
         this.listWs = listWs;
+    }
+
+    public Ws calculateWsError (String distributeErrorName, Ws wsLayer) {
+        switch (distributeErrorName) {
+            case "1" :
+            case "proportional-value-w" :
+                List<List<Double>> layerListWs = wsLayer.getListWs();
+                List<Double> summaryValuesRow = SolvingLinearSystems.summaryValuesRow(layerListWs);
+                List<Double> rowWithInverseValues =summaryValuesRow.stream().map(value->1.0/value).collect(Collectors.toList());
+
+                List<List<Double>> proportionalListWs = SolvingLinearSystems.proportionalChangeMatrix(layerListWs,rowWithInverseValues);
+
+
+                List<List<Double>> transponeLayerListWs = SolvingLinearSystems.transponeMatrix(proportionalListWs);
+
+                Ws proportionalWs = new Ws(transponeLayerListWs);
+                return proportionalWs;
+                default: throw new ExceptionInInitializerError("1 - еру proportion to the weights Ws");
+
+        }
+    }
+
+    public int getNumberNodesPreviousLauer() {
+        return numberNodesPreviousLauer;
+    }
+
+    public int getNumberNodes() {
+        return numberNodes;
     }
 }

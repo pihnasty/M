@@ -268,13 +268,6 @@ public class ProjectManager extends ObservableDS {
         neuralManager.prepareForLearningTable(inputFactors, outputFactors, separatedRawDataTable);
 
         neuralManager.learningNeuralNet();
-
-
-        System.out.println();
-
-
-
-
     }
 
 

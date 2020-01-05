@@ -124,19 +124,32 @@ public class NeuralManager {
 
     public void learningNeuralNet() {
         MathP.Counter counter = MathP.getCounter(1);
+
         neuralManager.getPreparedForLearningInputTable().forEach(
             row -> {
-                if(counter.get()>0) {
-                    List<Double> rowOutPutFactor = new ArrayList<>();
+                int count = counter.get();
+                if(count>0) {
+                    List<Double> rowOutputFactor = new ArrayList<>();
                     List<Double> rowInputFactor = new ArrayList<>();
+                    List<Double> rowErrorInputFactor = new ArrayList<>();
                     row.forEach(stringValue -> {
                         Double doubleValue = Double.parseDouble(stringValue);
                         rowInputFactor.add(doubleValue);
                     });
-                    neuralModel.forwardPropagation(rowInputFactor, rowOutPutFactor);
+                    neuralManager.getPreparedForLearningOutputTable().get(count).forEach(
+                        stringValue -> {
+                            Double doubleValue = Double.parseDouble(stringValue);
+                            rowOutputFactor.add(doubleValue);
+                        }
+                    );
+                    neuralModel.forwardPropagation(rowInputFactor, rowOutputFactor,rowErrorInputFactor);
+                    neuralModel.backPropagation( rowErrorInputFactor);
+                    Double error2 = rowErrorInputFactor.stream().reduce(0.0,(element1, element2) -> (element1 + element2)*(element1 + element2));
+                    System.out.println("count="+count+"   "+error2);
                 }
             }
         );
+        System.out.println();
     }
 
 
