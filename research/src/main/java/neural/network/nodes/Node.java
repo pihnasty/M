@@ -30,4 +30,8 @@ public class Node {
     public void setError(double error) {
         this.error = error;
     }
+
+    public String getFactorName() {
+        return factorName;
+    }
 }

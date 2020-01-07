@@ -1,7 +1,7 @@
 package neural.network.layers;
 
 import neural.network.activiation.functions.ActiviationFunction;
-import neural.network.activiation.functions.Ws;
+import neural.network.ws.Ws;
 import neural.network.nodes.Node;
 
 import java.util.ArrayList;

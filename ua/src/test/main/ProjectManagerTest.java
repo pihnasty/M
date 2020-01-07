@@ -3,7 +3,7 @@ package main;
 import math.MathP;
 import neural.network.NeuralManager;
 import neural.network.NeuralModel;
-import neural.network.activiation.functions.Ws;
+import neural.network.ws.Ws;
 import neural.test.TransportSystem;
 import org.junit.Test;
 import settings.Settings;

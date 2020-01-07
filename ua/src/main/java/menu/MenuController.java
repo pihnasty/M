@@ -5,7 +5,7 @@ import designpatterns.ObservableDS;
 import hct.handlers.*;
 import hct.handlers.multi.CalculateCoefficientsMultiParameterModelHandler;
 import hct.handlers.multi.CreateResidualPlotMultiModelHandler;
-import hct.handlers.neural.LearningNeuralNetHandler;
+import hct.handlers.neural.*;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,7 +14,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.input.KeyCombination;
 import main.ProjectManager;
 
-
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -94,6 +94,21 @@ public class MenuController extends InitializableDS {
     private MenuItem learningNeuralNetItem;
 
     @FXML
+    private MenuItem serializeNeuralNetItem;
+
+    @FXML
+    private MenuItem deserializeNeuralNetItem;
+
+    @FXML
+    private MenuItem uploadDataAnalysisNeuralNetItem;
+
+    @FXML
+    private MenuItem runAnalysisNeuralNetItem;
+
+    @FXML
+    private MenuItem saveDataAnalysisNeuralNetItem;
+
+    @FXML
     private MenuItem fastStartItem;
 
     public MenuController(ObservableDS observableDS) {
@@ -128,6 +143,12 @@ public class MenuController extends InitializableDS {
         buildResidualPlotMultiModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+9"));
         calculateCoefficientsMultiParameterModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+M"));
         learningNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+B"));
+        serializeNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+S"));
+        deserializeNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+D"));
+        uploadDataAnalysisNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Y"));
+        runAnalysisNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+R"));
+        saveDataAnalysisNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Z"));
+
     }
 
 //------------------- menu File ------------------------------------
@@ -259,10 +280,35 @@ public class MenuController extends InitializableDS {
         new CreateResidualPlotMultiModelHandler().buildResidualPlot(modelObservableDS);
     }
 
-    //------------------- menu Analysis->Learning.neural.net ------------------------------------
+    //------------------- menu Analysis->neural.network ------------------------------------
     @FXML
     private void handleLearningNeuralNetAction(ActionEvent event) {
         new LearningNeuralNetHandler().learning(modelObservableDS);
+    }
+
+    @FXML
+    private void handleSerializeNeuralNetAction(ActionEvent event) {
+        new SerializeNeuralNetHandler().serialize(modelObservableDS);
+    }
+
+    @FXML
+    private void handleDeserializeNeuralNetAction(ActionEvent event) {
+        new DeserializeNeuralNetHandler().deserialize(modelObservableDS);
+    }
+
+    @FXML
+    private void handleUploadDataAnalysisNeuralNetAction(ActionEvent event) throws IOException {
+        new UploadDataAnalysisNeuralNetHandler().uploadDataAnalysis(modelObservableDS);
+    }
+
+    @FXML
+    private void handleRunAnalysisNeuralNetAction(ActionEvent event) {
+        new RunAnalysisNeuralNetHandler().runAnalysis(modelObservableDS);
+    }
+
+    @FXML
+    private void handleSaveDataAnalysisNetAction(ActionEvent event) {
+        new SaveDataAnalysisNeuralNetHandler().saveDataAnalysis(modelObservableDS);
     }
 
 

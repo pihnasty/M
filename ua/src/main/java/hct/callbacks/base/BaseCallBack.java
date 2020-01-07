@@ -17,8 +17,16 @@ public  class BaseCallBack implements StateTaskCallBack<Worker.State,Throwable,V
     }
 
     public Void call(Worker.State state, Throwable throwable ){
-        AlertDialog.getAlertShow(MainWindowView.getResourceString(title)
-            ,MainWindowView.getResourceString(messageFailedText) + "\n " + throwable.getMessage());
+//        AlertDialog.getAlertShow(MainWindowView.getResourceString(title)
+//            ,MainWindowView.getResourceString(messageFailedText) + "\n " + throwable.getMessage());
+        if(state==Worker.State.SUCCEEDED) {
+            AlertDialog.getAlertShow(MainWindowView.getResourceString(title)
+                ,MainWindowView.getResourceString(title));
+        }
+        if(state==Worker.State.FAILED){
+            AlertDialog.getAlertShow(MainWindowView.getResourceString(messageFailedText)
+                ,throwable.getMessage());
+        }
         return null;
     }
 }

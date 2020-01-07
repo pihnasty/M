@@ -74,12 +74,22 @@
             <MenuItem text="%learning.neural.net" fx:id="learningNeuralNetItem"
                       onAction="#handleLearningNeuralNetAction"/>
             <SeparatorMenuItem/>
-            <MenuItem text="%multi.model.build.residual.plot" fx:id="buildResidualPlotMultiModelItem2"
-                      onAction="#handleBuildResidualPlotMultiModelAction"/>
+            <MenuItem text="%serialize.neural.net" fx:id="serializeNeuralNetItem"
+                      onAction="#handleSerializeNeuralNetAction"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="%deserialize.neural.net" fx:id="deserializeNeuralNetItem"
+                      onAction="#handleDeserializeNeuralNetAction"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="%upload.data.analysis.neural.net" fx:id="uploadDataAnalysisNeuralNetItem"
+                      onAction="#handleUploadDataAnalysisNeuralNetAction"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="%run.analysis.neural.net" fx:id="runAnalysisNeuralNetItem"
+                      onAction="#handleRunAnalysisNeuralNetAction"/>
+            <SeparatorMenuItem/>
+            <MenuItem text="%save.data.analysis.neural.net" fx:id="saveDataAnalysisNeuralNetItem"
+                      onAction="#handleSaveDataAnalysisNetAction"/>
             <SeparatorMenuItem/>
         </Menu>
-        <SeparatorMenuItem/>
-        <MenuItem text="%SeparatedRawData" fx:id="separatedRowDataItem2" onAction="#handleSeparatedRawDataAction"/>
         <SeparatorMenuItem/>
         <MenuItem text="DEFAULT" fx:id="defaultItem"  onAction="#handleDefaultAction"/>
     </Menu>

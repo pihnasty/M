@@ -14,8 +14,7 @@ public class LearningNeuralNetHandler extends BaseHandler {
 
         BaseTask task = new LearningNeuralNetTask((ProjectManager) observableDS);
 
-        BaseCallBack callBack
-            = new LearningNeuralNetCallBack(
+        BaseCallBack callBack = new LearningNeuralNetCallBack(
             "learning.neural.net.title"
             ,"learning.neural.net.failed");
 

@@ -2,7 +2,7 @@ package neural.network;
 
 
 import math.linear.SolvingLinearSystems;
-import neural.network.activiation.functions.Ws;
+import neural.network.ws.Ws;
 import neural.network.layers.Layer;
 import neural.network.nodes.Node;
 
@@ -24,7 +24,7 @@ public class NeuralModel {
         this.layers = layers;
     }
 
-    public void forwardPropagation (List<Double> inputFactorsRow, List<Double> outputFactorsRow, List<Double> errorOutputFactorsRow) {
+    public List<Double> forwardPropagation (List<Double> inputFactorsRow) {
 
         List<Layer> layers = getLayers();
         List<Double> hiddenFactorsValues = new ArrayList<>();
@@ -47,10 +47,15 @@ public class NeuralModel {
                 }
             }
         }
+        return hiddenFactorsValues;
+    }
 
-        for(int i=0; i < outputFactorsRow.size(); i++) {
-            errorOutputFactorsRow.add(outputFactorsRow.get(i)- hiddenFactorsValues.get(i));
+    public List<Double> forwardPropagationErrors(List<Double> outputFactorsRowForLearning, List<Double> outputFactorsRowCalculate) {
+        List<Double> errorOutputFactorsRow = new ArrayList<>();
+        for(int i=0; i <outputFactorsRowForLearning.size(); i++) {
+            errorOutputFactorsRow.add(outputFactorsRowForLearning.get(i)-outputFactorsRowCalculate.get(i));
         }
+        return errorOutputFactorsRow;
 
     }
 
@@ -92,8 +97,8 @@ public class NeuralModel {
             List<Double> valueNodeFromPreviousLayers = layer.getPreviousLayer().getNodes().stream().map(Node::getValue).collect(Collectors.toList());
 
             Function<Double, Double> derivativeFunction = layer.getActiviationFunction().getDerivativeFunction("F(S)");
-       //     List<Double> sigmaExpressions = layer.getNodes().stream().map(node->-node.getError()*derivativeFunction.apply(node.getValue())).collect(Collectors.toList());
-            List<Double> sigmaExpressions = layer.getNodes().stream().map(node->-node.getError()*node.getValue()*(1.0-node.getValue())).collect(Collectors.toList());
+            List<Double> sigmaExpressions = layer.getNodes().stream().map(node->-node.getError()*derivativeFunction.apply(node.getValue())).collect(Collectors.toList());
+       //     List<Double> sigmaExpressions = layer.getNodes().stream().map(node->-node.getError()*node.getValue()*(1.0-node.getValue())).collect(Collectors.toList());
             List<List<Double>> wlist = layer.getW().getListWs();
             List<List<Double>> deltaWlist =SolvingLinearSystems.multiplyColumnToRow(sigmaExpressions,valueNodeFromPreviousLayers);
 

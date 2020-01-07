@@ -16,6 +16,7 @@ public class LearningNeuralNetTask extends BaseTask {
     @Override
     protected Void call() {
         projectManager.learningNeuralNet();
+        LoggerP.write(Level.INFO, "LearningNeuralNetTaskTask finished...");
         return null;
     }
 

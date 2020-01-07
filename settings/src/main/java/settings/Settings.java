@@ -76,7 +76,8 @@ public interface Settings {
 
         public static String NEURAL_NETWORk_MODEL_TEST_DATA_CSV ="result//neural_network_model//test_data.csv";
         public static String NEURAL_NETWORk_MODEL_SPEED_INPUT_TEST_DATA_CSV ="result//neural_network_model//speed_input//speed_input_test_data.csv";
-
+        public static String NEURAL_NETWORk_MODEL_WS_SERIALIZE ="result//neural_network_model//ws_serialize";
+        public static String DATA_TABLE_AFTER_ANALYSIS_CSV ="result//neural_network_model//data_after_analysis.csv";
     }
 
     String getName();

@@ -1,20 +1,16 @@
 package main;
 
 import designpatterns.ObservableDS;
-import experiment.Plan;
 import factors.FactorManager;
 import logging.LoggerP;
 import math.Combinatorics;
 import math.MathP;
 import models.MultiParameterModel;
 import models.OneParameterModel;
-import neural.network.NeuralManager;
-import settings.ProviderSettings;
+import neural.network.ws.Ws;
 import settings.Settings;
-import string.StringUtil;
 
 import java.util.*;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -27,6 +23,8 @@ public class AppProject extends ObservableDS {
     }
 
     private List<List<String>> rawDataTable;
+    private List<List<String>> dataTableForAnalysisNeuralNet;
+    private List<List<String>> dataTableAfterAnalysisNeuralNet;
     private List<List<String>> nameCategoryTable;
     private List<List<String>> separatedRawDataTable;
     private List<List<String>> testedRawDataTable;
@@ -44,6 +42,8 @@ public class AppProject extends ObservableDS {
     private List<List<String>> multiModelDimensionKoefficients;
 
     private FactorManager factorManager;
+
+    private List<Ws> wsS;
 
     private AppProject() {
 
@@ -316,5 +316,29 @@ public class AppProject extends ObservableDS {
 
     public void setMultiModelDimensionKoefficients(List<List<String>> multiModelDimensionKoefficients) {
         this.multiModelDimensionKoefficients = multiModelDimensionKoefficients;
+    }
+
+    public List<Ws> getWsS() {
+        return wsS;
+    }
+
+    public void setWsS(List<Ws> wsS) {
+        this.wsS = wsS;
+    }
+
+    public List<List<String>> getDataTableForAnalysisNeuralNet() {
+        return dataTableForAnalysisNeuralNet;
+    }
+
+    public void setDataTableForAnalysisNeuralNet(List<List<String>> dataTableForAnalysisNeuralNet) {
+        this.dataTableForAnalysisNeuralNet = dataTableForAnalysisNeuralNet;
+    }
+
+    public List<List<String>> getDataTableAfterAnalysisNeuralNet() {
+        return dataTableAfterAnalysisNeuralNet;
+    }
+
+    public void setDataTableAfterAnalysisNeuralNet(List<List<String>> dataTableAfterAnalysisNeuralNet) {
+        this.dataTableAfterAnalysisNeuralNet = dataTableAfterAnalysisNeuralNet;
     }
 }

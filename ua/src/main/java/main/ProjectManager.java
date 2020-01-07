@@ -32,7 +32,6 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 
-
 public class ProjectManager extends ObservableDS {
     private static ProjectManager ourInstance = new ProjectManager();
 
@@ -268,8 +267,63 @@ public class ProjectManager extends ObservableDS {
         neuralManager.prepareForLearningTable(inputFactors, outputFactors, separatedRawDataTable);
 
         neuralManager.learningNeuralNet();
+        project.setWsS(neuralModel.getLayers().stream().map(layer -> layer.getW()).collect(Collectors.toList()));
+
+       // System.out.println(project.getWsS().get(41).getListWs());
+
     }
 
+    public void serializeNeuralNet() {
+        String path = io.file.Paths.getPathToDirectory(getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL_WS_SERIALIZE);
+        String fileName = io.file.Paths.getShortFileName(getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL_WS_SERIALIZE);
+        NeuralManager.getManager().serializeNeuralNet(project.getWsS(), path,fileName);
+    }
+
+    public void deserializeNeuralNet() {
+        String path = io.file.Paths.getPathToDirectory(getProjectPath()+"//"+Settings.Values.NEURAL_NETWORk_MODEL_WS_SERIALIZE);
+        String  fileName = io.file.Paths.getShortFileName(getProjectPath()+"//"+Settings.Values.NEURAL_NETWORk_MODEL_WS_SERIALIZE);
+        project.setWsS(NeuralManager.getManager().deserializeNeuralNet(path,fileName));
+    }
+
+    public void runDataAnalysisNeuralNet() {
+
+        NeuralModel neuralModel = new NeuralModel();
+        NeuralManager neuralManager = NeuralManager.getManager();
+        neuralManager.setNeuralModel(neuralModel);
+
+        List<String> inputFactors = getPlanExperiment().getInputFactors();
+        List<String> outputFactors = getPlanExperiment().getOutputFactors();
+
+        List<List<String>> dataTableForAnalysis = project.getDataTableForAnalysisNeuralNet();
+
+        neuralManager.buildArchitecture(
+            inputFactors,
+            getPlanExperiment().getHiddenLayers(),
+            outputFactors
+        );
+
+        neuralManager.useDeserializeWs(project.getWsS());
+        neuralManager.prepareForLearningTable(inputFactors, outputFactors, dataTableForAnalysis);
+        neuralManager.predictionNeuralNet();
+
+        List<List<String>> summaryData = new ArrayList<>();
+        for (int i=0; i<dataTableForAnalysis.size(); i++) {
+            List<String> row = new ArrayList<>();
+            row.addAll(dataTableForAnalysis.get(i));
+            row.addAll(neuralManager.getDataTableAfterAnalysisNeuralNet().get(i));
+            summaryData.add(row);
+        }
+        project.setDataTableAfterAnalysisNeuralNet(summaryData);
+
+    }
+
+    public void saveDataAnalysisNeuralNet() {
+        saveData(project.getDataTableAfterAnalysisNeuralNet(),Settings.Values.DATA_TABLE_AFTER_ANALYSIS_CSV );
+    }
+
+    public void uploadDataAnalysisNeuralNet(String fullFileName) {
+        project.setDataTableForAnalysisNeuralNet(readTableFromFile(fullFileName));
+    }
 
     public void downloadExperimentPlan(String fullFileName) throws FileNotFoundException {
         planExperiment =(Plan) Reader.readFromGsonFile(fullFileName, planExperiment);

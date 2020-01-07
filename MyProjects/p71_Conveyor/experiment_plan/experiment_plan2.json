@@ -34,27 +34,6 @@
       "distribute-error": "1",
       "optimization-method": "5",
       "type-layer": "tail"
-    },
-    "50": {
-      "count-node": "8",
-      "activation-function": "1",
-      "distribute-error": "1",
-      "optimization-method": "5",
-      "type-layer": "tail"
-    },
-    "100": {
-      "count-node": "15",
-      "activation-function": "1",
-      "distribute-error": "1",
-      "optimization-method": "5",
-      "type-layer": "between"
-    },
-    "110": {
-      "count-node": "12",
-      "activation-function": "1",
-      "distribute-error": "1",
-      "optimization-method": "5",
-      "type-layer": "tail"
     }
   },
   "parametersOfModel": {

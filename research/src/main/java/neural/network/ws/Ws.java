@@ -1,13 +1,14 @@
-package neural.network.activiation.functions;
+package neural.network.ws;
 
 import math.linear.SolvingLinearSystems;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class Ws {
+public class Ws implements Serializable {
 
     private List<List<Double>> listWs;
     private int numberNodesPreviousLauer;
@@ -42,7 +43,7 @@ public class Ws {
     }
 
     public Ws initWs () {
-        Random random = new Random();
+        Random random = new Random(1000);
 
         for (int i1=0; i1 < numberNodes; i1++) {
             for (int i2=0; i2 < numberNodesPreviousLauer; i2++) {

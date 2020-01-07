@@ -1,10 +1,13 @@
 package neural.network;
 
+import io.serialize.Serializer;
 import math.MathP;
 import neural.network.layers.HiddenLayer;
 import neural.network.layers.InputLayer;
 import neural.network.layers.Layer;
 import neural.network.layers.OutputLayer;
+import neural.network.ws.Ws;
+import string.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +24,7 @@ public class NeuralManager {
 
     private List<List<String>> preparedForLearningInputTable = new ArrayList<>();
     private List<List<String>> preparedForLearningOutputTable = new ArrayList<>();
+    private List<List<String>> dataTableAfterAnalysisNeuralNet = new ArrayList();
 
     public static NeuralManager getManager() {
         return neuralManager;
@@ -64,6 +68,11 @@ public class NeuralManager {
         neuralModel.getLayers().forEach(Layer::initRandomW);
     }
 
+    public void useDeserializeWs(List<Ws> wsS) {
+        for(int i=0; i<neuralModel.getLayers().size(); i++) {
+            neuralModel.getLayers().get(i).setW(wsS.get(i));
+        }
+    }
 
     private int getNumberHeadLayer(Map<String, Map<String, String>> hiddenLevelNamesWithExtParameters, List<Integer> intValueKeys) {
         int numberEndLayer;
@@ -129,9 +138,8 @@ public class NeuralManager {
             row -> {
                 int count = counter.get();
                 if(count>0) {
-                    List<Double> rowOutputFactor = new ArrayList<>();
+                    List<Double> rowOutputFactorForLearning = new ArrayList<>();
                     List<Double> rowInputFactor = new ArrayList<>();
-                    List<Double> rowErrorInputFactor = new ArrayList<>();
                     row.forEach(stringValue -> {
                         Double doubleValue = Double.parseDouble(stringValue);
                         rowInputFactor.add(doubleValue);
@@ -139,12 +147,16 @@ public class NeuralManager {
                     neuralManager.getPreparedForLearningOutputTable().get(count).forEach(
                         stringValue -> {
                             Double doubleValue = Double.parseDouble(stringValue);
-                            rowOutputFactor.add(doubleValue);
+                            rowOutputFactorForLearning.add(doubleValue);
                         }
                     );
-                    neuralModel.forwardPropagation(rowInputFactor, rowOutputFactor,rowErrorInputFactor);
-                    neuralModel.backPropagation( rowErrorInputFactor);
-                    Double error2 = rowErrorInputFactor.stream().reduce(0.0,(element1, element2) -> (element1 + element2)*(element1 + element2));
+                    List<Double> outputFactorsRowCalculate = neuralModel.forwardPropagation(rowInputFactor);
+                    List<Double> errorOutputFactorsRow = neuralModel.forwardPropagationErrors( rowOutputFactorForLearning,  outputFactorsRowCalculate);
+                    neuralModel.backPropagation( errorOutputFactorsRow);
+                    Double error2 = 0.0;
+                    for (int i=0; i<errorOutputFactorsRow.size();i++) {
+                        error2 += errorOutputFactorsRow.get(i)* errorOutputFactorsRow.get(i);
+                    }
                     System.out.println("count="+count+"   "+error2);
                 }
             }
@@ -152,6 +164,44 @@ public class NeuralManager {
         System.out.println();
     }
 
+    public void predictionNeuralNet() {
+        MathP.Counter counter = MathP.getCounter(1);
+
+        dataTableAfterAnalysisNeuralNet = new ArrayList<>();
+        int sizeLayers = neuralModel.getLayers().size();
+        List<String> header = neuralModel.getLayers().get(sizeLayers-1).getNodes().stream().map(node->node.getFactorName()+"A").collect(Collectors.toList());
+        dataTableAfterAnalysisNeuralNet.add(header);
+
+        neuralManager.getPreparedForLearningInputTable().forEach(
+            row -> {
+                int count = counter.get();
+                if(count>0) {
+                    List<Double> rowInputFactor = new ArrayList<>();
+                    row.forEach(stringValue -> {
+                        Double doubleValue = Double.parseDouble(stringValue);
+                        rowInputFactor.add(doubleValue);
+                    });
+
+                    List<Double> outputFactorsRowCalculate = neuralModel.forwardPropagation(rowInputFactor);
+
+                    List<String> rowString = new ArrayList<>();
+                    for(int i=0; i<outputFactorsRowCalculate.size(); i++) {
+                        rowString.add(StringUtil.getDoubleFormatValue(outputFactorsRowCalculate.get(i),header.get(i)));
+                    }
+                    dataTableAfterAnalysisNeuralNet.add(rowString);
+                }
+            }
+        );
+        System.out.println();
+    }
+
+    public void serializeNeuralNet(List<Ws> wsS, String path, String fileName) {
+        Serializer.serialize(wsS, path, fileName);
+    }
+
+    public List<Ws> deserializeNeuralNet(String path, String fileName) {
+        return (List<Ws>) Serializer.deserialize(path, fileName);
+    }
 
     public List<List<String>> getPreparedForLearningInputTable() {
         return preparedForLearningInputTable;
@@ -171,6 +221,14 @@ public class NeuralManager {
 
     public NeuralModel getNeuralModel() {
         return neuralModel;
+    }
+
+    public List<List<String>> getDataTableAfterAnalysisNeuralNet() {
+        return dataTableAfterAnalysisNeuralNet;
+    }
+
+    public void setDataTableAfterAnalysisNeuralNet(List<List<String>> dataTableAfterAnalysisNeuralNet) {
+        this.dataTableAfterAnalysisNeuralNet = dataTableAfterAnalysisNeuralNet;
     }
 }
 

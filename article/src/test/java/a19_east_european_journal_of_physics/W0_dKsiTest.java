@@ -1,6 +1,6 @@
 package a19_east_european_journal_of_physics;
 
-import org.testng.Assert;
+
 import org.testng.annotations.Test;
 
 @Test
