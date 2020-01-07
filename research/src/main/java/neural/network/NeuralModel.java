@@ -1,6 +1,7 @@
 package neural.network;
 
 
+import math.MathP;
 import math.linear.SolvingLinearSystems;
 import neural.network.ws.Ws;
 import neural.network.layers.Layer;
@@ -100,30 +101,20 @@ public class NeuralModel {
             List<Double> sigmaExpressions = layer.getNodes().stream().map(node->-node.getError()*derivativeFunction.apply(node.getValue())).collect(Collectors.toList());
        //     List<Double> sigmaExpressions = layer.getNodes().stream().map(node->-node.getError()*node.getValue()*(1.0-node.getValue())).collect(Collectors.toList());
             List<List<Double>> wlist = layer.getW().getListWs();
-            List<List<Double>> deltaWlist =SolvingLinearSystems.multiplyColumnToRow(sigmaExpressions,valueNodeFromPreviousLayers);
+            List<List<Double>> gradientWlist =SolvingLinearSystems.multiplyColumnToRow(sigmaExpressions,valueNodeFromPreviousLayers);
 
-//--------------------------------------------------------------------------
-//            List<List<Double>> wSlist = layer.getW().getListWs();
-//            List<Double> valueNodeCurrentLayers = layer.getNodes().stream().map(Node::getValue).collect(Collectors.toList());
-//            List<Double> errorValueNodeCurrentLayers = layer.getNodes().stream().map(Node::getError).collect(Collectors.toList());
-//            Ws wS = layer.getW();
-//            int i1Max = wS.getNumberNodes();
-//            int i2Max = wS.getNumberNodesPreviousLauer();
-//
-//            List<List<Double>> deltaWsList = new ArrayList<>();
-//
-//            for (int i1 = 0; i1 < i1Max; i1++) {
-//                List<Double> row = new ArrayList<>();
-//                Double err = errorValueNodeCurrentLayers.get(i1);
-//                Double curValue = valueNodeCurrentLayers.get(i1);
-//                for (int i2 = 0; i2 < i2Max; i2++) {
-//                    Double previousValue = valueNodeFromPreviousLayers.get(i2);
-//                    Double delteW_Value = -err * curValue * (1.0 - curValue) * previousValue;
-//                    row.add(delteW_Value);
-//                }
-//                deltaWsList.add(row);
-//            }
-//--------------------------------------------------------------------------
+            double alpha = layer.getAlpha();
+            List<List<Double>> deltaWlist = MathP.initArrayList(0.0,gradientWlist.size(), gradientWlist.get(0).size());
+            for(int i1=0; i1<gradientWlist.size(); i1++) {
+                for(int i2=0; i2<gradientWlist.get(0).size(); i2++) {
+                    Double value = alpha*gradientWlist.get(i1).get(i2);
+                    deltaWlist.get(i1).set(i2,value);
+                }
+            }
+
+
+
+
             List<List<Double>> newWlist = SolvingLinearSystems.subtract(wlist,deltaWlist);
             layer.getW().setListWs(newWlist);
         }

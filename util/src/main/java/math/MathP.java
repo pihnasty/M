@@ -1,5 +1,7 @@
 package math;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -48,6 +50,18 @@ public class MathP {
 
 
         return 0.0;
+    }
+
+    public static <T> List<List<T>>  initArrayList(T value,int i1size, int i2size) {
+        List<List<T>> list = new ArrayList<>();
+            for(int i1=0; i1<i1size; i1++) {
+                List<T> row = new ArrayList<>();
+                for(int i2=0; i2<i2size;i2++) {
+                    row.add(value);
+                }
+                list.add(row);
+            }
+        return list;
     }
 
 

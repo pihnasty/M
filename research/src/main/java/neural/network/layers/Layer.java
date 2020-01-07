@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Layer {
     private ActiviationFunction activiationFunction;
+    private double alpha;
     private final int id;
     private List<Node> nodes;
     private Layer previousLayer;
@@ -72,5 +73,13 @@ public class Layer {
 
     public void setDistributeErrorName(String distributeErrorName) {
         this.distributeErrorName = distributeErrorName;
+    }
+
+    public double getAlpha() {
+        return alpha;
+    }
+
+    public void setAlpha(double alpha) {
+        this.alpha = alpha;
     }
 }

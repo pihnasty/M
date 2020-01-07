@@ -25,6 +25,7 @@ public interface Settings {
         public static String DISTRIBUTE_ERROR = "distribute-error";
         public static String OPTIMIZATION_METHOD = "optimization-method";
         public static String TYPE_LAYER = "type-layer";
+        public static String ALPHA = "alpha";
 
 
 

@@ -16,11 +16,13 @@ public class OutputLayer extends Layer {
         super(id, previousLayer);
         int countNode = Integer.parseInt(extParameters.get(settings.Settings.Keys.COUNT_NODE));
         String activationFunctionName = extParameters.get(Settings.Keys.ACTIVATION_FUNCTION);
+        Double alpha = Double.parseDouble(extParameters.get(Settings.Keys.ALPHA));
         String distributeErrorName = extParameters.get(Settings.Keys.DISTRIBUTE_ERROR);
         String optimizationMethodName = extParameters.get(Settings.Keys.OPTIMIZATION_METHOD);
         boolean typeNode = Boolean.parseBoolean(extParameters.get(Settings.Keys.TYPE_LAYER));
 
         setActiviationFunction(FunctionManager.getFunction(activationFunctionName));
+        setAlpha(alpha);
 
 
         MathP.Counter counter =MathP.getCounter(1);

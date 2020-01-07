@@ -266,8 +266,11 @@ public class ProjectManager extends ObservableDS {
 
         neuralManager.prepareForLearningTable(inputFactors, outputFactors, separatedRawDataTable);
 
-        neuralManager.learningNeuralNet();
-        project.setWsS(neuralModel.getLayers().stream().map(layer -> layer.getW()).collect(Collectors.toList()));
+        for(int i=0; i<8000; i++) {
+            neuralManager.learningNeuralNet();
+            project.setWsS(neuralModel.getLayers().stream().map(layer -> layer.getW()).collect(Collectors.toList()));
+            System.out.println(i+"------------------------------------------------------------------------------------------------------------");
+        }
 
        // System.out.println(project.getWsS().get(41).getListWs());
 

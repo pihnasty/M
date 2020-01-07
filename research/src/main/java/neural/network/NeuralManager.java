@@ -157,7 +157,7 @@ public class NeuralManager {
                     for (int i=0; i<errorOutputFactorsRow.size();i++) {
                         error2 += errorOutputFactorsRow.get(i)* errorOutputFactorsRow.get(i);
                     }
-                    System.out.println("count="+count+"   "+error2);
+                    System.out.print(" "+count+" "+error2);
                 }
             }
         );

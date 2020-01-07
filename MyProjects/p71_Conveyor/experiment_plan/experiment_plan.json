@@ -4,6 +4,7 @@
     "7.output"
   ],
   "inputFactors": [
+    "1.ksiD",
     "1.input",
     "1.speed",
     "2.input",
@@ -26,6 +27,7 @@
       "activation-function": "1",
       "distribute-error": "1",
       "optimization-method": "5",
+      "alpha": "0.000001",
       "type-layer": "head"
     },
     "12": {
@@ -33,27 +35,7 @@
       "activation-function": "1",
       "distribute-error": "1",
       "optimization-method": "5",
-      "type-layer": "tail"
-    },
-    "50": {
-      "count-node": "8",
-      "activation-function": "1",
-      "distribute-error": "1",
-      "optimization-method": "5",
-      "type-layer": "tail"
-    },
-    "100": {
-      "count-node": "15",
-      "activation-function": "1",
-      "distribute-error": "1",
-      "optimization-method": "5",
-      "type-layer": "between"
-    },
-    "110": {
-      "count-node": "12",
-      "activation-function": "1",
-      "distribute-error": "1",
-      "optimization-method": "5",
+      "alpha": "0.000001",
       "type-layer": "tail"
     }
   },

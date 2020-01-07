@@ -86,6 +86,7 @@ public class ProjectManagerTest {
         map2.put("activation-function","1");
         map2.put("distribute-error" , "1");
         map2.put("optimization-method" , "5");
+        map2.put("alpha" , "1.0");
         map2.put("type-layer" , "head");
 
         Map<String, String> map3 = new HashMap<>();
@@ -93,6 +94,7 @@ public class ProjectManagerTest {
         map3.put("activation-function","1");
         map3.put("distribute-error" , "1");
         map3.put("optimization-method" , "5");
+        map3.put("alpha" , "1.0");
         map3.put("type-layer" , "tail");
 
         Map<String,  Map<String, String>> getPlanExperiment_getHiddenLayers = new HashMap<>();

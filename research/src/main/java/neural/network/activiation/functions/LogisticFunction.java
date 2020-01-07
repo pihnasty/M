@@ -3,7 +3,8 @@ package neural.network.activiation.functions;
 import java.util.function.Function;
 
 public class LogisticFunction implements ActiviationFunction {
-    private Function<Double, Double> function = x -> 1.0 / (1.0 + Math.exp(-x));
+    double A = 4.0;
+    private Function<Double, Double> function = x -> A / (1.0 + Math.exp(-x));
 
     @Override
     public Function<Double, Double> getFunction() {
@@ -16,7 +17,7 @@ public class LogisticFunction implements ActiviationFunction {
         switch (mode.toUpperCase()) {
             case "S" :  derivativeFunction = x -> function.apply(x) * (1.0 - function.apply(x));
                 break;
-            case "F(S)" :  derivativeFunction = x -> x * (1.0 - x);
+            case "F(S)" :  derivativeFunction = x -> x * (1.0 - x/A);
                 break;
                 default: derivativeFunction = errorFunction;
                 break;
