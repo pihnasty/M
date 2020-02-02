@@ -132,6 +132,9 @@ public class NeuralManager {
     }
 
     public void learningNeuralNet() {
+        Double [] error2Sum = {0.0};
+        Integer countElementInData =  neuralManager.getPreparedForLearningInputTable().size();
+
         MathP.Counter counter = MathP.getCounter(1);
 
         neuralManager.getPreparedForLearningInputTable().forEach(
@@ -157,11 +160,12 @@ public class NeuralManager {
                     for (int i=0; i<errorOutputFactorsRow.size();i++) {
                         error2 += errorOutputFactorsRow.get(i)* errorOutputFactorsRow.get(i);
                     }
-                    System.out.print(" "+count+" "+error2);
+                    error2Sum[0] += error2 ;
                 }
             }
         );
-        System.out.println();
+        Double MSE = Math.sqrt(error2Sum[0])/countElementInData;
+        System.out.println("MSE="+MSE);
     }
 
     public void predictionNeuralNet() {
@@ -192,7 +196,6 @@ public class NeuralManager {
                 }
             }
         );
-        System.out.println();
     }
 
     public void serializeNeuralNet(List<Ws> wsS, String path, String fileName) {

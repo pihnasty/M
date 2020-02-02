@@ -16,16 +16,22 @@ public interface Settings {
 
 
         // for the parameters of the multi-model
+        public static String MULTIPLE_REGRESSION = "multiple-regression";
         public static String NUMBER_REGRESSORS = "number-regressors";
         public static String MAX_NUMBER_MODELS = "max-number-models";
 
         // for the parameters of the neural
+        public static String NEURAL_NETWORK = "neural-network";
         public static String COUNT_NODE = "count-node";
         public static String ACTIVATION_FUNCTION = "activation-function";
         public static String DISTRIBUTE_ERROR = "distribute-error";
         public static String OPTIMIZATION_METHOD = "optimization-method";
         public static String TYPE_LAYER = "type-layer";
         public static String ALPHA = "alpha";
+        public static String NUMBER_OF_EPOCHS = "number-of-epochs";
+        public static String NUMBER_OF_EPOCHS_BETWEEN_SAVE = "number-of-epochs-between-save";
+        public static String CPU_COOLING_TIME_SECONDS = "CPU-cooling-time-seconds";
+        public static String NUMBER_OF_EPOCHS_BETWEEN_CPU_COOLING = "number-of-epochs-between-CPU-cooling";
 
 
 
@@ -78,6 +84,13 @@ public interface Settings {
         public static String NEURAL_NETWORk_MODEL_TEST_DATA_CSV ="result//neural_network_model//test_data.csv";
         public static String NEURAL_NETWORk_MODEL_SPEED_INPUT_TEST_DATA_CSV ="result//neural_network_model//speed_input//speed_input_test_data.csv";
         public static String NEURAL_NETWORk_MODEL_WS_SERIALIZE ="result//neural_network_model//ws_serialize";
+        public static String NEURAL_NETWORk_MODEL ="result//neural_network_model";
+        public static String LEARNING_ANALYSIS_TOOL ="learning_analysis_tool";
+        public static String WS_SERIALIZE ="ws_serialize";
+        public static String TESTING_RUN ="testing_run";
+        public static String STATISTICS ="statistics";
+        public static String LEARNING_WORD ="epoch";
+        public static String ERROR ="error.csv";
         public static String DATA_TABLE_AFTER_ANALYSIS_CSV ="result//neural_network_model//data_after_analysis.csv";
     }
 

@@ -1,5 +1,7 @@
 package experiment;
 
+import settings.Settings;
+
 import java.util.*;
 
 import static common.ProjectConstant.ModelNanes.ONE_PARAMETER_LINEAR_DEPENDENCE;
@@ -12,7 +14,7 @@ public class Plan {
 
     private Map<String,Map<String,String>> hiddenLayers = new HashMap<>();
 
-    private Map<String,String> parametersOfModel = new HashMap<>();
+    private Map<String,Map<String,String>> parametersOfModel = new HashMap<>();
 
     private static Plan ourInstance = new Plan();
 
@@ -73,11 +75,11 @@ public class Plan {
         this.boundaryConditions = boundaryConditions;
     }
 
-    public Map<String, String> getParametersOfModel() {
+    public Map<String,Map<String,String>> getParametersOfModel() {
         return parametersOfModel;
     }
 
-    public void setParametersOfModel(Map<String, String> parametersOfModel) {
+    public void setParametersOfModel(Map<String,Map<String,String>> parametersOfModel) {
         this.parametersOfModel = parametersOfModel;
     }
 
@@ -87,5 +89,13 @@ public class Plan {
 
     public void setHiddenLayers(Map<String, Map<String, String>> hiddenLayers) {
         this.hiddenLayers = hiddenLayers;
+    }
+
+    public Map<String,String> getParametersOfMultipleRregressionModel() {
+        return parametersOfModel.get(Settings.Keys.MULTIPLE_REGRESSION );
+    }
+
+    public Map<String,String> getParametersOfNeuralNetworkModel() {
+        return parametersOfModel.get(Settings.Keys.NEURAL_NETWORK );
     }
 }

@@ -40,7 +40,15 @@
     }
   },
   "parametersOfModel": {
-    "number-regressors": "0",
-    "max-number-models": "100"
+    "multiple-regression": {
+      "number-regressors": "0",
+      "max-number-models": "100"
+    },
+    "neural-network": {
+      "number-of-epochs": "500",
+      "number-of-epochs-between-save": "2",
+      "CPU-cooling-time-seconds": "300",
+      "number-of-epochs-between-CPU-cooling": "4000"
+    }
   }
 }

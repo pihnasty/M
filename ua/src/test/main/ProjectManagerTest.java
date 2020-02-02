@@ -173,24 +173,5 @@ public class ProjectManagerTest {
             }
         );
 
-
-
     }
-
-
-
-    /*
-
-        "10" : {
-      "count-node" : "5",
-      "activation-function" : "1",
-      "distribute-error" : "1",
-      "optimization-method" : "5",
-      "type-layer" : "head"
-    },
-
-
-    */
-
-
 }

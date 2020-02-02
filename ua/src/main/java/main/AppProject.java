@@ -111,7 +111,7 @@ public class AppProject extends ObservableDS {
         koefficientB = oneParameterModel.getKoefficientB();
     }
 
-    public void calculateCoefficientsMultiParameterModel(List<String> outputFactors, List<String> inputFactors, Map<String,String> parametersOfModel ) {
+    public void calculateCoefficientsMultiParameterModel(List<String> outputFactors, List<String> inputFactors, Map<String,String> parametersOfMultipleRregressionModel ) {
 
 
         MultiParameterModel model = new  MultiParameterModel(
@@ -148,7 +148,7 @@ public class AppProject extends ObservableDS {
 
 
         List<List<Long>> variantsOfNumber = Combinatorics.getVariants(
-            Integer.parseInt(parametersOfModel.get(Settings.Keys.NUMBER_REGRESSORS))
+            Integer.parseInt(parametersOfMultipleRregressionModel.get(Settings.Keys.NUMBER_REGRESSORS))
             , inputFactors.size());
 
         MathP.Counter titleCounter = MathP.getCounter(1,1);

@@ -241,11 +241,43 @@ public class ProjectManager extends ObservableDS {
         project.calculateCoefficientsMultiParameterModel(
             getPlanExperiment().getOutputFactors()
             , getPlanExperiment().getInputFactors()
-            , getPlanExperiment().getParametersOfModel()
+            , getPlanExperiment().getParametersOfMultipleRregressionModel()
         );
     }
 
-    public void learningNeuralNet() {
+    public void continueLearningNeuralNet() {
+        String path = getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL
+            + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
+            + "//" + Settings.Values.WS_SERIALIZE;
+
+
+        String lastFileName = "";
+        int lastSaveNumberEpoch = 1;
+
+        List<String> fileNames = io.file.Paths.sortedFileNameFromDirectory(path, Settings.Values.LEARNING_WORD);
+
+        if (Objects.nonNull(fileNames) && !fileNames.isEmpty()) {
+            for (int i = fileNames.size() - 1; i >= 0; i--) {
+                lastFileName = fileNames.get(i);
+                try {
+                    lastSaveNumberEpoch = Integer.parseInt(lastFileName.replace(Settings.Values.LEARNING_WORD, ""));
+                } catch (NumberFormatException e) {
+                    continue;
+                }
+                break;
+            }
+
+        }
+        deserializeNeuralNet(path, lastFileName);
+        learningNeuralNet(lastSaveNumberEpoch, false );
+    }
+
+
+    public void deserializeNeuralNet(String path, String  fileName ) {
+        project.setWsS(NeuralManager.getManager().deserializeNeuralNet(path,fileName));
+    }
+
+    public void learningNeuralNet(int startWithEpoch, boolean isDeletedPastResultLearninfAnalysisTool ) {
 
         NeuralModel neuralModel = new NeuralModel();
         NeuralManager neuralManager = NeuralManager.getManager();
@@ -266,19 +298,51 @@ public class ProjectManager extends ObservableDS {
 
         neuralManager.prepareForLearningTable(inputFactors, outputFactors, separatedRawDataTable);
 
-        for(int i=0; i<8000; i++) {
+        Map<String, String> parametersOfNeuralNetworkModel = getPlanExperiment().getParametersOfNeuralNetworkModel();
+        int numberOfEpochs = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS ));
+        int numberOfEpochsBetweenSave = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS_BETWEEN_SAVE));
+        int cpuCoolingTimeSeconds = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.CPU_COOLING_TIME_SECONDS));
+        int numberOfEpochsBetweenCpuCooling = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS_BETWEEN_CPU_COOLING));
+
+
+        for (int i = startWithEpoch; i <numberOfEpochs; i++) {
+            System.out.print(i + "--- ");
             neuralManager.learningNeuralNet();
             project.setWsS(neuralModel.getLayers().stream().map(layer -> layer.getW()).collect(Collectors.toList()));
-            System.out.println(i+"------------------------------------------------------------------------------------------------------------");
+            if (i % numberOfEpochsBetweenCpuCooling == 0) {
+                try {
+                    LoggerP.logger.log(Level.INFO,"Остановлен расчет на %d сек для снижения температуры процессора", cpuCoolingTimeSeconds);
+                    Thread.sleep(cpuCoolingTimeSeconds * 1000);
+                } catch (InterruptedException e) {
+                    // nothing
+                }
+            }
+            if (i % numberOfEpochsBetweenSave == 0) {
+                if(isDeletedPastResultLearninfAnalysisTool) {
+                    String pathS = getProjectPath()
+                        + "//" + Settings.Values.NEURAL_NETWORk_MODEL + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL ;
+                    io.file.Paths.deleteDirectory(pathS);
+                    isDeletedPastResultLearninfAnalysisTool = false;
+                }
+                serializeNeuralNet(i );
+                runDataAnalysisNeuralNet(i);
+            }
         }
-
-       // System.out.println(project.getWsS().get(41).getListWs());
 
     }
 
     public void serializeNeuralNet() {
         String path = io.file.Paths.getPathToDirectory(getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL_WS_SERIALIZE);
         String fileName = io.file.Paths.getShortFileName(getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL_WS_SERIALIZE);
+        NeuralManager.getManager().serializeNeuralNet(project.getWsS(), path,fileName);
+    }
+
+    public void serializeNeuralNet(int numberEpochs ) {
+        String relativePath = Settings.Values.NEURAL_NETWORk_MODEL
+            + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
+            + "//" + Settings.Values.WS_SERIALIZE + String.format("//%s%010d",Settings.Values.LEARNING_WORD,numberEpochs);
+        String path = io.file.Paths.getPathToDirectory(getProjectPath() + "//" + relativePath);
+        String fileName = io.file.Paths.getShortFileName(getProjectPath() + "//" + relativePath);
         NeuralManager.getManager().serializeNeuralNet(project.getWsS(), path,fileName);
     }
 
@@ -317,7 +381,15 @@ public class ProjectManager extends ObservableDS {
             summaryData.add(row);
         }
         project.setDataTableAfterAnalysisNeuralNet(summaryData);
+    }
 
+    public void runDataAnalysisNeuralNet(int numberEpochs) {
+        project.setDataTableForAnalysisNeuralNet(project.getSeparatedRawDataTable());
+        runDataAnalysisNeuralNet();
+        String relativePath = Settings.Values.NEURAL_NETWORk_MODEL
+            + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
+            + "//" + Settings.Values.TESTING_RUN + String.format("//%s%010d.csv",Settings.Values.LEARNING_WORD, numberEpochs);
+        saveData(project.getDataTableAfterAnalysisNeuralNet(), relativePath);
     }
 
     public void saveDataAnalysisNeuralNet() {

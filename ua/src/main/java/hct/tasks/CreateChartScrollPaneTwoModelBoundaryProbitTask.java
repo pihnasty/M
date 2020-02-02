@@ -21,13 +21,10 @@ import settings.ProviderSettings;
 import settings.Settings;
 import string.StringUtil;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.*;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class CreateChartScrollPaneTwoModelBoundaryProbitTask extends Task<Void> {
 
@@ -128,7 +125,7 @@ public class CreateChartScrollPaneTwoModelBoundaryProbitTask extends Task<Void> 
                                                 Double v2= coefficientB2 * inputFactor2.getDoubleValues().get(key);
                                                 LoggerP.logger.log(Level.INFO,
                                                     v1.toString() + "   "+v2.toString()+"  "+ executeOutFactorsValue.toString()+ " value="+ inputFactor1.getDoubleValues().get(key)
-                                                );;
+                                                );
                                                 executeOutFactorsValues.add(executeOutFactorsValue);
                                             }
                                         }

@@ -73,6 +73,8 @@
         <Menu text="%neural.network">
             <MenuItem text="%learning.neural.net" fx:id="learningNeuralNetItem"
                       onAction="#handleLearningNeuralNetAction"/>
+            <MenuItem text="%continue.learning.neural.net" fx:id="continueLearningNeuralNetItem"
+                      onAction="#handleContinueLearningNeuralNetAction"/>
             <SeparatorMenuItem/>
             <MenuItem text="%serialize.neural.net" fx:id="serializeNeuralNetItem"
                       onAction="#handleSerializeNeuralNetAction"/>

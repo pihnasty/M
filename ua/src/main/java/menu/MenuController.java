@@ -94,6 +94,9 @@ public class MenuController extends InitializableDS {
     private MenuItem learningNeuralNetItem;
 
     @FXML
+    private MenuItem continueLearningNeuralNetItem;
+
+    @FXML
     private MenuItem serializeNeuralNetItem;
 
     @FXML
@@ -143,6 +146,7 @@ public class MenuController extends InitializableDS {
         buildResidualPlotMultiModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+9"));
         calculateCoefficientsMultiParameterModelItem.setAccelerator(KeyCombination.keyCombination("Ctrl+M"));
         learningNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+B"));
+        continueLearningNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+C"));
         serializeNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+S"));
         deserializeNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+D"));
         uploadDataAnalysisNeuralNetItem.setAccelerator(KeyCombination.keyCombination("Ctrl+Y"));
@@ -284,6 +288,11 @@ public class MenuController extends InitializableDS {
     @FXML
     private void handleLearningNeuralNetAction(ActionEvent event) {
         new LearningNeuralNetHandler().learning(modelObservableDS);
+    }
+
+    @FXML
+    private void handleContinueLearningNeuralNetAction(ActionEvent event) {
+        new ContinueLearningNeuralNetHandler().continueLearning(modelObservableDS);
     }
 
     @FXML

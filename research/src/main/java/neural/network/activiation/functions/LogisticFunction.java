@@ -3,7 +3,7 @@ package neural.network.activiation.functions;
 import java.util.function.Function;
 
 public class LogisticFunction implements ActiviationFunction {
-    double A = 4.0;
+    double A = 5.0;
     private Function<Double, Double> function = x -> A / (1.0 + Math.exp(-x));
 
     @Override
