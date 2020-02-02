@@ -1,7 +1,5 @@
 package string;
 
-import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
-
 import java.util.Objects;
 import java.util.Optional;
 
@@ -40,6 +38,12 @@ public class StringUtil {
         return String.format(" " + "%"
             + headerValue.length()
             + ".4f ", value);
+    }
+
+    public static String getDoubleFormatValue(Double value, String headerValue, String presigion, int anything) {
+        return String.format("%"
+            + headerValue.length()
+            + presigion, value);
     }
 
     public static String getDoubleFormatValue(Double value, int headerValueLength) {

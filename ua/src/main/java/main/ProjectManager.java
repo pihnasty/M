@@ -246,15 +246,19 @@ public class ProjectManager extends ObservableDS {
     }
 
     public void continueLearningNeuralNet() {
-        String path = getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL
+        String pathDeserialize = getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL
             + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
             + "//" + Settings.Values.WS_SERIALIZE;
+
+        String statFullFileName = getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL
+            + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
+            + "//" + Settings.Values.STATISTICS+"//"+Settings.Values.ERROR;
 
 
         String lastFileName = "";
         int lastSaveNumberEpoch = 1;
 
-        List<String> fileNames = io.file.Paths.sortedFileNameFromDirectory(path, Settings.Values.LEARNING_WORD);
+        List<String> fileNames = io.file.Paths.sortedFileNameFromDirectory(pathDeserialize, Settings.Values.LEARNING_WORD);
 
         if (Objects.nonNull(fileNames) && !fileNames.isEmpty()) {
             for (int i = fileNames.size() - 1; i >= 0; i--) {
@@ -268,7 +272,9 @@ public class ProjectManager extends ObservableDS {
             }
 
         }
-        deserializeNeuralNet(path, lastFileName);
+
+        uploadErrorsStatNeuralNet(statFullFileName);
+        deserializeNeuralNet(pathDeserialize, lastFileName);
         learningNeuralNet(lastSaveNumberEpoch, false );
     }
 
@@ -277,23 +283,14 @@ public class ProjectManager extends ObservableDS {
         project.setWsS(NeuralManager.getManager().deserializeNeuralNet(path,fileName));
     }
 
-    public void learningNeuralNet(int startWithEpoch, boolean isDeletedPastResultLearninfAnalysisTool ) {
-
+    public void learningNeuralNet(int startWithEpoch, boolean isDeletedPastResultLearninOfAnalysisTool ) {
         NeuralModel neuralModel = new NeuralModel();
         NeuralManager neuralManager = NeuralManager.getManager();
         neuralManager.setNeuralModel(neuralModel);
-
         List<String> inputFactors = getPlanExperiment().getInputFactors();
         List<String> outputFactors = getPlanExperiment().getOutputFactors();
-
-
         List<List<String>> separatedRawDataTable = project.getSeparatedRawDataTable();
-
-        neuralManager.buildArchitecture(
-            inputFactors,
-            getPlanExperiment().getHiddenLayers(),
-            outputFactors
-        );
+        neuralManager.buildArchitecture(inputFactors, getPlanExperiment().getHiddenLayers(), outputFactors);
         neuralManager.randomInitWs();
 
         neuralManager.prepareForLearningTable(inputFactors, outputFactors, separatedRawDataTable);
@@ -304,10 +301,25 @@ public class ProjectManager extends ObservableDS {
         int cpuCoolingTimeSeconds = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.CPU_COOLING_TIME_SECONDS));
         int numberOfEpochsBetweenCpuCooling = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS_BETWEEN_CPU_COOLING));
 
-
+        List<List<String>> errorsStat = neuralManager.getErrorsStat();
         for (int i = startWithEpoch; i <numberOfEpochs; i++) {
             System.out.print(i + "--- ");
-            neuralManager.learningNeuralNet();
+            Double MSE = neuralManager.learningNeuralNet();
+
+            if (i == startWithEpoch) {
+                if (errorsStat.isEmpty()) {
+                    List<String> header = new ArrayList<>();
+                    header.add("        epoch      ");
+                    header.add("         MSE       ");
+                    errorsStat.add(header);
+                }
+            }
+
+            List<String> rowErrorsStat = new ArrayList<>();
+            rowErrorsStat.add(StringUtil.getDoubleFormatValue((double)i,errorsStat.get(0).get(0),".0f",1));
+            rowErrorsStat.add(StringUtil.getDoubleFormatValue(MSE,errorsStat.get(0).get(0),".8f",1));
+            errorsStat.add(rowErrorsStat);
+
             project.setWsS(neuralModel.getLayers().stream().map(layer -> layer.getW()).collect(Collectors.toList()));
             if (i % numberOfEpochsBetweenCpuCooling == 0) {
                 try {
@@ -318,17 +330,24 @@ public class ProjectManager extends ObservableDS {
                 }
             }
             if (i % numberOfEpochsBetweenSave == 0) {
-                if(isDeletedPastResultLearninfAnalysisTool) {
+                if(isDeletedPastResultLearninOfAnalysisTool) {
                     String pathS = getProjectPath()
                         + "//" + Settings.Values.NEURAL_NETWORk_MODEL + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL ;
                     io.file.Paths.deleteDirectory(pathS);
-                    isDeletedPastResultLearninfAnalysisTool = false;
+                    isDeletedPastResultLearninOfAnalysisTool = false;
                 }
                 serializeNeuralNet(i );
                 runDataAnalysisNeuralNet(i);
+                saveErrorsStat(i, errorsStat);
             }
         }
 
+    }
+
+    public static String getDoubleFormatValue(Double value, String headerValue, String presigion, int anything) {
+        return String.format(" " + "%"
+            + headerValue.length()
+            + presigion, value);
     }
 
     public void serializeNeuralNet() {
@@ -392,12 +411,27 @@ public class ProjectManager extends ObservableDS {
         saveData(project.getDataTableAfterAnalysisNeuralNet(), relativePath);
     }
 
+    public void saveErrorsStat(int i, List<List<String>> errorsStat) {
+        project.setDataTableForAnalysisNeuralNet(project.getSeparatedRawDataTable());
+        runDataAnalysisNeuralNet();
+        String relativePath = Settings.Values.NEURAL_NETWORk_MODEL
+            + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
+            + "//" + Settings.Values.STATISTICS + "//" + i+Settings.Values.ERROR;
+        saveData(errorsStat, relativePath);
+    }
+
+
     public void saveDataAnalysisNeuralNet() {
         saveData(project.getDataTableAfterAnalysisNeuralNet(),Settings.Values.DATA_TABLE_AFTER_ANALYSIS_CSV );
     }
 
     public void uploadDataAnalysisNeuralNet(String fullFileName) {
         project.setDataTableForAnalysisNeuralNet(readTableFromFile(fullFileName));
+    }
+
+    public void uploadErrorsStatNeuralNet(String fullFileName) {
+        NeuralManager neuralManager = NeuralManager.getManager();
+        neuralManager.setErrorsStat(readTableFromFile(fullFileName));
     }
 
     public void downloadExperimentPlan(String fullFileName) throws FileNotFoundException {

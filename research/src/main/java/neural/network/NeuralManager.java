@@ -25,6 +25,7 @@ public class NeuralManager {
     private List<List<String>> preparedForLearningInputTable = new ArrayList<>();
     private List<List<String>> preparedForLearningOutputTable = new ArrayList<>();
     private List<List<String>> dataTableAfterAnalysisNeuralNet = new ArrayList();
+    private List<List<String>> errorsStat = new ArrayList<>();
 
     public static NeuralManager getManager() {
         return neuralManager;
@@ -131,7 +132,7 @@ public class NeuralManager {
         ).collect(Collectors.toList());
     }
 
-    public void learningNeuralNet() {
+    public Double learningNeuralNet() {
         Double [] error2Sum = {0.0};
         Integer countElementInData =  neuralManager.getPreparedForLearningInputTable().size();
 
@@ -166,6 +167,7 @@ public class NeuralManager {
         );
         Double MSE = Math.sqrt(error2Sum[0])/countElementInData;
         System.out.println("MSE="+MSE);
+        return MSE;
     }
 
     public void predictionNeuralNet() {
@@ -232,6 +234,14 @@ public class NeuralManager {
 
     public void setDataTableAfterAnalysisNeuralNet(List<List<String>> dataTableAfterAnalysisNeuralNet) {
         this.dataTableAfterAnalysisNeuralNet = dataTableAfterAnalysisNeuralNet;
+    }
+
+    public List<List<String>> getErrorsStat() {
+        return errorsStat;
+    }
+
+    public void setErrorsStat(List<List<String>> errorsStat) {
+        this.errorsStat = errorsStat;
     }
 }
 
