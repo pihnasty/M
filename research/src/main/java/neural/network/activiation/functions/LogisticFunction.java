@@ -3,8 +3,15 @@ package neural.network.activiation.functions;
 import java.util.function.Function;
 
 public class LogisticFunction implements ActiviationFunction {
-    double A = 5.0;
-    private Function<Double, Double> function = x -> A / (1.0 + Math.exp(-x));
+    private Function<Double, Double> function;
+    private double a;
+    private double b;
+
+    public LogisticFunction(double a, double b) {
+        this.a =a;
+        this.b =b;
+        function = x -> a / (1.0 + Math.exp(-b * x));
+    }
 
     @Override
     public Function<Double, Double> getFunction() {
@@ -15,11 +22,14 @@ public class LogisticFunction implements ActiviationFunction {
     public Function<Double, Double> getDerivativeFunction(String mode) {
         Function<Double, Double> derivativeFunction;
         switch (mode.toUpperCase()) {
-            case "S" :  derivativeFunction = x -> function.apply(x) * (1.0 - function.apply(x));
+            case "S":
+                derivativeFunction = x -> b * function.apply(x) * (1.0 - function.apply(x) / a);
                 break;
-            case "F(S)" :  derivativeFunction = x -> x * (1.0 - x/A);
+            case "F(S)":
+                derivativeFunction = x -> b * x * (1.0 - x / a);
                 break;
-                default: derivativeFunction = errorFunction;
+            default:
+                derivativeFunction = errorFunction;
                 break;
         }
         return derivativeFunction;

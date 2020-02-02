@@ -9,105 +9,10 @@ public class DataSet {
 
     static public ArrayList<RowSetting> tSettings;                    // установки и настройки системы. Хранятся в коллекции разные для разных перспектив. Модификатор доступа static , т.к. хранятся гастройки отдельно от объектов
 
-    private ArrayList<RowTrest> tabTrests;                    //
-    private ArrayList<RowWork> tabWorks;
-    private ArrayList<RowTrestWork> tabTrestsWorks;
-
-    private ArrayList<RowMachine> tabMachines;
-    private ArrayList<RowWorkMachine> tabWorksMachines;
-
-    private ArrayList<RowModelmachine> tabModelmachines;
-
-    private ArrayList<RowEmployee> tabEmployees;
-    private ArrayList<RowWorkEmployee> tabWorksEmployees;
-
-    private ArrayList<RowSubject_labour> tabSubject_labours;
-    private ArrayList<RowWorkSubject_labour> tabWorksSubject_labours;
-
-    private ArrayList<RowOrder> tabOrders;
-    private ArrayList<RowWorkOrder> tabWorksOrders;
-
-    private ArrayList<RowLine> tabLines;
-    private ArrayList<RowOrderLine> tabOrdersLines;
-
-    private ArrayList<RowLineSubject_labour> tabLinesSubject_labours;
-    private ArrayList<RowLineUnit> tabLinesUnits;                    // <RowLineUnit>
-
-    private ArrayList<RowRoute> tabRoutes;
-    private ArrayList<RowRouteLineroute> tabRoutesLineroutes;
-    private ArrayList<RowResource> tabResources;
-
-    private ArrayList<RowSubject_labourRoute> tabSubject_laboursRoutes;
-    private ArrayList<RowSubject_labourUnit> tabSubject_laboursUnits;
-
-    private ArrayList<RowUnit> tabUnits;
-
-    private ArrayList<RowLinespec> tabLinespecs;
-
-    private ArrayList<RowLinespecResource> tabLinespecsResources;
-
-    private ArrayList<RowLinespecUnit> tabLinespecsUnits;
-    private ArrayList<RowFunctionOEM> tabFunctionOEMs;
-    private ArrayList<RowLinespecFunctionOEM> tabLinespecsFunctionOEMs;
-
-    private ArrayList<RowLineroute> tabLineroutes;
-    private ArrayList<RowOperation> tabOperations;
-    private ArrayList<RowLinerouteOperation> tabLineroutesOperations;
-    private ArrayList<RowLinerouteMachine> tabLineroutesMachines;
-    private ArrayList<RowLinerouteEmployee> tabLineroutesEmployees;
-    private ArrayList<RowLinerouteLinespec> tabLineroutesLinespecs;
-    private ArrayList<RowTypemachine> tabTypemachines;
-    private ArrayList<RowTypemachineModelmachine> tabTypemachineModelmachines;
-    private ArrayList<RowModelmachineMachine> tabModelmachineMachines;
-    private ArrayList<RowParametrfunctiondist> tabParametrfunctiondists = new ArrayList<>();
-
-    private ArrayList<RowFunctiondistParametrfunctiondist> tabFunctiondistsParametrfunctiondistsTest = new ArrayList<>();
-
 
 
 
     public DataSet() {
-        tSettings = new ArrayList<RowSetting>();
-        tabTrests = new ArrayList<RowTrest>();
-        tabWorks = new ArrayList<RowWork>();
-        tabTrestsWorks = new ArrayList<RowTrestWork>();
-        tabMachines = new ArrayList<RowMachine>();
-        tabWorksMachines = new ArrayList<RowWorkMachine>();
-        tabEmployees = new ArrayList<RowEmployee>();
-        tabWorksEmployees = new ArrayList<RowWorkEmployee>();
-        tabSubject_labours = new ArrayList<RowSubject_labour>();
-        tabSubject_laboursRoutes = new ArrayList<>();
-        tabSubject_laboursUnits = new ArrayList<>();
-        tabWorksSubject_labours = new ArrayList<RowWorkSubject_labour>();
-        tabOrders = new ArrayList<RowOrder>();
-        tabWorksOrders = new ArrayList<RowWorkOrder>();
-        tabLines = new ArrayList<RowLine>();
-        tabLinesSubject_labours = new ArrayList<RowLineSubject_labour>();
-        tabLinesUnits = new ArrayList<RowLineUnit>();    //<RowLineUnit>
-        tabUnits = new ArrayList<RowUnit>();
-        tabOrdersLines = new ArrayList<RowOrderLine>();
-        tabOperations = new ArrayList<RowOperation>();
-        tabRoutes = new ArrayList<RowRoute>();
-        tabRoutesLineroutes = new ArrayList<RowRouteLineroute>();
-        tabLinespecs = new ArrayList<RowLinespec>();
-
-        tabResources = new ArrayList<RowResource>();
-        tabLinespecsResources = new ArrayList<RowLinespecResource>();
-        tabLinespecsUnits = new ArrayList<RowLinespecUnit>();
-        tabFunctionOEMs = new ArrayList<RowFunctionOEM>();
-        tabLinespecsFunctionOEMs = new ArrayList<RowLinespecFunctionOEM>();
-        tabLineroutes = new ArrayList<RowLineroute>();
-        tabLineroutesOperations = new ArrayList<RowLinerouteOperation>();
-        tabLineroutesMachines = new ArrayList<RowLinerouteMachine>();
-        tabLineroutesEmployees = new ArrayList<RowLinerouteEmployee>();
-        tabLineroutesLinespecs = new ArrayList<RowLinerouteLinespec>();
-        tabModelmachines = new ArrayList<RowModelmachine>();
-        tabTypemachines = new ArrayList<RowTypemachine>();
-        tabTypemachineModelmachines = new ArrayList<>();
-        tabModelmachineMachines = new ArrayList<>();
-
-
-
 
     }
 
