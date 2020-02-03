@@ -14,6 +14,8 @@ import javafx.scene.control.ScrollPane;
 import logging.LoggerP;
 import neural.network.NeuralManager;
 import neural.network.NeuralModel;
+import neural.network.layers.Layer;
+import neural.network.ws.Ws;
 import settings.EnumSettings;
 import settings.ProviderSettings;
 import settings.Settings;
@@ -250,10 +252,6 @@ public class ProjectManager extends ObservableDS {
             + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
             + "//" + Settings.Values.WS_SERIALIZE;
 
-        String statFullFileName = getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL
-            + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
-            + "//" + Settings.Values.STATISTICS+"//"+Settings.Values.ERROR;
-
 
         String lastFileName = "";
         int lastSaveNumberEpoch = 1;
@@ -273,9 +271,13 @@ public class ProjectManager extends ObservableDS {
 
         }
 
+        String statFullFileName = getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL
+            + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
+            + "//" + Settings.Values.STATISTICS+"//"+lastSaveNumberEpoch+Settings.Values.ERROR;
+
         uploadErrorsStatNeuralNet(statFullFileName);
         deserializeNeuralNet(pathDeserialize, lastFileName);
-        learningNeuralNet(lastSaveNumberEpoch, false );
+        learningNeuralNet(lastSaveNumberEpoch+1, false );
     }
 
 
@@ -291,7 +293,15 @@ public class ProjectManager extends ObservableDS {
         List<String> outputFactors = getPlanExperiment().getOutputFactors();
         List<List<String>> separatedRawDataTable = project.getSeparatedRawDataTable();
         neuralManager.buildArchitecture(inputFactors, getPlanExperiment().getHiddenLayers(), outputFactors);
-        neuralManager.randomInitWs();
+        if (isDeletedPastResultLearninOfAnalysisTool) {
+            neuralManager.randomInitWs();
+        } else {
+            List<Ws> listWs = project.getWsS();
+            List<Layer> layers = neuralModel.getLayers();
+            for (int i=1; i<layers.size(); i++) {
+                layers.get(i).setW(listWs.get(i));
+            }
+        }
 
         neuralManager.prepareForLearningTable(inputFactors, outputFactors, separatedRawDataTable);
 
@@ -319,11 +329,10 @@ public class ProjectManager extends ObservableDS {
             rowErrorsStat.add(StringUtil.getDoubleFormatValue((double)i,errorsStat.get(0).get(0),".0f",1));
             rowErrorsStat.add(StringUtil.getDoubleFormatValue(MSE,errorsStat.get(0).get(0),".8f",1));
             errorsStat.add(rowErrorsStat);
-
             project.setWsS(neuralModel.getLayers().stream().map(layer -> layer.getW()).collect(Collectors.toList()));
             if (i % numberOfEpochsBetweenCpuCooling == 0) {
                 try {
-                    LoggerP.logger.log(Level.INFO,"Остановлен расчет на %d сек для снижения температуры процессора", cpuCoolingTimeSeconds);
+                    LoggerP.logger.log(Level.INFO,String.format("Остановлен расчет на %d сек для снижения температуры процессора", cpuCoolingTimeSeconds));
                     Thread.sleep(cpuCoolingTimeSeconds * 1000);
                 } catch (InterruptedException e) {
                     // nothing
@@ -342,12 +351,6 @@ public class ProjectManager extends ObservableDS {
             }
         }
 
-    }
-
-    public static String getDoubleFormatValue(Double value, String headerValue, String presigion, int anything) {
-        return String.format(" " + "%"
-            + headerValue.length()
-            + presigion, value);
     }
 
     public void serializeNeuralNet() {

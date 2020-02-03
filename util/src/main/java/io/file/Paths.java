@@ -47,16 +47,18 @@ public class Paths {
 
     public static boolean  deleteDirectory(String pathS) {
         Path path = java.nio.file.Paths.get(pathS);
-        try {
-            Files.walk(path)
-                .sorted(Comparator.reverseOrder())
-                .map(Path::toFile)
-                .forEach(File::delete);
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
+        if (!Files.notExists(path)) {
+            try {
+                Files.walk(path)
+                    .sorted(Comparator.reverseOrder())
+                    .map(Path::toFile)
+                    .forEach(File::delete);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return false;
+            }
         }
+        return true;
     }
 
     public static String lastSortedFileNameFromDirectory(String path, String containExpression) {

@@ -45,7 +45,7 @@
       "max-number-models": "100"
     },
     "neural-network": {
-      "number-of-epochs": "32000",
+      "number-of-epochs": "64000",
       "number-of-epochs-between-save": "1000",
       "CPU-cooling-time-seconds": "300",
       "number-of-epochs-between-CPU-cooling": "4000"
