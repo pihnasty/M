@@ -7,7 +7,7 @@ import org.testng.annotations.Test;
 public class Z0Test {
     private Double exception =0.0001;
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void getBettaTest() {
 
         Z0 z = new Z0();

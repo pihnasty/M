@@ -313,21 +313,25 @@ public class ProjectManager extends ObservableDS {
 
         List<List<String>> errorsStat = neuralManager.getErrorsStat();
         for (int i = startWithEpoch; i <numberOfEpochs; i++) {
-            System.out.print(i + "--- ");
+
             Double MSE = neuralManager.learningNeuralNet();
 
             if (i == startWithEpoch) {
                 if (errorsStat.isEmpty()) {
                     List<String> header = new ArrayList<>();
                     header.add("        epoch      ");
-                    header.add("         MSE       ");
+                    header.add("           MSE           ");
+                    header.add("         delta MSE       ");
                     errorsStat.add(header);
                 }
             }
 
             List<String> rowErrorsStat = new ArrayList<>();
             rowErrorsStat.add(StringUtil.getDoubleFormatValue((double)i,errorsStat.get(0).get(0),".0f",1));
-            rowErrorsStat.add(StringUtil.getDoubleFormatValue(MSE,errorsStat.get(0).get(0),".8f",1));
+            rowErrorsStat.add(StringUtil.getDoubleFormatValue(MSE,errorsStat.get(0).get(1),".14f",1));
+            double deltaMSE = MSE
+                - ( errorsStat.size()==1 ? 0.0 : Double.parseDouble(errorsStat.get(errorsStat.size()-1).get(1).replace(",",".")) );
+            rowErrorsStat.add(StringUtil.getDoubleFormatValue(deltaMSE,errorsStat.get(0).get(2),".14f",1));
             errorsStat.add(rowErrorsStat);
             project.setWsS(neuralModel.getLayers().stream().map(layer -> layer.getW()).collect(Collectors.toList()));
             if (i % numberOfEpochsBetweenCpuCooling == 0) {
@@ -349,6 +353,7 @@ public class ProjectManager extends ObservableDS {
                 runDataAnalysisNeuralNet(i);
                 saveErrorsStat(i, errorsStat);
             }
+            System.out.println(String.format("%10d--- MSE=%.14f  deltaMSE=%.14f",i , MSE,deltaMSE));
         }
 
     }

@@ -166,7 +166,6 @@ public class NeuralManager {
             }
         );
         Double MSE = Math.sqrt(error2Sum[0])/countElementInData;
-        System.out.println("MSE="+MSE);
         return MSE;
     }
 

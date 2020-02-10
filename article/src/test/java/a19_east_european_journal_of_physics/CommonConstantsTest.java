@@ -9,7 +9,7 @@ import static a19_east_european_journal_of_physics.CommonConstants.v_1;
 public class CommonConstantsTest {
     private Double exception =0.0001;
 
-    @Test(enabled = true)
+    @Test(enabled = false)
     public void v_fTest () {
         CommonConstants.Q_c = 0.5;
         CommonConstants.v_g = 4.0;
