@@ -320,6 +320,7 @@ public class ProjectManager extends ObservableDS {
                 if (errorsStat.isEmpty()) {
                     List<String> header = new ArrayList<>();
                     header.add("        epoch      ");
+                    header.add("  log10(epoch)     ");
                     header.add("           MSE           ");
                     header.add("         delta MSE       ");
                     errorsStat.add(header);
@@ -328,10 +329,11 @@ public class ProjectManager extends ObservableDS {
 
             List<String> rowErrorsStat = new ArrayList<>();
             rowErrorsStat.add(StringUtil.getDoubleFormatValue((double)i,errorsStat.get(0).get(0),".0f",1));
-            rowErrorsStat.add(StringUtil.getDoubleFormatValue(MSE,errorsStat.get(0).get(1),".14f",1));
+            rowErrorsStat.add(StringUtil.getDoubleFormatValue(Math.log10((double)i),errorsStat.get(0).get(1),".4f",1));
+            rowErrorsStat.add(StringUtil.getDoubleFormatValue(MSE,errorsStat.get(0).get(2),".14f",1));
             double deltaMSE = MSE
-                - ( errorsStat.size()==1 ? 0.0 : Double.parseDouble(errorsStat.get(errorsStat.size()-1).get(1).replace(",",".")) );
-            rowErrorsStat.add(StringUtil.getDoubleFormatValue(deltaMSE,errorsStat.get(0).get(2),".14f",1));
+                - ( errorsStat.size()==1 ? 0.0 : Double.parseDouble(errorsStat.get(errorsStat.size()-1).get(2).replace(",",".")) );
+            rowErrorsStat.add(StringUtil.getDoubleFormatValue(deltaMSE,errorsStat.get(0).get(3),".14f",1));
             errorsStat.add(rowErrorsStat);
             project.setWsS(neuralModel.getLayers().stream().map(layer -> layer.getW()).collect(Collectors.toList()));
             if (i % numberOfEpochsBetweenCpuCooling == 0) {
@@ -353,7 +355,7 @@ public class ProjectManager extends ObservableDS {
                 runDataAnalysisNeuralNet(i);
                 saveErrorsStat(i, errorsStat);
             }
-            System.out.println(String.format("%10d--- MSE=%.14f  deltaMSE=%.14f",i , MSE,deltaMSE));
+            System.out.println(String.format("%8d--- ln= %5.3f  MSE=%.14f  deltaMSE=%.14f",i, Math.log10((double)i) , MSE,deltaMSE));
         }
 
     }
