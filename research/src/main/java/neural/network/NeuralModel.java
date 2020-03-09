@@ -9,6 +9,7 @@ import neural.network.nodes.Node;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -25,7 +26,7 @@ public class NeuralModel {
         this.layers = layers;
     }
 
-    public List<Double> forwardPropagation (List<Double> inputFactorsRow) {
+    public List<Double> forwardPropagation (Map<String, Double> inputFactorsRow) {
 
         List<Layer> layers = getLayers();
         List<Double> hiddenFactorsValues = new ArrayList<>();
@@ -33,7 +34,8 @@ public class NeuralModel {
             List<Node> nodes = layer.getNodes();
             if (layer.getId()==0) {
                 for (int i=0; i<nodes.size(); i++) {
-                    nodes.get(i).setValue(inputFactorsRow.get(i));
+                    Node node = nodes.get(i);
+                    node.setValue(inputFactorsRow.get(node.getFactorName()));
                 }
             }
             if (layer.getId()>0 ) {

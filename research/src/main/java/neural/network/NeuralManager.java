@@ -9,10 +9,7 @@ import neural.network.layers.OutputLayer;
 import neural.network.ws.Ws;
 import string.StringUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static settings.Settings.Keys.TYPE_LAYER;
@@ -143,11 +140,7 @@ public class NeuralManager {
                 int count = counter.get();
                 if(count>0) {
                     List<Double> rowOutputFactorForLearning = new ArrayList<>();
-                    List<Double> rowInputFactor = new ArrayList<>();
-                    row.forEach(stringValue -> {
-                        Double doubleValue = Double.parseDouble(stringValue);
-                        rowInputFactor.add(doubleValue);
-                    });
+                    Map<String, Double> rowInputFactor = getRowInputFactor(row);
                     neuralManager.getPreparedForLearningOutputTable().get(count).forEach(
                         stringValue -> {
                             Double doubleValue = Double.parseDouble(stringValue);
@@ -169,6 +162,17 @@ public class NeuralManager {
         return MSE;
     }
 
+    private Map<String, Double> getRowInputFactor(List<String> row) {
+        Map<String, Double> rowInputFactor = new HashMap<>();
+        for (int i=0; i<row.size(); i++) {
+            rowInputFactor.put(
+                neuralManager.getPreparedForLearningInputTable().get(0).get(i).trim()
+                ,Double.parseDouble(row.get(i))
+            );
+        }
+        return rowInputFactor;
+    }
+
     public void predictionNeuralNet() {
         MathP.Counter counter = MathP.getCounter(1);
 
@@ -181,12 +185,8 @@ public class NeuralManager {
             row -> {
                 int count = counter.get();
                 if(count>0) {
-                    List<Double> rowInputFactor = new ArrayList<>();
-                    row.forEach(stringValue -> {
-                        Double doubleValue = Double.parseDouble(stringValue);
-                        rowInputFactor.add(doubleValue);
-                    });
 
+                    Map<String, Double> rowInputFactor = getRowInputFactor(row);
                     List<Double> outputFactorsRowCalculate = neuralModel.forwardPropagation(rowInputFactor);
 
                     List<String> rowString = new ArrayList<>();

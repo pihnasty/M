@@ -15,9 +15,9 @@ public class NeuralManagerTest {
         NeuralManager neuralManager = NeuralManager.getManager();
 
         String path = "D:\\A\\M\\MyProjects\\p71_Conveyor\\result\\neural_network_model\\learning_analysis_tool\\ws_serialize";
-        String fileName = "epoch0001232000";
+        String fileName = "epoch0005300000";
 
-        String testingPath = "result\\neural_network_model\\learning_analysis_tool\\testing";
+        String testingPath = "result\\neural_network_model\\learning_analysis_tool\\exam";
         String testingFileName = "ws_test_" + fileName + ".csv";
 
         List<Ws> wSs = neuralManager.deserializeNeuralNet(path, fileName);
