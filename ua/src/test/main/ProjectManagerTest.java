@@ -83,7 +83,7 @@ public class ProjectManagerTest {
 
         Map<String, String> map2 = new HashMap<>();
         map2.put("count-node","3");
-        map2.put("activation-function","1");
+        map2.put("activation-function","1:1:");
         map2.put("distribute-error" , "1");
         map2.put("optimization-method" , "5");
         map2.put("alpha" , "1.0");
@@ -91,7 +91,7 @@ public class ProjectManagerTest {
 
         Map<String, String> map3 = new HashMap<>();
         map3.put("count-node","3");
-        map3.put("activation-function","1");
+        map3.put("activation-function","1;1;1");
         map3.put("distribute-error" , "1");
         map3.put("optimization-method" , "5");
         map3.put("alpha" , "1.0");

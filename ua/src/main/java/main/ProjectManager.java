@@ -23,11 +23,13 @@ import string.StringUtil;
 
 import javax.print.attribute.PrintRequestAttributeSet;
 import javax.print.attribute.standard.Destination;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.logging.Level;
@@ -207,6 +209,15 @@ public class ProjectManager extends ObservableDS {
 
 
 }
+    public void deleteFile(String fileName) {
+        String path = io.file.Paths.getPathToDirectory(getProjectPath()+"//"+fileName);
+        fileName = io.file.Paths.getShortFileName(getProjectPath()+"//"+fileName);
+        String relativePathForDeleteFile = path+"//"+fileName;
+        if(new File(relativePathForDeleteFile).delete()) {
+            LoggerP.write(Level.INFO, "file " + relativePathForDeleteFile + " was deleted.");
+        }
+
+    }
 
     public void saveData(List<List<String>> dataTable, String fileName) {
 
@@ -353,9 +364,11 @@ public class ProjectManager extends ObservableDS {
                 }
                 serializeNeuralNet(i );
                 runDataAnalysisNeuralNet(i);
-                saveErrorsStat(i, errorsStat);
+                saveErrorsStat(i, errorsStat, numberOfEpochsBetweenSave);
             }
-            System.out.println(String.format("%8d--- ln= %5.3f  MSE=%.14f  deltaMSE=%.14f",i, Math.log10((double)i) , MSE,deltaMSE));
+            if (i % 20 == 0) {
+                System.out.println(LocalDateTime.now() + "  "+String.format("%8d-- ln= %5.3f  MSE=%.14f  deltaMSE=%.14f", i, Math.log10((double) i), MSE, deltaMSE));
+            }
         }
 
     }
@@ -421,13 +434,35 @@ public class ProjectManager extends ObservableDS {
         saveData(project.getDataTableAfterAnalysisNeuralNet(), relativePath);
     }
 
-    public void saveErrorsStat(int i, List<List<String>> errorsStat) {
+    public void saveErrorsStat(int i, List<List<String>> errorsStat, int numberOfEpochsBetweenSave) {
         project.setDataTableForAnalysisNeuralNet(project.getSeparatedRawDataTable());
         runDataAnalysisNeuralNet();
         String relativePath = Settings.Values.NEURAL_NETWORk_MODEL
             + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
             + "//" + Settings.Values.STATISTICS + "//" + i+Settings.Values.ERROR;
-        saveData(errorsStat, relativePath);
+
+        String relativePathForDeleteFile = Settings.Values.NEURAL_NETWORk_MODEL
+            + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
+            + "//" + Settings.Values.STATISTICS + "//" + (i-2*numberOfEpochsBetweenSave) +Settings.Values.ERROR;
+
+        deleteFile(relativePathForDeleteFile);
+        saveData(getUniqueErrorsStat(errorsStat), relativePath);
+    }
+
+    private List<List<String>> getUniqueErrorsStat(List<List<String>> errorsStat) {
+        List<List<String>> uniqueErrorsStat = new ArrayList<>();
+        for (int k=0; k<errorsStat.size(); k++) {
+            List<String> currentRow = errorsStat.get(k);
+            if (k < 100) {
+                uniqueErrorsStat.add(currentRow);
+            } else {
+                List<String> prevCurrentRow = errorsStat.get(k - 1);
+                if (!currentRow.get(1).equals(prevCurrentRow.get(1))) {
+                    uniqueErrorsStat.add(currentRow);
+                }
+            }
+        }
+        return uniqueErrorsStat;
     }
 
 

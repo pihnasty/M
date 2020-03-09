@@ -24,18 +24,18 @@
   "hiddenLayers": {
     "11": {
       "count-node": "3",
-      "activation-function": "1;8;1",
+      "activation-function": "1;4;1",
       "distribute-error": "1",
       "optimization-method": "5",
-      "alpha": "0.000001",
+      "alpha": "0.00001",
       "type-layer": "head"
     },
     "12": {
       "count-node": "2",
-      "activation-function": "1;8;1",
+      "activation-function": "1;4;1",
       "distribute-error": "1",
       "optimization-method": "5",
-      "alpha": "0.000001",
+      "alpha": "0.00001",
       "type-layer": "tail"
     }
   },
@@ -45,8 +45,8 @@
       "max-number-models": "100"
     },
     "neural-network": {
-      "number-of-epochs": "564000",
-      "number-of-epochs-between-save": "1000",
+      "number-of-epochs": "5964000",
+      "number-of-epochs-between-save": "4000",
       "CPU-cooling-time-seconds": "300",
       "number-of-epochs-between-CPU-cooling": "4000"
     }

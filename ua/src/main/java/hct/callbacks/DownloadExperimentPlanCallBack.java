@@ -8,10 +8,10 @@ public  class DownloadExperimentPlanCallBack implements StateTaskCallBack<Worker
 
     public Void call(Worker.State state, Throwable throwable ){
         if(state==Worker.State.SUCCEEDED) {
-            AlertDialog.getAlertShow(MainWindowView.getResourceString("upload.name.category.title")
-                ,MainWindowView.getResourceString("upload.name.category.message"));
+            AlertDialog.getAlertShow(MainWindowView.getResourceString("upload.experiment.plan.title")
+                ,MainWindowView.getResourceString("upload.experiment.plan.message"));
         } else {
-            AlertDialog.getAlertShow(MainWindowView.getResourceString("upload.name.category.title")
+            AlertDialog.getAlertShow(MainWindowView.getResourceString("upload.experiment.plan.title")
                 ,throwable.getMessage());
         }
         return null;
