@@ -139,20 +139,15 @@ public class NeuralManager {
             row -> {
                 int count = counter.get();
                 if(count>0) {
-                    List<Double> rowOutputFactorForLearning = new ArrayList<>();
                     Map<String, Double> rowInputFactor = getRowInputFactor(row);
-                    neuralManager.getPreparedForLearningOutputTable().get(count).forEach(
-                        stringValue -> {
-                            Double doubleValue = Double.parseDouble(stringValue);
-                            rowOutputFactorForLearning.add(doubleValue);
-                        }
-                    );
-                    List<Double> outputFactorsRowCalculate = neuralModel.forwardPropagation(rowInputFactor);
-                    List<Double> errorOutputFactorsRow = neuralModel.forwardPropagationErrors( rowOutputFactorForLearning,  outputFactorsRowCalculate);
-                    neuralModel.backPropagation( errorOutputFactorsRow);
+                    Map<String, Double> rowOutputFactorForLearning = rowOutputFactorForLearning(count);
+
+                    Map<String, Double> outputFactorsRowCalculate = neuralModel.forwardPropagation(rowInputFactor);
+                    Map<String, Double> errorOutputFactorsRow = neuralModel.forwardPropagationErrors( rowOutputFactorForLearning,  outputFactorsRowCalculate);
+                    neuralModel.backPropagation(errorOutputFactorsRow);
                     Double error2 = 0.0;
-                    for (int i=0; i<errorOutputFactorsRow.size();i++) {
-                        error2 += errorOutputFactorsRow.get(i)* errorOutputFactorsRow.get(i);
+                    for (double value : errorOutputFactorsRow.values()) {
+                        error2 += value*value;
                     }
                     error2Sum[0] += error2 ;
                 }
@@ -160,6 +155,18 @@ public class NeuralManager {
         );
         Double MSE = error2Sum[0]/countElementInData;     //Math.sqrt(error2Sum[0]/countElementInData);
         return MSE;
+    }
+
+    private Map<String, Double> rowOutputFactorForLearning(int count) {
+        Map<String, Double> rowOutputFactorForLearning = new HashMap<>();
+        List<String> row = neuralManager.getPreparedForLearningOutputTable().get(count);
+        List<String> headerRow = neuralManager.getPreparedForLearningOutputTable().get(0);
+        for(int i=0; i<row.size(); i++) {
+            String key = headerRow.get(i).trim();
+            Double doubleValue = Double.parseDouble(row.get(i));
+            rowOutputFactorForLearning.put(key, doubleValue);
+        }
+        return rowOutputFactorForLearning;
     }
 
     private Map<String, Double> getRowInputFactor(List<String> row) {
@@ -178,20 +185,29 @@ public class NeuralManager {
 
         dataTableAfterAnalysisNeuralNet = new ArrayList<>();
         int sizeLayers = neuralModel.getLayers().size();
-        List<String> header = neuralModel.getLayers().get(sizeLayers-1).getNodes().stream().map(node->node.getFactorName()+"A").collect(Collectors.toList());
-        dataTableAfterAnalysisNeuralNet.add(header);
 
+        List<String> headerOriginal = new ArrayList<>();
+        List<String> headerPrediction = new ArrayList<>();
+
+        neuralModel.getLayers().get(sizeLayers - 1).getNodes().forEach(node -> {
+                String headerValue = node.getFactorName().trim();
+                headerOriginal.add(headerValue);
+                headerPrediction.add(headerValue + "A");
+            }
+        );
+
+        dataTableAfterAnalysisNeuralNet.add(headerPrediction);
         neuralManager.getPreparedForLearningInputTable().forEach(
             row -> {
                 int count = counter.get();
                 if(count>0) {
 
                     Map<String, Double> rowInputFactor = getRowInputFactor(row);
-                    List<Double> outputFactorsRowCalculate = neuralModel.forwardPropagation(rowInputFactor);
+                    Map<String, Double> outputFactorsRowCalculate = neuralModel.forwardPropagation(rowInputFactor);
 
                     List<String> rowString = new ArrayList<>();
-                    for(int i=0; i<outputFactorsRowCalculate.size(); i++) {
-                        rowString.add(StringUtil.getDoubleFormatValue(outputFactorsRowCalculate.get(i),header.get(i)));
+                    for(int i=0; i<headerOriginal.size(); i++) {
+                        rowString.add(StringUtil.getDoubleFormatValue(outputFactorsRowCalculate.get(headerOriginal.get(i)),headerPrediction.get(i)));
                     }
                     dataTableAfterAnalysisNeuralNet.add(rowString);
                 }

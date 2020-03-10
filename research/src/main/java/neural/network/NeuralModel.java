@@ -8,6 +8,7 @@ import neural.network.layers.Layer;
 import neural.network.nodes.Node;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -26,7 +27,7 @@ public class NeuralModel {
         this.layers = layers;
     }
 
-    public List<Double> forwardPropagation (Map<String, Double> inputFactorsRow) {
+    public Map<String, Double> forwardPropagation (Map<String, Double> inputFactorsRow) {
 
         List<Layer> layers = getLayers();
         List<Double> hiddenFactorsValues = new ArrayList<>();
@@ -50,31 +51,36 @@ public class NeuralModel {
                 }
             }
         }
-        return hiddenFactorsValues;
+        Map<String, Double> outputFactorsRowCalculate = new HashMap<>();
+        layers.get(layers.size()-1).getNodes().forEach(
+            node -> outputFactorsRowCalculate.put(node.getFactorName(),node.getValue())
+        );
+        return outputFactorsRowCalculate;
     }
 
-    public List<Double> forwardPropagationErrors(List<Double> outputFactorsRowForLearning, List<Double> outputFactorsRowCalculate) {
-        List<Double> errorOutputFactorsRow = new ArrayList<>();
-        for(int i=0; i <outputFactorsRowForLearning.size(); i++) {
-            errorOutputFactorsRow.add(outputFactorsRowForLearning.get(i)-outputFactorsRowCalculate.get(i));
-        }
+    public Map<String, Double> forwardPropagationErrors(Map<String, Double> outputFactorsRowForLearning, Map<String, Double> outputFactorsRowCalculate) {
+        Map<String, Double> errorOutputFactorsRow = new HashMap<>();
+        outputFactorsRowForLearning.keySet().forEach(
+            key -> errorOutputFactorsRow.put(key, outputFactorsRowForLearning.get(key) - outputFactorsRowCalculate.get(key))
+        );
         return errorOutputFactorsRow;
-
     }
 
-    public void backPropagation(List<Double> errorOutputFactorsRow) {
+    public void backPropagation(Map<String, Double> errorOutputFactorsRow) {
         backCalculateError(errorOutputFactorsRow);
         backCalculateDeltaWs(errorOutputFactorsRow);
     }
 
-    public void backCalculateError(List<Double> errorOutputFactorsRow) {
+    public void backCalculateError(Map<String, Double> errorOutputFactorsRow) {
         List<Layer> layers = getLayers();
         for (int i = layers.size() - 1; i > 0; i--) {
             Layer layer = layers.get(i);
             List<Node> nodes = layer.getNodes();
             if (i == layers.size() - 1) {
                 for (int i2 = 0; i2 < nodes.size(); i2++) {
-                    nodes.get(i2).setError(errorOutputFactorsRow.get(i2));
+                    Node outputNode = nodes.get(i2);
+                    String key =outputNode.getFactorName().trim();
+                    outputNode.setError(errorOutputFactorsRow.get(key));
                 }
             } else {
                 Ws wsLayerIplus1 = layers.get(i+1).getW();
@@ -92,17 +98,17 @@ public class NeuralModel {
         }
     }
 
-    public void backCalculateDeltaWs(List<Double> errorOutputFactorsRow) {
+    public void backCalculateDeltaWs(Map<String, Double> errorOutputFactorsRow) {
         List<Layer> layers = getLayers();
         for (int i = layers.size() - 1; i > 0; i--) {
             Layer layer = layers.get(i);
-
             List<Double> valueNodeFromPreviousLayers = layer.getPreviousLayer().getNodes().stream().map(Node::getValue).collect(Collectors.toList());
 
             Function<Double, Double> derivativeFunction = layer.getActiviationFunction().getDerivativeFunction("F(S)");
             List<Double> sigmaExpressions = layer.getNodes().stream().map(node->-node.getError()*derivativeFunction.apply(node.getValue())).collect(Collectors.toList());
        //     List<Double> sigmaExpressions = layer.getNodes().stream().map(node->-node.getError()*node.getValue()*(1.0-node.getValue())).collect(Collectors.toList());
             List<List<Double>> wlist = layer.getW().getListWs();
+
             List<List<Double>> gradientWlist =SolvingLinearSystems.multiplyColumnToRow(sigmaExpressions,valueNodeFromPreviousLayers);
 
             double alpha = layer.getAlpha();
@@ -113,10 +119,6 @@ public class NeuralModel {
                     deltaWlist.get(i1).set(i2,value);
                 }
             }
-
-
-
-
             List<List<Double>> newWlist = SolvingLinearSystems.subtract(wlist,deltaWlist);
             layer.getW().setListWs(newWlist);
         }

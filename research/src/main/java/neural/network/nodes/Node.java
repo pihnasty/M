@@ -7,7 +7,7 @@ public class Node {
     private double error;
 
     public Node(int id, String factorName) {
-        this.factorName = factorName;
+        this.factorName = factorName.trim();
         this.id = id;
     }
 
