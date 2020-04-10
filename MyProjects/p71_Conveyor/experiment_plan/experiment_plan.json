@@ -1,7 +1,7 @@
 {
   "outputFactors": [
-    "8.output",
-    "7.output"
+    "7.output",
+    "8.output"
   ],
   "inputFactors": [
     "1.ksiD",
@@ -23,7 +23,7 @@
   },
   "hiddenLayers": {
     "11": {
-      "count-node": "3",
+      "count-node": "10",
       "activation-function": "1;4;1",
       "distribute-error": "1",
       "optimization-method": "5",

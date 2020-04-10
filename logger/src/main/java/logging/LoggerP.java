@@ -24,7 +24,7 @@ public class LoggerP {
             SimpleDateFormat format = new SimpleDateFormat("yy-MM-dd hh-mm-ss");
             Date date = new Date();
             boolean append = false;
-            FileHandler fh = new FileHandler("logger\\src\\main\\java\\logfiles\\"+logfileName+format.format(date)+".log", append);
+            FileHandler fh = new FileHandler("D:\\A\\M\\log\\"+logfileName+format.format(date)+".log", append);
             //fh.setFormatter(new XMLFormatter());
             fh.setFormatter(new SimpleFormatter());
             logger = Logger.getLogger(logfileName);
