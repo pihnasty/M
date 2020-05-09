@@ -79,7 +79,14 @@ public class Section {
         if (delayValue<0.0) {
             return psi.apply(1.0-delay.getFunctionValue(tau));
         }
-        return densities.get(( densities).tailMap(tau-delayValue).firstKey());
+        Double densityValue = null;
+        try {
+            densityValue =  densities.get(( densities).tailMap(tau-delayValue).firstKey());
+        }   catch (NoSuchElementException e) {
+            System.out.println(e);
+        }
+
+        return  densityValue;
     }
 
     public double getSpeedValue() {

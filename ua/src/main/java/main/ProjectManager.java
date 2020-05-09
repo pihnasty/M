@@ -220,10 +220,12 @@ public class ProjectManager extends ObservableDS {
     }
 
     public void saveData(List<List<String>> dataTable, String fileName) {
-
         String path = io.file.Paths.getPathToDirectory(getProjectPath()+"//"+fileName);
         fileName = io.file.Paths.getShortFileName(getProjectPath()+"//"+fileName);
+        saveData(dataTable, fileName, path);
+    }
 
+    public void saveData(List<List<String>> dataTable, String fileName, String path) {
         CsvWriterP csvWriterP = new CsvWriterP("%8.3f ", ';'
             , path, fileName);
         if (Objects.nonNull(dataTable)) {

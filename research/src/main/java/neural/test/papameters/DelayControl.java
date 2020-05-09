@@ -3,7 +3,6 @@ package neural.test.papameters;
 import neural.test.BaseTransportSystem;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 import java.util.function.Function;
 
@@ -25,6 +24,14 @@ public class DelayControl {
         deltaTau= BaseTransportSystem.deltaTau;
         cashValue.put(startIntegrationValue, 0.0);
         cash_G_FunctionValue.put(0.0, startIntegrationValue);
+        Double integralValue = startIntegrationValue;
+        for (double tau=0; tau<210.0; tau+=deltaTau/2) {
+            Double functionValue = function.apply(tau);
+            cashValue.put(integralValue, tau);
+            cash_G_FunctionValue.put(tau, integralValue);
+            integralValue+=functionValue*deltaTau/2;
+        }
+        System.out.println("");
     }
 
     public double getValue(double functionValue) {
