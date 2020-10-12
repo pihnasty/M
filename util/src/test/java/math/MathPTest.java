@@ -2,6 +2,7 @@ package math;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MathPTest {
@@ -26,5 +27,20 @@ public class MathPTest {
 
         List<List<String>> listsString = MathP.initArrayList("1",5, 5);
         System.out.println(listsString);
+    }
+
+    @Test
+    public void testBinarySearch() {
+        List<Double> list = new ArrayList<>();
+        for (int i =1; i<1000; i++) {
+            list.add(0.01*i*i);
+        }
+
+        int i = MathP.binarySearch(list, 0.01 * 100 * 100 + 0.0000001, 0, list.size());
+
+        System.out.println( list.get(99));
+        System.out.println( list.get(100));
+        System.out.println( list.get(101));
+        System.out.println(i);
     }
 }

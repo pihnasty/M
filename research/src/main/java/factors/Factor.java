@@ -1,8 +1,10 @@
 package factors;
 
 import common.ProjectConstant;
+import logging.LoggerP;
 
 import java.util.*;
+import java.util.logging.Level;
 
 public class Factor {
     private String categoryIdAndName;
@@ -80,7 +82,11 @@ public class Factor {
                 if (values.get(key).trim().equals("-")) {
                     dimensionlessValue.put(key, null);
                 } else {
-                    dimensionlessValue.put(key, (Double.parseDouble(values.get(key)) - averageValue) / standardDeviation);
+                    try {
+                        dimensionlessValue.put(key, (Double.parseDouble(values.get(key)) - averageValue) / standardDeviation);
+                    } catch (Exception e) {
+                        LoggerP.write(Level.INFO, e.getMessage());
+                    }
                 }
             }
         );

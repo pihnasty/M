@@ -10,7 +10,7 @@ import java.util.List;
 public class AppA20TOU {
     public static void main(String[] args) {
 
-        int n = 2888;
+        int n = 2887;
         double tauMin = 0.0;
         double tauMax = 24.0;
         double initialMassValueMin = 0.4;
@@ -25,9 +25,9 @@ public class AppA20TOU {
         Input input = Input.CONST_0p15_INPUT;
         double initialMassValue = 0.9;
         double initialXbValue = 0.0;
-        double psi_m_0 =  2.889;
+        double psi_m_0 =  2.07 ;//2.889;
         double psi_m_tau24 = 0.0;
-        InitialDensity initialDensity = InitialDensity.SIN_2PTAU_DENSITY;
+        InitialDensity initialDensity = InitialDensity.CONST_0p8523_DENSITY;
 
 //==================================================================
 

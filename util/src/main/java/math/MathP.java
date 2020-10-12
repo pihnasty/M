@@ -64,5 +64,22 @@ public class MathP {
         return list;
     }
 
+    public static <T extends Comparable<T>> int binarySearch(List<T> list, T value, int low, int high) {
+        if (high <= low) {
+            return low;
+        }
+        int mid = low + (high - low) / 2;
+        int cmp = value.compareTo(list.get(mid));
+
+        if (cmp == 0) {
+            return mid;
+        }
+
+        if (cmp < 0) {
+            return binarySearch(list, value, low, mid - 1);
+        } else {
+            return binarySearch(list, value, mid + 1, high);
+        }
+    }
 
 }
