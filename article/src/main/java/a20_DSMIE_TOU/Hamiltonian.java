@@ -19,8 +19,10 @@ public class Hamiltonian {
     private final Psi_B psi_b;
     private final Density density;
     private final double dt;
+    private final ObjectiveFunction objectiveFunction;
 
-    public Hamiltonian(double dt, Psi_B psi_b, Tariff tariff, Speed speed, Mass mass, Psi_M psi_m, Input input, Delay delay, Density density) {
+    public Hamiltonian(double dt, Psi_B psi_b, Tariff tariff, Speed speed, Mass mass, Psi_M psi_m, Input input, Delay delay
+        , Density density, ObjectiveFunction objectiveFunction) {
         this.tariff = tariff;
         this.speed = speed;
         this.mass = mass;
@@ -29,6 +31,7 @@ public class Hamiltonian {
         this.delay = delay;
         this.psi_b = psi_b;
         this.density = density;
+        this.objectiveFunction = objectiveFunction;
         this.dt = dt;
         hamiltonianOptimalValues = new ArrayList<>();
         taus = new ArrayList<>();
@@ -42,10 +45,11 @@ public class Hamiltonian {
 
         double outputDensity= tau1>0 ? input.getByTau(tau1) / speed.getByTau(tau1) : density.getOutputDensityByTau(tauPrev);
 
-        return (psi_b.getPsi_bByTau() - tariff.getByTau(tau)) * speedValue * mass.getByTau(tauPrev)
-            + psi_m.getByTau(tauPrev) * (
-             input.getByTau(tauPrev) - outputDensity * speedValue
-            );
+        double valueObjectiveFunction = objectiveFunction.getByTauSpeed(tauPrev, speedValue);
+
+        return - valueObjectiveFunction
+            + psi_b.getPsi_bByTau() * speedValue * mass.getByTau(tauPrev)
+            + psi_m.getByTau(tauPrev) * ( input.getByTau(tauPrev) - outputDensity * speedValue );
     }
 
     public double getOptimalSpeedControl(double tau) {
@@ -109,6 +113,7 @@ public class Hamiltonian {
         taus.add(tau);
         addSpeed1(tau);
         addOutputDensity(tau);
+//        addObjectiveFunction(tau);
     }
 
     private void addSpeed1(double tau) {
@@ -123,6 +128,12 @@ public class Hamiltonian {
         double outputDensity= tau1>0 ? input.getByTau(tau1) / speed.getByTau(tau1) : density.getOutputDensityByTau(tauPrev);
         outputDensities.add(outputDensity);
     }
+
+//    private void addObjectiveFunction (double tau) {
+//        double tauPrev = tau - dt;
+//        double objectiveFunctionValue = objectiveFunction.getByTau(tauPrev);
+//        objectiveFunction.add(objectiveFunctionValue);
+//    }
 
     public double getByTau (double tau) {
         int index = (int) (tau / dt);

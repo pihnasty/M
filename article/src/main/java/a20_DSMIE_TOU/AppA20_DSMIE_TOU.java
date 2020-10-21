@@ -11,25 +11,27 @@ public class AppA20_DSMIE_TOU {
     public static void main(String[] args) {
 
         double tauMin = 0.0;
-        double tauMax = 24.0;
+        double tauMax = 120.0;
         double initialMassValueMin = 0.4;
         double initialMassValueMax = 1.4;
         double initialXbValueMin = 0.0;
         double initialXbValueMax = 29.50;
         int countTau =24000;
         int countPsi_b_value = 500;
-        List<Double> regularSpeeds = Arrays.asList(0.176, 0.246, 0.316, 0.386, 0.456, 0.526, 0.596, 0.667, 0.736, 0.806, 0.878);
+        List<Double> regularSpeeds = Arrays.asList(0.176,
+      //      0.246, 0.316, 0.386, 0.456, 0.526, 0.596, 0.667, 0.736, 0.806,
+            0.878);
 
         Tariff tariff = Tariff.Ukraine2zone;
-        Input input = Input.SIN_0_5;
+        Input input = Input.SIN_0_15;
         double initialMassValue = 0.9;
         double initialXbValue = 0.0;
-        double psi_m_0 =  8.0 ;//2.889;
+        double psi_m_0 =  4.0 ;//2.889;
         double psi_m_tau24 = 0.0;
        InitialDensity initialDensity = InitialDensity.CONST_0p8523_DENSITY;
 
 
-        int n = (int) psi_m_0;
+        int n = (int) psi_m_0*1000;
 //==================================================================
 
         double dt = (tauMax - tauMin) / countTau;
@@ -68,7 +70,7 @@ public class AppA20_DSMIE_TOU {
 
         objectiveFunction = new ObjectiveFunction(dt, tau, 0.0, tariff, speed, mass
             , ObjectiveFunction.ObjectiveFunctionCase.ZUM);
-        hamiltonian = new Hamiltonian(dt, psi_b, tariff, speed, mass, psi_m, input, delay, density);
+        hamiltonian = new Hamiltonian(dt, psi_b, tariff, speed, mass, psi_m, input, delay, density, objectiveFunction);
 
         for (tau = tauMin + dt; tau <= tauMax; tau += dt) {
 
@@ -79,12 +81,13 @@ public class AppA20_DSMIE_TOU {
             mass.add(tau);
             psi_m.add(tau);
             xb.add(tau);
+            objectiveFunction.addQualityIntegrals(tau);
 
         }
 
 
-        saveResult(n, tauMin, tauMax, dt, speed, input, delay, density, mass, psi_b, psi_m, tariff, xb, hamiltonian);
-        System.out.println(xb.xbs.get(xb.xbs.size()-1)+ "      " + psi_m.psi_Ms.get(psi_m.psi_Ms.size()-1));
+        saveResult(n, tauMin, tauMax, dt, speed, input, delay, density, mass, psi_b, psi_m, tariff, xb, hamiltonian, objectiveFunction);
+        System.out.println(xb.getByCurrentTau()+ "      " + psi_m.getByCurrentTau()+ "      "+ objectiveFunction.getIntegralByCurrentTau());
     }
 
     private static double getPsi_b_optimalValue(double tauMin, double tauMax, double initialMassValueMin, double initialMassValueMax,
@@ -99,6 +102,7 @@ public class AppA20_DSMIE_TOU {
         Xb xb = null;
         Psi_B psi_b = null;
         Psi_M psi_m = null;
+        ObjectiveFunction objectiveFunction = null;
 
         double psi_b_OptimalValue = psi_b_valueMin;
         double psi_mEndValue = Double.MAX_VALUE;
@@ -113,19 +117,22 @@ public class AppA20_DSMIE_TOU {
             density = new Density(initialDensity, delay, input, speed);
             mass = new Mass(dt, tau, initialMassValue, input, speed, delay, density);
             xb = new Xb(dt, tau, initialXbValueMin, speed, mass);
+            objectiveFunction = new ObjectiveFunction(dt, tau, 0.0, tariff, speed, mass
+                , ObjectiveFunction.ObjectiveFunctionCase.ZUM);
 
             psi_b = new Psi_B(psi_b_value);
             psi_m = new Psi_M(dt, tau, psi_m_0, psi_b, tariff, speed);
 
             for (tau = tauMin + dt; tau <= tauMax; tau += dt) {
 
-                Hamiltonian hamiltonian = new Hamiltonian(dt, psi_b, tariff, speed, mass, psi_m, input, delay, density);
+                Hamiltonian hamiltonian = new Hamiltonian(dt, psi_b, tariff, speed, mass, psi_m, input, delay, density,objectiveFunction);
                 double optimalSpeedControl = hamiltonian.getOptimalSpeedControl(tau);
                 speed.add(tau, optimalSpeedControl);
                 delay.add(tau, speed);
                 mass.add(tau);
                 psi_m.add(tau);
                 xb.add(tau);
+                objectiveFunction.addQualityIntegrals(tau);
             }
 
             double psi_mByCurrentTau = Math.abs(psi_m.getByCurrentTau());
@@ -140,7 +147,8 @@ public class AppA20_DSMIE_TOU {
 
     private static void saveResult(int n, double tauMin, double tauMax, double dt,
                                    Speed speed, Input input, Delay delay, Density density,
-                                   Mass mass, Psi_B psi_b, Psi_M psi_m, Tariff tariff, Xb xb, Hamiltonian hamiltonian) {
+                                   Mass mass, Psi_B psi_b, Psi_M psi_m, Tariff tariff, Xb xb,
+                                   Hamiltonian hamiltonian, ObjectiveFunction objectiveFunction) {
         double tau;
         List<List<String>> tableTest = new ArrayList<>();
         List<String> header = new ArrayList<>();
@@ -157,6 +165,7 @@ public class AppA20_DSMIE_TOU {
         header.add("   10.hamiltonianOptimal ");
         header.add("   11.speed1 ");
         header.add("   12.outputDensity ");
+        header.add("   13.qualityIntegral ");
 
         tableTest.add(header);
 
@@ -176,6 +185,7 @@ public class AppA20_DSMIE_TOU {
             row.add(getValue(hamiltonian.getByTau(tau), header, 10));
             row.add(getValue(hamiltonian.getSpeed1ByTau(tau), header, 11));
             row.add(getValue(hamiltonian.getOutputDensityByTau(tau), header, 12));
+            row.add(getValue(objectiveFunction.getQualityIntegralsByTau(tau), header, 13));
             tableTest.add(row);
         }
 

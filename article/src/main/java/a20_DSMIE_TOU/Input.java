@@ -4,7 +4,8 @@ public enum Input {
     CONST_0p5_INPUT ("gamma1 = 0.5"),
     CONST_0p15_INPUT ("gamma1 = 0.15"),
     SIN_2PTAU_INPUT ("gamma1 = 1.0+sin(2PI*tau)"),
-    SIN_0_5 ("0.15+(0.87-0.17)/2 + 0.3*Math.sin(2.0 * Math.PI * tau)");
+    SIN_0_15 ("0.15+ 0.15*Math.sin(2.0 * Math.PI * tau/24.0)"),
+    SIN_0_5 ("0.15+(0.87-0.17)/2 + 0.3*Math.sin(2.0 * Math.PI * tau/24.0)");
 
     private String name;
     Input (String name) {
@@ -25,6 +26,9 @@ public enum Input {
                 break;
             case SIN_0_5:
                 gamma1 = 0.15+(0.87-0.17)/2 + 0.3*Math.sin(2.0 * Math.PI * tau/24.0);
+                break;
+            case SIN_0_15:
+                gamma1 = 0.15+ 0.15*Math.sin(2.0 * Math.PI * tau/24.0);
                 break;
             default:
                 gamma1 = -1.0;

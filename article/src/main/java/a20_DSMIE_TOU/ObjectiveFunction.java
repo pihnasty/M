@@ -31,32 +31,52 @@ public class ObjectiveFunction {
 
     }
 
-    public void add(double tau) {
+    public void addQualityIntegrals(double tau) {
         double tauBefore = tau - dt;
         double valueBefore = qualityIntegrals.get(qualityIntegrals.size() - 1);
-        double currentValue;
-            switch (objectiveFunctionCase) {
-            case ZUM:
-                currentValue = valueBefore
-                    + speed.getByTau(tauBefore)
-                    * mass.getByTau(tauBefore)
-                    * tariff.getByTau(tauBefore)
-                    * dt;
-                break;
-            default:
-                currentValue = Double.MAX_VALUE;
-                break;
-        }
-
+        double currentValue = valueBefore + getByTau(tauBefore) * dt;
         taus.add(tau);
         qualityIntegrals.add(currentValue);
     }
 
     public double getByTau (double tau) {
+        double valueObjectiveFunction;
+        switch (objectiveFunctionCase) {
+            case ZUM:
+                valueObjectiveFunction =  speed.getByTau(tau) * mass.getByTau(tau) * tariff.getByTau(tau);
+                break;
+            default:
+                valueObjectiveFunction = Double.MAX_VALUE;
+                break;
+        }
+
+        return valueObjectiveFunction;
+    }
+
+    public double getByTauSpeed (double tau, double speedValue) {
+        double valueObjectiveFunction;
+        switch (objectiveFunctionCase) {
+            case ZUM:
+                valueObjectiveFunction =  speedValue * mass.getByTau(tau) * tariff.getByTau(tau+dt);
+                break;
+            default:
+                valueObjectiveFunction = Double.MAX_VALUE;
+                break;
+        }
+
+        return valueObjectiveFunction;
+    }
+
+    public double getIntegralByCurrentTau () {
+        return qualityIntegrals.get(taus.size()-1);
+    }
+
+    public double getQualityIntegralsByTau (double tau) {
         int index = (int) (tau / dt);
         return qualityIntegrals.get(index);
     }
-    public double getByCurrentTau () {
+
+    public double getQualityIntegralsByCurrentTau () {
         return qualityIntegrals.get(taus.size()-1);
     }
 

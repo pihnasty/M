@@ -252,14 +252,6 @@ public class ProjectManager extends ObservableDS {
         project.calculateCoefficientsOneParameterModel_a_b();
     }
 
-    public void calculateCoefficientsMultiParameterModel() {
-        project.calculateCoefficientsMultiParameterModel(
-            getPlanExperiment().getOutputFactors()
-            , getPlanExperiment().getInputFactors()
-            , getPlanExperiment().getParametersOfMultipleRregressionModel()
-        );
-    }
-
     public void continueLearningNeuralNet() {
         String pathDeserialize = getProjectPath() + "//" + Settings.Values.NEURAL_NETWORk_MODEL
             + "//" + Settings.Values.LEARNING_ANALYSIS_TOOL
