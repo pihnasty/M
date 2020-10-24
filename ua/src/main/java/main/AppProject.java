@@ -35,6 +35,8 @@ public class AppProject extends ObservableDS {
 
     private List<List<String>> multiModelDimensionlessKoefficients;
     private List<List<String>> multiModelDimensionKoefficients;
+    private Map<String, List<List<String>>> residualsTables;
+
 
     private FactorManager factorManager;
 
@@ -235,5 +237,13 @@ public class AppProject extends ObservableDS {
 
     public void setDataTableAfterAnalysisNeuralNet(List<List<String>> dataTableAfterAnalysisNeuralNet) {
         this.dataTableAfterAnalysisNeuralNet = dataTableAfterAnalysisNeuralNet;
+    }
+
+    public Map<String, List<List<String>>> getResidualsTables() {
+        return residualsTables;
+    }
+
+    public void setResidualsTables(Map<String, List<List<String>>> residualTables) {
+        this.residualsTables = residualTables;
     }
 }

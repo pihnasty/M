@@ -61,21 +61,34 @@ public interface Settings {
         public static String COEFFICIENT_A = "0.A";
         public static String NUMBER_OBSERVATIONS = "0.Observations";
         public static String NUMBER_CONSTRAINTS = "0.Constraints";
+        public static String RESIDUAL_MEAN = "0.Residual mean";
         public static String SSE = "0.SSE";
         public static String MSE = "0.MSE";
         public static String  stDeviationMSE = "0.stDevMSE";
 
+        // residualTables header
+        public static String NUMBER_SAMPLE = "0.Number of the sample";
+        public static String SORTED_RESIDUAL = "0.Sorted residual";
+        public static String STANDARD_DEVIATION = "0.Standard deviation";
+        public static String CUMULATIVE_PROBABILITY = "0.Cumulative probability";
+        public static String SEQUENCE_NUMBER = "0.Sequence number";
+        public static String Z_VALUE = "0.Z-value";
+        public static String EXPECTED_RESIDUAL = "0.Expected residual";
+        public static String ACTUAL_SAMPLE_ELEMENT_VALUE = "0.Actual sample element value";
+        public static String EXPECTED_SAMPLE_ELEMENT_VALUE = "0.expected sample element value";
 
-        public static String ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV ="result//one_parameter_model//koef_a_table.csv";
-        public static String ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV ="result//one_parameter_model//koef_b_table.csv";
-        public static String ONE_PARAMETER_MODEL_PDF_OPM_PAGE ="result//one_parameter_model//pdfOneFactor//opm_book_page";
-        public static String TWO_PARAMETER_MODEL_PDF_OPM_PAGE ="result//two_parameter_model//pdfTwoFactor//opm_book_page";
-        public static String TWO_PARAMETER_MODEL_PDF_PDF_BOUNDARY_VALUE ="result//two_parameter_model//pdfBoundaryValue//opm_book_boundary_value_page";
-        public static String TWO_PARAMETER_MODEL_PROBIT ="result//two_parameter_model//pdf_probit//opm_book_probit_page";
-        public static String SETTINGS ="settings";
+        public static String ONE_PARAMETER_MODEL_KOEF_A_TABLE_CSV = "result//one_parameter_model//koef_a_table.csv";
+        public static String ONE_PARAMETER_MODEL_KOEF_B_TABLE_CSV = "result//one_parameter_model//koef_b_table.csv";
+        public static String ONE_PARAMETER_MODEL_PDF_OPM_PAGE = "result//one_parameter_model//pdfOneFactor//opm_book_page";
+        public static String TWO_PARAMETER_MODEL_PDF_OPM_PAGE = "result//two_parameter_model//pdfTwoFactor//opm_book_page";
+        public static String TWO_PARAMETER_MODEL_PDF_PDF_BOUNDARY_VALUE = "result//two_parameter_model//pdfBoundaryValue//opm_book_boundary_value_page";
+        public static String TWO_PARAMETER_MODEL_PROBIT = "result//two_parameter_model//pdf_probit//opm_book_probit_page";
+        public static String SETTINGS = "settings";
 
         public static String MULTI_MODEL_DIMENSION_LESS_KOEF_CSV ="result//multi_model//dimension_less_koef_table.csv";
         public static String MULTI_MODEL_DIMENSION_KOEF_CSV ="result//multi_model//dimension_koef_table.csv";
+        public static String MULTI_MODEL_RESIDUAL_CSV ="result//multi_model//residual//residual_table_%s.csv";
+
         public static String MULTI_MODEL_RESIDUAL_PLOT_PAGE_PDF ="result//multi_model//pdfResidualPlot//ResidualPlotPage";
 
         public static String TEMPLATE_EXPERIMENT_PLAN_JSON ="template_experiment_plan.json";

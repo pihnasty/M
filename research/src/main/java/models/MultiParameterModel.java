@@ -1,5 +1,6 @@
 package models;
 
+import math.MathP;
 import math.linear.SolvingLinearSystems;
 import settings.ProviderSettings;
 import settings.Settings;
@@ -7,6 +8,8 @@ import string.StringUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
@@ -59,6 +62,7 @@ public class MultiParameterModel {
     }
 
     private void calculateIndexOfInputFactorsSeparatedRawDataTable(List<String> inputFactors) {
+        indexOfInputFactorsSeparatedRawDataTable = new ArrayList<>();
         List<String> separatedHeaderNameTrim = separatedRawDataTable.get(0).stream().map(String::trim).collect(Collectors.toList());
         inputFactors.stream().forEach(
             nameInputFactor -> this.indexOfInputFactorsSeparatedRawDataTable.add(
@@ -158,7 +162,7 @@ public class MultiParameterModel {
         return dimensionHeader;
     }
 
-    private List<String> fillHeaderCommon(List<String> headerMultiModelDimensionlessParameters, List<String> inputFactors) {
+    public List<String> fillHeaderCommon(List<String> headerMultiModelDimensionlessParameters, List<String> inputFactors) {
         int lengthCell = Integer.parseInt(ProviderSettings.getProjectSettingsMapValue(Settings.Keys.LENGTH_CELL));
         List<String> dimensionLessHeader = new ArrayList<>();
         headerMultiModelDimensionlessParameters.forEach(
@@ -210,9 +214,13 @@ public class MultiParameterModel {
         );
     }
 
-    public  void fillDimension(List<Long> rowOfNumber, List<String> rowKoefficients) {
+    public  void fillDimension(List<Long> rowOfNumber, List<String> rowKoefficients, List<List<String>> residualsTable) {
 
         double SSE = 0.0;
+        double sumResidual = 0.0;
+
+
+        Map<Double, List<String>> sortedResidual = new TreeMap<>();
 
         for (List<String> row : separatedRawDataTable) {
 
@@ -233,14 +241,20 @@ public class MultiParameterModel {
                         yPrediction += koefficientsB.get(i) * inputValue;
                     }
 
-                    SSE += (yOutputFactor-yPrediction)*(yOutputFactor-yPrediction);
+                    Double residual = yOutputFactor-yPrediction;  ;
+                    List<String> residualPropertyList = new ArrayList<>();
+                    residualPropertyList.add(row.get(0));
+                    residualPropertyList.add(Double.toString(yOutputFactor));
+                    residualPropertyList.add(Double.toString(yPrediction));
+                    sortedResidual.put(residual,residualPropertyList);
+
+                    sumResidual += residual;
+                    SSE += residual*residual;
 
                 }
 
             }
         }
-
-
 
 
         rowKoefficients.set(2,
@@ -259,25 +273,34 @@ public class MultiParameterModel {
 
  CopyOnWriteArrayList c;
 
+        double meanResidual = sumResidual/separatedRawDataTable.size();
         rowKoefficients.set(4,
             StringUtil.getDoubleFormatValue(
-                SSE,
+                meanResidual,
                 dimensionHeader.get(4).length() - additionSize
             )
         );
 
         rowKoefficients.set(5,
             StringUtil.getDoubleFormatValue(
-                SSE/( criterion.get( Settings.Values.NUMBER_OBSERVATIONS)- criterion.get( Settings.Values.NUMBER_CONSTRAINTS)),
+                SSE,
                 dimensionHeader.get(5).length() - additionSize
             )
         );
 
-
+        double MSE = SSE/( criterion.get( Settings.Values.NUMBER_OBSERVATIONS)- criterion.get( Settings.Values.NUMBER_CONSTRAINTS));
         rowKoefficients.set(6,
             StringUtil.getDoubleFormatValue(
-                Math.sqrt(SSE/( criterion.get( Settings.Values.NUMBER_OBSERVATIONS)- criterion.get( Settings.Values.NUMBER_CONSTRAINTS))),
+                MSE,
                 dimensionHeader.get(6).length() - additionSize
+            )
+        );
+
+        double standardDeviation =  Math.sqrt(MSE);
+        rowKoefficients.set(7,
+            StringUtil.getDoubleFormatValue(
+                standardDeviation,
+                dimensionHeader.get(7).length() - additionSize
             )
         );
 
@@ -298,6 +321,68 @@ public class MultiParameterModel {
                         dimensionHeader.get(Math.toIntExact(number) + headerMultiModelDimensionParameters.size()-1).length() - additionSize
                     )
                 );
+            }
+        );
+
+        fillResidealTable(residualsTable, sortedResidual, meanResidual, standardDeviation);
+    }
+
+    private void fillResidealTable(List<List<String>> residualsTable, Map<Double, List<String>> sortedResidual, double meanResidual, double standardDeviation) {
+        TreeMap<Double, Double> treeMapCash = new TreeMap<>();
+        MathP.Counter counter = MathP.getCounter(1,1);
+        int numberMax = sortedResidual.size();
+        Double mean = meanResidual;
+        sortedResidual.forEach(
+            (key, value) -> {
+                List<String> row = new ArrayList<>();
+
+                List<String> residualPropertyList = value;
+
+                row.add(StringUtil.getStringFormat(
+                    residualPropertyList.get(0)
+                    ,residualsTable.get(0).get(0).length() - additionSize));
+
+                row.add(StringUtil.getDoubleFormatValue(key
+                    ,residualsTable.get(0).get(1).length() - additionSize));
+
+                row.add(StringUtil.getDoubleFormatValue(
+                    mean
+                    ,residualsTable.get(0).get(2).length() - additionSize));
+
+                row.add(StringUtil.getDoubleFormatValue(
+                    standardDeviation
+                    ,residualsTable.get(0).get(3).length() - additionSize));
+
+                int count = counter.get();
+                double cumulativeProbabilityValue = MathP.getCumulativeProbabilityValue(count, numberMax);
+
+
+                row.add(StringUtil.getDoubleFormatValue(
+                    (double) count
+                    ,residualsTable.get(0).get(4).length() - additionSize));
+
+                row.add(StringUtil.getDoubleFormatValue(
+                    cumulativeProbabilityValue
+                    ,residualsTable.get(0).get(5).length() - additionSize));
+
+                double zValue = MathP.zValue(cumulativeProbabilityValue, treeMapCash, 0.001);
+                row.add(StringUtil.getDoubleFormatValue(
+                    zValue
+                    ,residualsTable.get(0).get(6).length() - additionSize));
+
+                row.add(StringUtil.getDoubleFormatValue(
+                    zValue * standardDeviation
+                    ,residualsTable.get(0).get(7).length() - additionSize));
+
+                row.add(StringUtil.getStringFormat(
+                    residualPropertyList.get(1)
+                    ,residualsTable.get(0).get(8).length() - additionSize));
+
+                row.add(StringUtil.getDoubleFormatValue(
+                    Double.parseDouble(residualPropertyList.get(2))
+                    ,residualsTable.get(0).get(8).length() - additionSize));
+
+                residualsTable.add(row);
             }
         );
     }

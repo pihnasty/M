@@ -8,10 +8,7 @@ import math.MathP;
 import models.MultiParameterModel;
 import settings.Settings;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 
 public class CalculateCoefficientsMultiParameterModelTask extends BaseTask {
@@ -37,6 +34,7 @@ public class CalculateCoefficientsMultiParameterModelTask extends BaseTask {
         List<List<String>> separatedRawDataTable = projectManager.getProject().getSeparatedRawDataTable();
         List<List<String>> multiModelDimensionlessKoefficients = new ArrayList<>();
         List<List<String>> multiModelDimensionKoefficients= new ArrayList<>();
+        Map<String, List<List<String>>> residualsTables = new TreeMap<>();
 
         MultiParameterModel model = new  MultiParameterModel(
             covarianceCoefficients
@@ -50,11 +48,24 @@ public class CalculateCoefficientsMultiParameterModelTask extends BaseTask {
             Settings.Values.OUTPUT_FACTOR,
             Settings.Values.NUMBER_OBSERVATIONS,
             Settings.Values.NUMBER_CONSTRAINTS,
+            Settings.Values.RESIDUAL_MEAN,
             Settings.Values.SSE,
             Settings.Values.MSE,
             Settings.Values.stDeviationMSE
         );
 
+        final List<String> headerResidualsTable = Arrays.asList(
+            Settings.Values.NUMBER_SAMPLE,
+            Settings.Values.SORTED_RESIDUAL,
+            Settings.Values.RESIDUAL_MEAN,
+            Settings.Values.STANDARD_DEVIATION,
+            Settings.Values.SEQUENCE_NUMBER,
+            Settings.Values.CUMULATIVE_PROBABILITY,
+            Settings.Values.Z_VALUE,
+            Settings.Values.EXPECTED_RESIDUAL,
+            Settings.Values.ACTUAL_SAMPLE_ELEMENT_VALUE,
+            Settings.Values.EXPECTED_SAMPLE_ELEMENT_VALUE
+        );
 
 
         multiModelDimensionlessKoefficients.add(
@@ -106,9 +117,14 @@ public class CalculateCoefficientsMultiParameterModelTask extends BaseTask {
                             multiModelDimensionlessKoefficients.add(rowLessKoefficients);
 
                             List<String> rowKoefficients = new ArrayList<>();
+                            List<List<String>> residualsTable = new ArrayList<>();
+                            residualsTable.add(model.fillHeaderCommon(headerResidualsTable, new ArrayList<>()));
                             model.fillDefaultDimension(outputFactorCategoryIdAndName, numberOfModel, rowKoefficients);
-                            model.fillDimension(rowOfNumber, rowKoefficients);
+                            model.fillDimension(rowOfNumber, rowKoefficients, residualsTable);
                             multiModelDimensionKoefficients.add(rowKoefficients);
+                            residualsTables.put(
+                                rowKoefficients.get(0)
+                                , residualsTable);
 
                             if (count / delta * delta == count) {
                                 LoggerP.write(Level.INFO, "Calculated the model with number " + numberOfModel);
@@ -121,6 +137,7 @@ public class CalculateCoefficientsMultiParameterModelTask extends BaseTask {
 
         projectManager.getProject().setMultiModelDimensionlessKoefficients(multiModelDimensionlessKoefficients);
         projectManager.getProject().setMultiModelDimensionKoefficients(multiModelDimensionKoefficients);
+        projectManager.getProject().setResidualsTables(residualsTables);
         LoggerP.write(Level.INFO, "Number of the model "+variantsOfNumber.size());
 
 

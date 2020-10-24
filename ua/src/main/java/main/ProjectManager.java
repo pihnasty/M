@@ -205,8 +205,9 @@ public class ProjectManager extends ObservableDS {
         saveData(project.getMultiModelDimensionlessKoefficients(),Settings.Values.MULTI_MODEL_DIMENSION_LESS_KOEF_CSV);
         saveData(project.getMultiModelDimensionKoefficients(),Settings.Values.MULTI_MODEL_DIMENSION_KOEF_CSV);
 
-
-
+        project.getResidualsTables().keySet().forEach(
+            key -> saveData(project.getResidualsTables().get(key), String.format(Settings.Values.MULTI_MODEL_RESIDUAL_CSV, key.trim()))
+        );
 
 }
     public void deleteFile(String fileName) {

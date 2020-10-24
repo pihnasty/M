@@ -2,6 +2,7 @@ package math;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -80,6 +81,25 @@ public class MathP {
         } else {
             return binarySearch(list, value, mid + 1, high);
         }
+    }
+
+    public static double zValue (double cumulativeProbabilityValue, TreeMap<Double, Double> treeMapCash, double delta) {
+        if(treeMapCash.isEmpty()) {
+            double LaplaceFunction = 0.0;
+            treeMapCash.put(0.5+LaplaceFunction, 0.0);
+
+            for(double x=delta; x<5.0; x+= delta ) {
+                LaplaceFunction += 1.0 / Math.sqrt(2.0*Math.PI)*Math.exp(-0.5*x*x)*delta;
+                treeMapCash.put(0.5+LaplaceFunction, x);
+                treeMapCash.put(0.5-LaplaceFunction, - x);
+            }
+        }
+        return treeMapCash.higherEntry(cumulativeProbabilityValue).getValue();
+    }
+
+    public static double getCumulativeProbabilityValue (double number, double numberMax) {
+        double step = 1.0 / numberMax;
+        return step * number - step / 2.0;  // 100.0*99.0;
     }
 
 }

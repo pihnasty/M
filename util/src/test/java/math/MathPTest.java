@@ -1,9 +1,13 @@
 package math;
 
-import org.junit.Test;
+import org.testng.Assert;
+import org.testng.annotations.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.TreeMap;
+
+
 
 public class MathPTest {
 
@@ -42,5 +46,23 @@ public class MathPTest {
         System.out.println( list.get(100));
         System.out.println( list.get(101));
         System.out.println(i);
+    }
+
+    @Test
+    public void testZValue() {
+        TreeMap<Double, Double> treeMapCash = new TreeMap<>();
+        double delta = 0.0001;
+        double cumulativeProbabilityValue = 0.05;
+        double P = MathP.zValue( cumulativeProbabilityValue, treeMapCash,delta);
+        Assert.assertEquals(P, -1.64485, 0.001);
+    }
+
+    @Test
+    public void testGetCumulativeProbabilityValue() {
+        double P = MathP.getCumulativeProbabilityValue(1,10);
+        Assert.assertEquals(P, 0.05, 0.001);
+
+        P = MathP.getCumulativeProbabilityValue(10,10);
+        Assert.assertEquals(P, 0.95, 0.001);
     }
 }
