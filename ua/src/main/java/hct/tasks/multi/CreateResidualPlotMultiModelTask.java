@@ -82,16 +82,16 @@ public class CreateResidualPlotMultiModelTask extends BaseTask {
                     MVC LineChart1MVC  = new MVC (LineChartModel.class, LineChartController.class, LineChartP.class, data, null );
                     vBox.getChildren().add((LineChartP)LineChart1MVC.getView());
 
-//                    if (isSaveAsPdf) {
-//                        saveToPdf(counter, LineChart1MVC, new Label(),new Label());
-//                    }
+                    if (isSaveAsPdf) {
+                        saveToPdf(counter, LineChart1MVC, new Label(),new Label());
+                    }
             }
         );
 
 
-        scrollPane.setContent(vBox);
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
+//        scrollPane.setContent(vBox);
+//        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.ALWAYS);
+//        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         return scrollPane;
     }
 

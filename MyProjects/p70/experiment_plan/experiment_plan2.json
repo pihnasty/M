@@ -1,0 +1,28 @@
+{
+  "outputFactors": [
+    "13.TSLP"
+  ],
+  "inputFactors": [
+    "8.Rabbit hair"
+  ],
+  "typesOfModels": [
+    "one-parameter linear dependence"
+  ],
+  "boundaryConditions": {
+    "13.TSLP": "64.0",
+    "1.SEVERE PERSISTENT": "0.40"
+  },
+  "hiddenLayers": {},
+  "parametersOfModel": {
+    "multiple-regression": {
+      "number-regressors": "8",
+      "max-number-models": "100"
+    },
+    "neural-network": {
+      "number-of-epochs": "5964000",
+      "number-of-epochs-between-save": "4000",
+      "CPU-cooling-time-seconds": "300",
+      "number-of-epochs-between-CPU-cooling": "4000"
+    }
+  }
+}

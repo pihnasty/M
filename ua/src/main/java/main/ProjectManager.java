@@ -556,7 +556,7 @@ public class ProjectManager extends ObservableDS {
         PrinterJob job = PrinterJob.createPrinterJob();
         if(job != null){
             addPathToPdfFile(job,"file://"+filePath);
-            //           job.getJobSettings();
+              job.getJobSettings();
 //            job.showPageSetupDialog( node.getScene().getWindow());
 //            job.showPrintDialog(node.getScene().getWindow());
             job.printPage(node);

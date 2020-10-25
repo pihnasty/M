@@ -6,10 +6,7 @@ import settings.ProviderSettings;
 import settings.Settings;
 import string.StringUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
@@ -218,7 +215,8 @@ public class MultiParameterModel {
 
         double SSE = 0.0;
         double sumResidual = 0.0;
-
+        Double countRow = 0.0;
+        Random random = new Random(31);
 
         Map<Double, List<String>> sortedResidual = new TreeMap<>();
 
@@ -231,14 +229,30 @@ public class MultiParameterModel {
                     double yOutputFactor = StringUtil.parseToDouble(row.get(indexOfOutputFactorsSeparatedRawDataTable));
                     List<Double> values = new ArrayList<>();
                     double yPrediction = koefficientA;
+
+                    boolean isCellEmpty = false;
+
                     for (int i = 0; i < koefficientsB.size(); i++) {
                         int numberInputValue =  indexOfInputFactorsSeparatedRawDataTable.get(i);
-                        double inputValue = row.get(
-                            numberInputValue
-                        ).trim().equalsIgnoreCase("-") ? 0.0 : StringUtil.parseToDouble(row.get(numberInputValue));
+
+                        isCellEmpty =  row.get(numberInputValue).trim().equalsIgnoreCase("-");
+                        double inputValue;
+                        if (isCellEmpty) {
+                            break;
+                        } else {
+                            inputValue = StringUtil.parseToDouble(row.get(numberInputValue));
+                        }
+
+//                        double inputValue = row.get(
+//                            numberInputValue
+//                        ).trim().equalsIgnoreCase("-") ? 0.0 : StringUtil.parseToDouble(row.get(numberInputValue));
 
                         values.add(inputValue);
                         yPrediction += koefficientsB.get(i) * inputValue;
+                    }
+
+                    if (isCellEmpty) {
+                        continue;
                     }
 
                     Double residual = yOutputFactor-yPrediction;  ;
@@ -246,10 +260,17 @@ public class MultiParameterModel {
                     residualPropertyList.add(row.get(0));
                     residualPropertyList.add(Double.toString(yOutputFactor));
                     residualPropertyList.add(Double.toString(yPrediction));
-                    sortedResidual.put(residual,residualPropertyList);
+
+                    if (sortedResidual.containsKey(residual)) {
+                        residual += random.nextDouble() / 10000.0;
+                        sortedResidual.put(residual, residualPropertyList);
+                    } else {
+                        sortedResidual.put(residual, residualPropertyList);
+                    }
 
                     sumResidual += residual;
                     SSE += residual*residual;
+                    countRow += 1.0;
 
                 }
 
@@ -259,7 +280,7 @@ public class MultiParameterModel {
 
         rowKoefficients.set(2,
             StringUtil.getDoubleFormatValue(
-                criterion.get( Settings.Values.NUMBER_OBSERVATIONS),
+                countRow,
                 dimensionHeader.get(2).length() - additionSize
             )
         );
@@ -273,7 +294,7 @@ public class MultiParameterModel {
 
  CopyOnWriteArrayList c;
 
-        double meanResidual = sumResidual/separatedRawDataTable.size();
+        double meanResidual = sumResidual/countRow;
         rowKoefficients.set(4,
             StringUtil.getDoubleFormatValue(
                 meanResidual,
@@ -288,7 +309,7 @@ public class MultiParameterModel {
             )
         );
 
-        double MSE = SSE/( criterion.get( Settings.Values.NUMBER_OBSERVATIONS)- criterion.get( Settings.Values.NUMBER_CONSTRAINTS));
+        double MSE = SSE/( countRow- criterion.get( Settings.Values.NUMBER_CONSTRAINTS));
         rowKoefficients.set(6,
             StringUtil.getDoubleFormatValue(
                 MSE,
