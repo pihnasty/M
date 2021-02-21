@@ -1,12 +1,13 @@
 package neural.test;
 
 
-import neural.test.papameters.Input;
-import neural.test.papameters.Psi;
-import neural.test.papameters.Section;
-import neural.test.papameters.Speed;
+import neural.test.parameters.Input;
+import neural.test.parameters.Psi;
+import neural.test.parameters.Section;
+import neural.test.parameters.Speed;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class TransportSystem extends BaseTransportSystem{
 

@@ -1,9 +1,9 @@
 package neural.test;
 
-import neural.test.papameters.*;
+
+import neural.test.parameters.*;
 
 import java.util.Arrays;
-import java.util.function.Function;
 
 public class ControlSpeedAndInputBunkerTransportSystem extends BaseTransportSystem {
     public ControlSpeedAndInputBunkerTransportSystem(int variant, double deltaTau) {

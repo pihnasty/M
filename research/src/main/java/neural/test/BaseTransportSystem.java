@@ -1,9 +1,11 @@
 package neural.test;
 
 
-import neural.test.papameters.*;
+import neural.test.parameters.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public abstract class BaseTransportSystem {

@@ -217,6 +217,7 @@ public class MultiParameterModel {
         double sumResidual = 0.0;
         Double countRow = 0.0;
         Random random = new Random(31);
+        double numberKoefficientsInModel = rowOfNumber.size()+1;
 
         Map<Double, List<String>> sortedResidual = new TreeMap<>();
 
@@ -287,7 +288,8 @@ public class MultiParameterModel {
 
         rowKoefficients.set(3,
             StringUtil.getDoubleFormatValue(
-                criterion.get( Settings.Values.NUMBER_CONSTRAINTS),
+                //criterion.get( Settings.Values.NUMBER_CONSTRAINTS),
+                numberKoefficientsInModel,
                 dimensionHeader.get(3).length() - additionSize
             )
         );
@@ -309,7 +311,7 @@ public class MultiParameterModel {
             )
         );
 
-        double MSE = SSE/( countRow- criterion.get( Settings.Values.NUMBER_CONSTRAINTS));
+        double MSE = SSE/( countRow- numberKoefficientsInModel );
         rowKoefficients.set(6,
             StringUtil.getDoubleFormatValue(
                 MSE,
