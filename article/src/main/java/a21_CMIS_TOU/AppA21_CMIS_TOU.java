@@ -10,26 +10,35 @@ import java.util.List;
 public class AppA21_CMIS_TOU {
     public static void main(String[] args) {
 
-        double k = 20;   //  *5
+        double k = 6;   //  *5
+        int countTau =24000;   //24000
+        double psi_m_0 =  0.0  ;//        4.0     2.889;
+
         double tauMin = 0.0;
-        double tauMax = 120.0 * k;  // 120
+        double tauMax = 120.0 * k;  // 120      interval of analysis
+
+
         double initialMassValueMin = 0.4;
         double initialMassValueMax = 1.4;
+
         double initialXbValueMin = 0.0;
         double initialXbValueMax = 29.50*k;   // 29.50
-        int countTau =240000;   //24000
+
         int countPsi_b_value = 500;
         List<Double> regularSpeeds = Arrays.asList(0.176,
-      //      0.246, 0.316, 0.386, 0.456, 0.526, 0.596, 0.667, 0.736, 0.806,
+            0.246, 0.316, 0.386, 0.456, 0.526, 0.596, 0.667, 0.736, 0.806,
             0.878);
 
-        Tariff tariff = Tariff.Ukraine2zone;
-        Input input = Input.SIN_0_15;
-        double initialMassValue = 0.9;
+        Tariff tariff = Tariff.SouthAfricaEscomHigtdemand;
+        Input input = Input.SIN_0_5;
+        InitialDensity initialDensity = InitialDensity.CONST_0_DENSITY;
+
+        double initialMassValue = 0.4;  // начальная масса ленты с материалом initial mass of belt with material  see (12)
         double initialXbValue = 0.0;
-        double psi_m_0 =  5.0  ;//        4.0     2.889;
-        double psi_m_tau24 = 0.0;
-       InitialDensity initialDensity = a21_CMIS_TOU.InitialDensity.CONST_0p8523_DENSITY;
+
+
+
+
 
 
         int n = (int) psi_m_0*1000;
@@ -88,7 +97,12 @@ public class AppA21_CMIS_TOU {
 
 
         saveResult(n, tauMin, tauMax, dt, speed, input, delay, density, mass, psi_b, psi_m, tariff, xb, hamiltonian, objectiveFunction);
-        System.out.println(xb.getByCurrentTau()+ "      " + psi_m.getByCurrentTau()+ "      "+ objectiveFunction.getIntegralByCurrentTau());
+        System.out.println(
+            "xb.getByCurrentTau()= " +xb.getByCurrentTau()
+            + "\npsi_m.getByCurrentTau()= " + psi_m.getByCurrentTau()
+            + "\nobjectiveFunction.getIntegralByCurrentTau()= "+ objectiveFunction.getIntegralByCurrentTau()
+                + "\nRC= "+ objectiveFunction.getIntegralByCurrentTau()/xb.getByCurrentTau()
+        );
     }
 
     private static double getPsi_b_optimalValue(double tauMin, double tauMax, double initialMassValueMin, double initialMassValueMax,
@@ -191,7 +205,7 @@ public class AppA21_CMIS_TOU {
         }
 
         ProjectManager projectManager = ProjectManager.getInstance();
-        projectManager.saveData(tableTest, "data"+n+".csv", "D:\\A\\M\\article\\src\\main\\java\\a21_CMIS_TOU\\result");
+        projectManager.saveData(tableTest, "data "+tariff.getName()+" "+n+".csv", "D:\\A\\M\\article\\src\\main\\java\\a21_CMIS_TOU\\result");
     }
 
     private static void checkInitialMassValue(double initialMassValueMin, double initialMassValueMax, double initialMassValue) {

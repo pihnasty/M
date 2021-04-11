@@ -2,8 +2,9 @@ package a21_CMIS_TOU;
 
 public enum InitialDensity {
     CONST_0p5_DENSITY ("density = 0.5"),
+    CONST_0_DENSITY ("density = 0.0"),
     CONST_0p8523_DENSITY ("density = 0.8523"),
-    SIN_2PTAU_DENSITY ("gamma1 = 0.5+0.5sin(2PI*ksi)");
+    SIN_2PTAU_DENSITY ("density = 0.5+0.5sin(2PI*ksi)");
 
     private String name;
     InitialDensity(String name) {
@@ -15,6 +16,9 @@ public enum InitialDensity {
         switch (this) {
             case CONST_0p5_DENSITY:
                 psi = 0.5;
+                break;
+            case CONST_0_DENSITY:
+                psi = 0.0;
                 break;
             case CONST_0p8523_DENSITY:
                 psi = 0.8523;

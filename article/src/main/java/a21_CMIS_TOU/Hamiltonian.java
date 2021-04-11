@@ -39,6 +39,19 @@ public class Hamiltonian {
         outputDensities  = new ArrayList<>();
     }
 
+    private double execute2(double tau, double speedValue) {
+        double tauPrev = tau - dt;
+        double tau1 = delay.getTau1(tauPrev);
+
+        double outputDensity= tau1>0 ? input.getByTau(tau1) / speed.getByTau(tau1) : density.getOutputDensityByTau(tauPrev);
+
+        double valueObjectiveFunction = objectiveFunction.getByTauSpeed(tauPrev, speedValue);
+
+        return - valueObjectiveFunction
+            //+ psi_b.getPsi_bByTau() * speedValue * mass.getByTau(tauPrev)
+            + psi_m.getByTau(tauPrev) * ( input.getByTau(tauPrev) - outputDensity * speedValue );
+    }
+
     private double execute(double tau, double speedValue) {
         double tauPrev = tau - dt;
         double tau1 = delay.getTau1(tauPrev);
@@ -48,7 +61,7 @@ public class Hamiltonian {
         double valueObjectiveFunction = objectiveFunction.getByTauSpeed(tauPrev, speedValue);
 
         return - valueObjectiveFunction
-            + psi_b.getPsi_bByTau() * speedValue * mass.getByTau(tauPrev)
+           // + psi_b.getPsi_bByTau() * speedValue * mass.getByTau(tauPrev)
             + psi_m.getByTau(tauPrev) * ( input.getByTau(tauPrev) - outputDensity * speedValue );
     }
 
@@ -70,6 +83,10 @@ public class Hamiltonian {
             }
 
         }
+
+
+   //      execute2(tau, optimalSpeedControl);
+
         if(optimalSpeedControl<0) {
             throw new IllegalArgumentException("optimalSpeedControl<0");
         }

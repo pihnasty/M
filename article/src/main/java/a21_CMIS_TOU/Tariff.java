@@ -6,7 +6,8 @@ public enum Tariff {
     SouthAfricaEscomLowdemand ("South Africa (Escom),low demang season (sep-may)"),
     SouthAfricaEscomHigtdemand ("South Africa (Escom),higt demand season (jun-aug)"),
     SouthAfricaEscomNightSave ("South Africa (Escom),night save"),
-    GreatBritainTOU ("Great Britain–TOU");
+    GreatBritainTOU ("Great Britain–TOU"),
+    Fixed ("Great Britain–TOU");
 
     private String name;
     private double periodTime = 24;
@@ -104,7 +105,7 @@ public enum Tariff {
                     tariffValue = 1.09;
                 }
                 if (22.0 <= tariffTime && tariffTime < 24.0) {
-                    tariffValue = 1.35;
+                    tariffValue = 0.85;
                 }
                 break;
             case GreatBritainTOU:
@@ -123,6 +124,9 @@ public enum Tariff {
                 if (23.0 <= tariffTime && tariffTime < 24.0) {
                     tariffValue = 0.77;
                 }
+                break;
+            case Fixed:
+                tariffValue = 1.0;
                 break;
             default:
                 break;

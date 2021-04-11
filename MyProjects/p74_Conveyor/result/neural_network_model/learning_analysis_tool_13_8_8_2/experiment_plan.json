@@ -26,29 +26,21 @@
     "7.0.output": "1.0"
   },
   "hiddenLayers": {
-    "9": {
-      "count-node": "6",
-      "activation-function": "1;1;1",
+    "10": {
+      "count-node": "8",
+      "activation-function": "1;4;1",
       "distribute-error": "1",
       "optimization-method": "5",
       "alpha": "0.001",
       "type-layer": "head"
     },
-    "10": {
-      "count-node": "5",
-      "activation-function": "1;1;1",
-      "distribute-error": "1",
-      "optimization-method": "5",
-      "alpha": "0.001",
-      "type-layer": "between"
-    },
     "11": {
-      "count-node": "4",
-      "activation-function": "1;1;1",
+      "count-node": "8",
+      "activation-function": "1;4;1",
       "distribute-error": "1",
       "optimization-method": "5",
       "alpha": "0.001",
-      "type-layer": "between"
+      "type-layer": "head"
     },
     "12": {
       "count-node": "2",

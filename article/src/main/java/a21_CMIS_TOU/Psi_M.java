@@ -26,8 +26,12 @@ public class Psi_M {
         double tauBefore = tau - dt;
         double valuePsi_MsBefore = psi_Ms.get(psi_Ms.size() - 1);
         double valuePsi_Ms
-            = valuePsi_MsBefore + dt*(tariff.getByTau(tauBefore)-psi_b.getPsi_bByTau())*speed.getByTau(tauBefore);
-
+            = valuePsi_MsBefore + dt*(tariff.getByTau(tauBefore)
+        //   -psi_b.getPsi_bByTau()
+        )*speed.getByTau(tauBefore);
+            if(valuePsi_Ms>0) {
+                valuePsi_Ms = 0.0;
+            }
         taus.add(tau);
         psi_Ms.add(valuePsi_Ms);
     }
