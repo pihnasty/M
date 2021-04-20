@@ -12,6 +12,7 @@ import javafx.print.PrinterJob;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
 import logging.LoggerP;
+import logging.LoggerP_test;
 import neural.network.NeuralManager;
 import neural.network.NeuralModel;
 import neural.network.layers.Layer;
@@ -121,6 +122,7 @@ public class ProjectManager extends ObservableDS {
     }
 
     public void saveAsProject(String pathToProject) {
+        getGlobalSettings().getMap().put(Settings.Keys.PROJECT_PATH, pathToProject.replace("\\","//"));
         getDefaultSettings().getMap().put(Settings.Keys.PROJECT_PATH, pathToProject.replace("\\","//"));
         getProjectSettings().getMap().put(Settings.Keys.PROJECT_PATH, pathToProject.replace("\\","//"));
         saveProject();
@@ -361,8 +363,16 @@ public class ProjectManager extends ObservableDS {
                 runDataAnalysisNeuralNet(i);
                 saveErrorsStat(i, errorsStat, numberOfEpochsBetweenSave);
             }
-            if (i % 20 == 0) {
-                System.out.println(LocalDateTime.now() + "  "+String.format("%8d-- ln= %5.3f  MSE=%.14f  deltaMSE=%.14f", i, Math.log10((double) i), MSE, deltaMSE));
+            if (i > 100000) {
+                if (i % 20 == 0) {
+                    LoggerP_test.logger.setLevel(Level.INFO);
+                    LoggerP_test.write(Level.INFO, "--------------------------------------------------------------------------------------------------------------------");
+                    LoggerP_test.write(Level.INFO, LocalDateTime.now() + "  " + String.format("%8d-- ln= %5.3f  MSE=%.14f  deltaMSE=%.14f", i, Math.log10(i), MSE, deltaMSE));
+                }
+            }
+
+           if (i % 10 == 0) {
+                System.out.println(LocalDateTime.now() + "  "+String.format("%8d-- ln= %5.3f  MSE=%.14f  deltaMSE=%.14f", i, Math.log10(i), MSE, deltaMSE));
             }
         }
 

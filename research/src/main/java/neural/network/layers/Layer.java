@@ -1,14 +1,16 @@
 package neural.network.layers;
 
 import neural.network.activiation.functions.ActiviationFunction;
-import neural.network.ws.Ws;
 import neural.network.nodes.Node;
+import neural.network.optimization.method.OptimizationMethod;
+import neural.network.ws.Ws;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Layer {
     private ActiviationFunction activiationFunction;
+    private OptimizationMethod optimizationMethod;
     private double alpha;
     private final int id;
     private List<Node> nodes;
@@ -81,5 +83,13 @@ public class Layer {
 
     public void setAlpha(double alpha) {
         this.alpha = alpha;
+    }
+
+    public OptimizationMethod getOptimizationMethod() {
+        return optimizationMethod;
+    }
+
+    public void setOptimizationMethod(OptimizationMethod optimizationMethod) {
+        this.optimizationMethod = optimizationMethod;
     }
 }

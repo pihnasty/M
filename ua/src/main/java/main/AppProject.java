@@ -2,8 +2,11 @@ package main;
 
 import designpatterns.ObservableDS;
 import factors.FactorManager;
+import logging.LoggerP;
+import logging.LoggerP_test;
 import models.OneParameterModel;
 import neural.network.ws.Ws;
+import settings.ProviderSettings;
 import settings.Settings;
 
 import java.util.*;
@@ -43,7 +46,9 @@ public class AppProject extends ObservableDS {
     private List<Ws> wsS;
 
     private AppProject() {
-
+        String projectParh = ProviderSettings.getProjectSettingsMapValue(Settings.Keys.PROJECT_PATH);
+        LoggerP.setProjectPath(projectParh);
+        LoggerP_test.setProjectPath(projectParh);
     }
 
     public boolean separatedRawData(Settings projectSettings, Settings defaultSettings) {

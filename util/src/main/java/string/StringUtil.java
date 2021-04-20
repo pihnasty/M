@@ -1,5 +1,6 @@
 package string;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -61,6 +62,24 @@ public class StringUtil {
         return Double.parseDouble(
             expression.replace(",", ".")
         );
+    }
+
+    public static String getDoubleToFormatTable(List<List<Double>> startTable, String columnSize, String presition) {
+        if(Objects.isNull(startTable)) {
+            return "\n";
+        }
+        StringBuilder convertTable = new StringBuilder();
+        startTable.forEach(
+            row -> {
+                convertTable.append("\n");
+                row.forEach(
+                    cell -> convertTable.append(
+                        StringUtil.getDoubleFormatValue(cell, columnSize , presition, 1)
+                    )
+                );
+            }
+        );
+        return convertTable.toString();
     }
 
 }

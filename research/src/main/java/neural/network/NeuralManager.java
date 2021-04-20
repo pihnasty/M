@@ -16,6 +16,7 @@ import static settings.Settings.Keys.TYPE_LAYER;
 
 public class NeuralManager {
 
+    public static Boolean[] loggerFlag = new Boolean[1];
     private NeuralModel neuralModel;
     private static NeuralManager neuralManager = new NeuralManager();
 
@@ -135,10 +136,18 @@ public class NeuralManager {
 
         MathP.Counter counter = MathP.getCounter(1);
 
+
+
         neuralManager.getPreparedForLearningInputTable().forEach(
             row -> {
                 int count = counter.get();
                 if(count>0) {
+                    if (count == 1000) {
+                        loggerFlag[0] = true;
+                    } else {
+                        loggerFlag[0] = false;
+                    }
+
                     Map<String, Double> rowInputFactor = getRowInputFactor(row);
                     Map<String, Double> rowOutputFactorForLearning = rowOutputFactorForLearning(count);
 

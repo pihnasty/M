@@ -20,6 +20,9 @@ public class Node {
     }
 
     public void setValue(double value) {
+//        if(Double.toString(value).equals("NaN")) {
+//            System.out.println();
+//        }
         this.value = value;
     }
 

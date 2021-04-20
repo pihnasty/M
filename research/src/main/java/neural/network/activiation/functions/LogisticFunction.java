@@ -26,7 +26,7 @@ public class LogisticFunction implements ActiviationFunction {
                 derivativeFunction = x -> b * function.apply(x) * (1.0 - function.apply(x) / a);
                 break;
             case "F(S)":
-                derivativeFunction = x -> b * x * (1.0 - x / a);
+                derivativeFunction = y -> b * y * (1.0 - y / a);
                 break;
             default:
                 derivativeFunction = errorFunction;

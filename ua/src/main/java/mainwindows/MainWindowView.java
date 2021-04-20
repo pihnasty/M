@@ -1,46 +1,18 @@
 package mainwindows;
 
 
-import com.sun.javafx.print.PrinterJobImpl;
 import designpatterns.MVC;
 import designpatterns.observerdsall.BorderPaneObserverDS;
-import experiment.Plan;
-import factors.Factor;
-import factors.FactorManager;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
-import javafx.print.PrinterJob;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
-import javafx.stage.Window;
-import linechart.DataP;
-import linechart.LineChartController;
-import linechart.LineChartModel;
-import linechart.LineChartP;
+import javafx.scene.control.ScrollPane;
 import main.AppProject;
 import main.ProjectManager;
-import math.MathP;
 import menu.MenuController;
 import menu.MenuModel;
 import menu.MenuView;
 import persistence.loader.XmlRW;
-import javafx.scene.control.ScrollPane;
-import settings.ProviderSettings;
-import settings.Settings;
 
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.Destination;
-import java.awt.geom.Point2D;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Observable;
 
 
 public class MainWindowView extends BorderPaneObserverDS {
@@ -56,9 +28,6 @@ public class MainWindowView extends BorderPaneObserverDS {
         projectManager = ProjectManager.getInstance();
         AppProject project =AppProject.getInstance();
         projectManager.setProject(project);
-
-
-
         MVC menu = new MVC(MenuModel.class, MenuController.class, MenuView.class, projectManager,null );
         this.setTop((MenuView)menu.getView());
         ((MenuModel) menu.getModel()).addObserver(this);

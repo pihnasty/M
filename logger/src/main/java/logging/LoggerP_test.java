@@ -12,11 +12,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-public class LoggerP {
+public class LoggerP_test {
     public static Logger logger;
     public static String projectPath;
     public static String relativePath = "log";
-    private static String logfileName = "log-P";
+    private static String logfileName = "log-Test";
 
     public static FXMLLoader loader = new FXMLLoader();
 
@@ -50,12 +50,11 @@ public class LoggerP {
         //fh.setFormatter(new XMLFormatter());
         fh.setFormatter(new SimpleFormatter());
         logger = Logger.getLogger(logfileName);
+        // logging only Level.SEVERE
+        fh.setLevel(Level.INFO);
         logger.addHandler(fh);
+        logger.setLevel(Level.SEVERE);   logger.setUseParentHandlers(false);
+
     }
 
 }
-
-
-//  LoggerP.logger.log(Level.SEVERE, "Starting application", "LoggerP");
-//Error:error: pathspec 'pde/src/main/java/trestview/tasks/conveyorPDE/V?onConveyorPdeModel.java' did not match any file(s) known to git.
-//        during executing git "C:\Program Files\Git\cmd\git.exe" -c core.quotepath=false checkout HEAD -- pde/src/main/java/trestview/tasks/conveyorPDE/VСonConveyorPdeModel.java

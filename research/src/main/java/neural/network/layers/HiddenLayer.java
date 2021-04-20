@@ -4,6 +4,7 @@ package neural.network.layers;
 
 import neural.network.activiation.functions.FunctionManager;
 import neural.network.nodes.HiddenNode;
+import neural.network.optimization.method.OptimizationMethodManager;
 import settings.Settings;
 
 import java.util.Map;
@@ -22,6 +23,7 @@ public class HiddenLayer extends Layer {
         boolean typeNode = Boolean.parseBoolean(extParameters.get(Settings.Keys.TYPE_LAYER));
 
         setActiviationFunction(FunctionManager.getFunction(activationFunctionName));
+        setOptimizationMethod(OptimizationMethodManager.getOptimizationMethod(optimizationMethodName));
         setDistributeErrorName(distributeErrorName);
         setAlpha(alpha);
 
