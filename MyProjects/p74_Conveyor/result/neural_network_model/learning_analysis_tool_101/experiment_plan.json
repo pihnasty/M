@@ -1,0 +1,58 @@
+{
+  "outputFactors": [
+    "7.output",
+    "8.output"
+  ],
+  "inputFactors": [
+    "1.ksiD",
+    "1.input",
+    "1.speed",
+    "2.input",
+    "2.speed",
+    "3.speed",
+    "4.input",
+    "4.speed",
+    "5.input",
+    "5.speed",
+    "6.speed",
+    "7.speed",
+    "8.speed"
+  ],
+  "typesOfModels": [
+    "one-parameter linear dependence"
+  ],
+  "boundaryConditions": {
+    "8.0.output": "1.0",
+    "7.0.output": "1.0"
+  },
+  "hiddenLayers": {
+    "11": {
+      "count-node": "15",
+      "activation-function": "1;4;1",
+      "distribute-error": "1",
+      "optimization-method": "5",
+      "alpha": "0.001",
+      "type-layer": "head"
+    },
+    "12": {
+      "count-node": "2",
+      "activation-function": "1;4;1",
+      "distribute-error": "1",
+      "optimization-method": "5",
+      "alpha": "0.0001",
+      "type-layer": "tail"
+    }
+  },
+  "parametersOfModel": {
+    "multiple-regression": {
+      "number-regressors": "0",
+      "max-number-models": "100"
+    },
+    "neural-network": {
+      "number-of-epochs": "5964000",
+      "number-of-epochs-between-save": "500",
+      "CPU-cooling-time-seconds": "300",
+      "number-of-epochs-between-CPU-cooling": "4000"
+    }
+  }
+}
