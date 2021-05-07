@@ -28,25 +28,25 @@
   "hiddenLayers": {
     "10": {
       "count-node": "8",
-      "activation-function": "2;1000;1;[type function->1-logistic 2-linear][coefficient a][coefficient b]",
+      "activation-function": "2;10000;1;[type function-1-logistic 2-linear][coefficient a][coefficient b]",
       "distribute-error": "1",
-      "optimization-method": "1;0.01;0.0000000001;[type optimization method->1- Сonstant Step Gradient Descent Method 2-Variable Step Gradient Descent Method][limitGradientToValueMax dV/V][limitGradientToValueMin dV/V]",
+      "optimization-method": "1;0.001;0.0000000001;[type optimization method-1- Сonstant Step Gradient Descent Method 2-Variable Step Gradient Descent Method][limitGradientToValueMax dV/V][limitGradientToValueMin dV/V]",
       "alpha": "0.00001",
       "type-layer": "head"
     },
     "11": {
       "count-node": "8",
-      "activation-function": "2;1000;1",
+      "activation-function": "2;10000;1",
       "distribute-error": "1",
-      "optimization-method": "1;0.01;0.0000000001",
+      "optimization-method": "1;0.001;0.0000000001",
       "alpha": "0.00001",
       "type-layer": "between"
     },
     "12": {
       "count-node": "2",
-      "activation-function": "2;1000;1",
+      "activation-function": "2;10000;1",
       "distribute-error": "1",
-      "optimization-method": "1;0.01;1",
+      "optimization-method": "1;0.001;0.0000000001",
       "alpha": "0.00001",
       "type-layer": "tail"
     }

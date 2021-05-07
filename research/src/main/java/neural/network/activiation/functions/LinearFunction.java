@@ -36,10 +36,10 @@ public class LinearFunction implements ActiviationFunction {
                     double y = b * x;
                     double derivative = b;
 
-                    if (y > a) {
+                    if (y >= a) {
                         derivative = 0.0;
                     }
-                    if (y < -a) {
+                    if (y <= -a) {
                         derivative = 0.0;
                     }
                     return derivative;
@@ -49,10 +49,10 @@ public class LinearFunction implements ActiviationFunction {
                 derivativeFunction = y -> {
                     double derivative = b;
 
-                    if (y > a) {
+                    if (y >= a) {
                         derivative = 0.0;
                     }
-                    if (y < -a) {
+                    if (y <= -a) {
                         derivative = 0.0;
                     }
                     return derivative;
