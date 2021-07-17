@@ -1,0 +1,38 @@
+{
+  "outputFactors": [
+    "1.SEVERE PERSISTENT"
+  ],
+  "inputFactors": [
+    "2.Allergic rhinitis",
+    "2.Atopic dermatitis",
+    "3.Number of years from the first symptoms",
+    "4.Bronchial asthma in father",
+    "4.Bronchial asthma in relatives of second generation",
+    "5.Eosinophils %",
+    "8.Domestic dust",
+    "8.Pillow feather",
+    "8.Rabbit hair",
+    "8.Sheep wool",
+    "12.CD25 10*3 cells"
+  ],
+  "typesOfModels": [
+    "one-parameter linear dependence"
+  ],
+  "boundaryConditions": {
+    "13.TSLP": "64.0",
+    "1.SEVERE PERSISTENT": "0.40"
+  },
+  "hiddenLayers": {},
+  "parametersOfModel": {
+    "multiple-regression": {
+      "number-regressors": "10",
+      "max-number-models": "100"
+    },
+    "neural-network": {
+      "number-of-epochs": "5964000",
+      "number-of-epochs-between-save": "4000",
+      "CPU-cooling-time-seconds": "300",
+      "number-of-epochs-between-CPU-cooling": "4000"
+    }
+  }
+}

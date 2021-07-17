@@ -26,27 +26,19 @@
     "7.0.output": "1.0"
   },
   "hiddenLayers": {
-    "10": {
-      "count-node": "10",
-      "activation-function": "1;4;1",
-      "distribute-error": "1",
-      "optimization-method": "5",
-      "alpha": "0.0001",
-      "type-layer": "head"
-    },
     "11": {
       "count-node": "15",
-      "activation-function": "1;4;1",
+      "activation-function": "1;4;1;[type function-1-logistic 2-linear][coefficient a][coefficient b]",
       "distribute-error": "1",
-      "optimization-method": "5",
+      "optimization-method": "1;0.001;0.0000000001;[type optimization method-1- Сonstant Step Gradient Descent Method 2-Variable Step Gradient Descent Method][limitGradientToValueMax dV/V][limitGradientToValueMin dV/V]",
       "alpha": "0.0001",
       "type-layer": "head"
     },
     "12": {
       "count-node": "2",
-      "activation-function": "1;4;1",
+      "activation-function": "1;4;1;[type function-1-logistic 2-linear][coefficient a][coefficient b]",
       "distribute-error": "1",
-      "optimization-method": "5",
+"optimization-method": "1;0.001;0.0000000001;[type optimization method-1- Сonstant Step Gradient Descent Method 2-Variable Step Gradient Descent Method][limitGradientToValueMax dV/V][limitGradientToValueMin dV/V]",
       "alpha": "0.0001",
       "type-layer": "tail"
     }

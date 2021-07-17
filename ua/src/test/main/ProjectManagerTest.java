@@ -65,7 +65,7 @@ public class ProjectManagerTest {
         }
 
 
-        projectManager.saveData(tableTest, Settings.Values.NEURAL_NETWORk_MODEL_TEST_DATA_CSV+"POM");
+        projectManager.saveData(tableTest, Settings.Values.NEURAL_NETWORk_MODEL_TEST_DATA_CSV+"POM20");
 
     }
 

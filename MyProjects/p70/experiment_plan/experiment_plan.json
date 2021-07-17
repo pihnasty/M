@@ -1,19 +1,12 @@
 {
   "outputFactors": [
-    "1.SEVERE PERSISTENT",
-    "13.TSLP"
+    "1.SEVERE PERSISTENT"
   ],
   "inputFactors": [
     "2.Allergic rhinitis",
-    "2.Atopic dermatitis",
-    "4.Bronchial asthma in father",
-    "8.Dog hair",
-    "8.Rabbit hair",
-    "8.Pillow feather",
     "8.Sheep wool",
-    "11.FEV1",
-    "12.CD8 10*3 cells",
-    "14.age"
+    "8.Rabbit hair",
+    "4.Bronchial asthma in relatives of second generation"
   ],
   "typesOfModels": [
     "one-parameter linear dependence"
@@ -25,7 +18,7 @@
   "hiddenLayers": {},
   "parametersOfModel": {
     "multiple-regression": {
-      "number-regressors": "10",
+      "number-regressors": "3",
       "max-number-models": "100"
     },
     "neural-network": {

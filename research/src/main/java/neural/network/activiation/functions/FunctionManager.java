@@ -15,6 +15,10 @@ public class FunctionManager {
                 a = Double.parseDouble(parameters[1]);
                 b = Double.parseDouble(parameters[2]);
                 return new LinearFunction(a, b);
+            case "3":
+                a = Double.parseDouble(parameters[1]);
+                b = Double.parseDouble(parameters[2]);
+                return new ReLUFunction(a, b);
             default:
                 throw new ExceptionInInitializerError("1 - LogisticFunction; 2 - LinearFunction  y=a+bx");
         }
