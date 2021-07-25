@@ -8,6 +8,11 @@ import java.util.function.Supplier;
 
 public class MathP {
 
+    /**
+     * The method creates the default Counter with the first initial value equals 0 and step equals i...
+     * @param i The step of the Counter.
+     * @return The default Counter.
+     */
     static public Counter getCounter(int i) {
         return new Counter (i);
     }

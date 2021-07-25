@@ -1,5 +1,7 @@
 package neural.network.nodes;
 
+import neural.network.common.NeuralNetworkConstant;
+
 public class Node {
     private final String factorName;
     private int id;
@@ -19,11 +21,8 @@ public class Node {
         return value;
     }
 
-    public void setValue(double value) {
-//        if(Double.toString(value).equals("NaN")) {
-//            System.out.println();
-//        }
-        this.value = value;
+    public void setValue(Double value) {
+        this.value = (NeuralNetworkConstant.Factors.BIAS.equals(factorName)) ? 1.0 : value;
     }
 
     public double getError() {

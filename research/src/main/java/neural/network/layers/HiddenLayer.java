@@ -1,9 +1,9 @@
 package neural.network.layers;
 
-
-
 import neural.network.activiation.functions.FunctionManager;
+import neural.network.common.NeuralNetworkConstant;
 import neural.network.nodes.HiddenNode;
+import neural.network.nodes.Node;
 import neural.network.optimization.method.OptimizationMethodManager;
 import settings.Settings;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 public class HiddenLayer extends Layer {
 
 
-    public HiddenLayer(int id, Map<String,String> extParameters,  Layer previousLayer ) {
+    public HiddenLayer(int id, Map<String, String> extParameters, Layer previousLayer) {
         super(id, previousLayer);
 
         int countNode = Integer.parseInt(extParameters.get(settings.Settings.Keys.COUNT_NODE));
@@ -27,8 +27,9 @@ public class HiddenLayer extends Layer {
         setDistributeErrorName(distributeErrorName);
         setAlpha(alpha);
 
-        for(Integer i=1; i<=countNode;i++) {
-            getNodes().add(new HiddenNode(i,i.toString()));
+        getNodes().add(new Node(0, NeuralNetworkConstant.Factors.BIAS));
+        for (Integer i = 1; i <= countNode; i++) {
+            getNodes().add(new HiddenNode(i, i.toString()));
         }
     }
 
