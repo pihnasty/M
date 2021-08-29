@@ -10,7 +10,7 @@ public class LearningNeuralNetTask extends BaseTask {
 
     public LearningNeuralNetTask(ProjectManager projectManager) {
         super(projectManager);
-        LoggerP.write(Level.INFO, "LearningNeuralNetTaskTask started...");
+        LoggerP.write(Level.INFO, "LearningNeuralNetTask started...");
     }
 
     @Override

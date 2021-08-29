@@ -24,6 +24,7 @@ public class NeuralManager {
     private List<List<String>> preparedForLearningOutputTable = new ArrayList<>();
     private List<List<String>> dataTableAfterAnalysisNeuralNet = new ArrayList();
     private List<List<String>> errorsStat = new ArrayList<>();
+    private int batchSize;
 
     public static NeuralManager getManager() {
         return neuralManager;
@@ -136,8 +137,6 @@ public class NeuralManager {
 
         MathP.Counter counter = MathP.getCounter(1);
 
-
-
         neuralManager.getPreparedForLearningInputTable().forEach(
             row -> {
                 int count = counter.get();
@@ -148,12 +147,17 @@ public class NeuralManager {
                         loggerFlag[0] = false;
                     }
 
+                    //region    errorOutputFactorsRow  e[j] = d[j] - y[j]
                     Map<String, Double> rowInputFactor = getRowInputFactor(row);
+                    // d[j]
                     Map<String, Double> rowOutputFactorForLearning = rowOutputFactorForLearning(count);
-
+                    // y[j]
                     Map<String, Double> outputFactorsRowCalculate = neuralModel.forwardPropagation(rowInputFactor);
-                    Map<String, Double> errorOutputFactorsRow = neuralModel.forwardPropagationErrors( rowOutputFactorForLearning,  outputFactorsRowCalculate);
-                    neuralModel.backPropagation(errorOutputFactorsRow);
+                    // e[j] = d[j] - y[j]
+                    Map<String, Double> errorOutputFactorsRow = neuralModel.outputLayerNeuronErrors(rowOutputFactorForLearning, outputFactorsRowCalculate);
+//endregion
+
+                    NeuralModelService.backPropagation(errorOutputFactorsRow, neuralModel.getLayers());
                     Double error2 = 0.0;
                     for (double value : errorOutputFactorsRow.values()) {
                         error2 += value*value;
@@ -266,6 +270,14 @@ public class NeuralManager {
 
     public void setErrorsStat(List<List<String>> errorsStat) {
         this.errorsStat = errorsStat;
+    }
+
+    public int getBatchSize() {
+        return batchSize;
+    }
+
+    public void setBatchSize(int batchSize) {
+        this.batchSize = batchSize;
     }
 }
 

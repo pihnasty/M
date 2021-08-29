@@ -293,10 +293,13 @@ public class ProjectManager extends ObservableDS {
         project.setWsS(NeuralManager.getManager().deserializeNeuralNet(path,fileName));
     }
 
-    public void learningNeuralNet(int startWithEpoch, boolean isDeletedPastResultLearninOfAnalysisTool ) {
+    public void learningNeuralNet(int startWithEpoch, boolean isDeletedPastResultLearninOfAnalysisTool) {
         NeuralModel neuralModel = new NeuralModel();
         NeuralManager neuralManager = NeuralManager.getManager();
         neuralManager.setNeuralModel(neuralModel);
+
+        Map<String, String> parametersOfNeuralNetworkModel = getPlanExperiment().getParametersOfNeuralNetworkModel();
+        neuralManager.setBatchSize(Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.BATCH_SIZE)));
         List<String> inputFactors = getPlanExperiment().getInputFactors();
         List<String> outputFactors = getPlanExperiment().getOutputFactors();
         List<List<String>> separatedRawDataTable = project.getSeparatedRawDataTable();
@@ -306,14 +309,15 @@ public class ProjectManager extends ObservableDS {
         } else {
             List<Ws> listWs = project.getWsS();
             List<Layer> layers = neuralModel.getLayers();
-            for (int i=1; i<layers.size(); i++) {
+            for (int i = 1; i < layers.size(); i++) {
                 layers.get(i).setW(listWs.get(i));
             }
         }
 
         neuralManager.prepareForLearningTable(inputFactors, outputFactors, separatedRawDataTable);
 
-        Map<String, String> parametersOfNeuralNetworkModel = getPlanExperiment().getParametersOfNeuralNetworkModel();
+
+
         int numberOfEpochs = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS ));
         int numberOfEpochsBetweenSave = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS_BETWEEN_SAVE));
         int cpuCoolingTimeSeconds = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.CPU_COOLING_TIME_SECONDS));

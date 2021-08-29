@@ -11,6 +11,8 @@ import string.StringUtil;
 
 import java.util.*;
 
+import static settings.Settings.Keys.DISTRIBUTE_ERROR;
+
 
 public class ProjectManagerTest {
 
@@ -84,7 +86,7 @@ public class ProjectManagerTest {
         Map<String, String> map2 = new HashMap<>();
         map2.put("count-node","3");
         map2.put("activation-function","1;1;1");
-        map2.put("distribute-error" , "1");
+        map2.put(DISTRIBUTE_ERROR , "1");
         map2.put("optimization-method" , "5");
         map2.put("alpha" , "1.0");
         map2.put("type-layer" , "head");
@@ -92,7 +94,7 @@ public class ProjectManagerTest {
         Map<String, String> map3 = new HashMap<>();
         map3.put("count-node","3");
         map3.put("activation-function","1;1;1");
-        map3.put("distribute-error" , "1");
+        map3.put(DISTRIBUTE_ERROR , "1");
         map3.put("optimization-method" , "5");
         map3.put("alpha" , "1.0");
         map3.put("type-layer" , "tail");

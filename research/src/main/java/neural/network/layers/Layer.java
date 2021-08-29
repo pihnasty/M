@@ -18,8 +18,6 @@ public class Layer {
     private Ws wS;
     private String distributeErrorName;
 
-    private Ws wsError;
-
     public Layer(int id, Layer previousLayer) {
         this.id = id;
         this.previousLayer = previousLayer;
@@ -61,13 +59,6 @@ public class Layer {
         this.activiationFunction = activiationFunction;
     }
 
-    public Ws getWsError() {
-        return wsError;
-    }
-
-    public void setWsError(Ws wsError) {
-        this.wsError = wsError;
-    }
 
     public String getDistributeErrorName() {
         return distributeErrorName;

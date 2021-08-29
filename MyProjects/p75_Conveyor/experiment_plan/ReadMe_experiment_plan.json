@@ -1,0 +1,9 @@
+
+
+
+"distribute-error":
+"1", "proportional-value-w" The error is distributed as W(ij)/Sum(W(ij))
+   W =     1  2       Wnew =   1/(1+2)        2/(1+2)     Enew = Wnew x E
+           3  4                3/(3+4)        4/(3+4)
+
+
