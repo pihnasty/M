@@ -308,4 +308,31 @@ public class SolvingLinearSystemsTest {
         System.out.println(deltaWs2);
     }
 
+    @Test
+    public void multiplyValueAndMatrixTest () {
+        List<List<Double>> matrix = new ArrayList<>();
+        List<Double> row1 = new ArrayList<>();
+        List<Double> row2 = new ArrayList<>();
+
+        row1.add(0.9);        row1.add(0.3);        row1.add(0.4);
+        row2.add(0.2);        row2.add(0.8);        row2.add(0.2);
+
+        matrix.add(row1);
+        matrix.add(row2);
+
+        Double value = 10.0;
+
+        List<List<Double>> result = SolvingLinearSystems.multiply(value , matrix);
+
+
+        for(int i1=0; i1<result.size(); i1++) {
+            for(int i2=0; i2<result.get(0).size(); i2++) {
+                assertEquals(matrix.get(i1).get(i2)*value,result.get(i1).get(i2), 0.001);
+            }
+        }
+
+        System.out.println(result);
+
+    }
+
 }

@@ -102,6 +102,15 @@ public class SolvingLinearSystems {
         return result;
     }
 
+    /**
+     * result = value*matrix
+     */
+    public static List<List<Double>> multiply (Double value, List<List<Double>> matrix) {
+        return matrix.stream().map(
+                row -> row.stream().map(cell -> cell * value).collect(Collectors.toList())
+        ).collect(Collectors.toList());
+    }
+
     public static List<List<Double>> multiplyColumnToRow (List<Double> yS, List<Double> xS) {
         List<List<Double>> y2S = fillColumn(yS);
         List<List<Double>> x2S = fillRow(xS);
@@ -184,6 +193,18 @@ public class SolvingLinearSystems {
         RealMatrix m1As = MatrixUtils.createRealMatrix(m1s);
         RealMatrix m2As = MatrixUtils.createRealMatrix(m2s);
         RealMatrix result = m1As.subtract(m2As);
+        return convertArrayToList2(result.getData());
+    }
+
+    /**
+     * result = m1 + m2
+     */
+    public static List<List<Double>> add(List<List<Double>> m1,List<List<Double>> m2) {
+        double[][]  m1s = convertListToArray2(m1);
+        double[][]  m2s = convertListToArray2(m2);
+        RealMatrix m1As = MatrixUtils.createRealMatrix(m1s);
+        RealMatrix m2As = MatrixUtils.createRealMatrix(m2s);
+        RealMatrix result = m1As.add(m2As);
         return convertArrayToList2(result.getData());
     }
 

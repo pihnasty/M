@@ -4,6 +4,7 @@ package neural.network;
 import logging.LoggerP_test;
 import math.MathP;
 import math.linear.SolvingLinearSystems;
+import neural.network.exceptions.NeuralNetElementCloneNotSupportedException;
 import neural.network.layers.Layer;
 import neural.network.nodes.Node;
 import neural.network.optimization.method.OptimizationMethod;
@@ -22,7 +23,7 @@ import java.util.stream.Collectors;
 
 
 
-public class NeuralModel {
+public class NeuralModel implements Cloneable {
     private List<Layer> layers;
 
 
@@ -83,6 +84,23 @@ public class NeuralModel {
                 )
         );
         return errorOutputFactorsRow;
+    }
+
+    @Override
+    public NeuralModel clone() throws CloneNotSupportedException {
+        NeuralModel cloneNeuralModel = (NeuralModel) super.clone();
+
+        List<Layer> clonelayers = layers.stream().map(layer -> {
+            try {
+                return layer.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+                throw new NeuralNetElementCloneNotSupportedException("CloneNotSupportedException "+getClass());
+            }
+        }).collect(Collectors.toList());
+
+        cloneNeuralModel.setLayers(clonelayers);
+        return cloneNeuralModel;
     }
 
 }

@@ -38,20 +38,37 @@ public class NeuralModelService {
         }
     }
 
-    public static void backCalculateDeltaWs(Map<String, Double> errorOutputFactorsRow, List<Layer> layers) {
+    public static void backCalculateErrorBatchMode(Map<String, Double> errorOutputFactorsRow, List<Layer> layers) {
         for (int i = layers.size() - 1; i > 0; i--) {
             Layer layer = layers.get(i);
-            List<Double> valueNodeFromPreviousLayers = layer.getPreviousLayer().getNodes().stream().map(Node::getValue).collect(Collectors.toList());
+            List<Node> nodes = layer.getNodes();
+            if (i == layers.size() - 1) {
+                for (int i2 = 0; i2 < nodes.size(); i2++) {
+                    Node outputNode = nodes.get(i2);
+                    String key =outputNode.getFactorName().trim();
+                    outputNode.setError(errorOutputFactorsRow.get(key));
+                }
+            } else {
+                List<Double> hiddenLayerErrors
+                        = ServiceNodeErrorDistribution.calculatedErrorForHiddenLayer(layers.get(i + 1));
+                for (int i2 = 0; i2 < nodes.size(); i2++) {
+                    nodes.get(i2).setError(hiddenLayerErrors.get(i2));
+                }
+            }
+        }
+    }
 
-            Function<Double, Double> derivativeFunction = layer.getActiviationFunction().getDerivativeFunction("F(S)");
-            List<Double> expressions = layer.getNodes().stream().map(node->-node.getError()*derivativeFunction.apply(node.getValue())).collect(Collectors.toList());
+    public static void backCalculateDeltaWsSequentialMode(List<Layer> layers) {
+        for (int i = layers.size() - 1; i > 0; i--) {
+
+            Layer layer = layers.get(i);
             //     List<Double> sigmaExpressions = layer.getNodes().stream().map(node->-node.getError()*node.getValue()*(1.0-node.getValue())).collect(Collectors.toList());
             List<List<Double>> wlist = layer.getW().getListWs();
-
-            List<List<Double>> gradientWlist =SolvingLinearSystems.multiplyColumnToRow(expressions,valueNodeFromPreviousLayers);
+            List<List<Double>> gradientWlist = gradientWlist(layer);
 
             double alpha = layer.getAlpha();
             OptimizationMethod optimizationMethod = layer.getOptimizationMethod();
+
             List<List<Double>> deltaWlist = MathP.initArrayList(0.0,gradientWlist.size(), gradientWlist.get(0).size());
             for(int i1=0; i1<gradientWlist.size(); i1++) {
                 for(int i2=0; i2<gradientWlist.get(0).size(); i2++) {
@@ -78,15 +95,80 @@ public class NeuralModelService {
 
     }
 
+    public static void backCalculateDeltaWsBatchMode(List<Layer> layers, List<NeuralModel> cloneNeuralModels) {
+
+
+        for (int i = layers.size() - 1; i > 0; i--) {
+
+            Layer layer = layers.get(i);
+            //     List<Double> sigmaExpressions = layer.getNodes().stream().map(node->-node.getError()*node.getValue()*(1.0-node.getValue())).collect(Collectors.toList());
+
+            List<List<Double>> wlist = layer.getW().getListWs();
+            List<List<Double>> gradientWlist = new ArrayList<>();
+
+            for (NeuralModel cloneNeuralModel : cloneNeuralModels) {
+                Layer cloneLayer = cloneNeuralModel.getLayers().get(i);
+            //    List<List<Double>> clone_wlist = cloneLayer.getW().getListWs();
+                List<List<Double>> cloneGradientWlist = gradientWlist(cloneLayer);
+                if(gradientWlist.isEmpty()) {
+                    gradientWlist = cloneGradientWlist;
+                } else {
+                    gradientWlist = SolvingLinearSystems.add(gradientWlist, cloneGradientWlist);
+                }
+            }
+
+            gradientWlist = SolvingLinearSystems.multiply(1.0 / (double) cloneNeuralModels.size(), gradientWlist);
+
+            double alpha = layer.getAlpha();
+            OptimizationMethod optimizationMethod = layer.getOptimizationMethod();
+            double optimizationAlpha;
+            List<List<Double>> deltaWlist = MathP.initArrayList(0.0,gradientWlist.size(), gradientWlist.get(0).size());
+
+
+
+            for(int i1=0; i1<gradientWlist.size(); i1++) {
+                for(int i2=0; i2<gradientWlist.get(0).size(); i2++) {
+                    double gradientWlistValue = gradientWlist.get(i1).get(i2);
+                    double wlistValue = wlist.get(i1).get(i2);
+                    optimizationAlpha = optimizationMethod.getOptimalSpeed(alpha, wlistValue, gradientWlistValue);
+                    Double value = optimizationAlpha*gradientWlistValue;
+                    deltaWlist.get(i1).set(i2,value);
+                }
+            }
+
+            if(neural.network.NeuralManager.loggerFlag[0]) {
+                logging(layer, wlist, deltaWlist);
+            }
+
+            //    Logger.getLogger(NeuralModel.class.getName());
+
+            List<List<Double>> newWlist = SolvingLinearSystems.subtract(wlist,deltaWlist);
+            layer.getW().setListWs(newWlist);
+        }
+        if(neural.network.NeuralManager.loggerFlag[0]) {
+            logging( layers.get(0), null, null);
+        }
+
+    }
+
+
+    private static List<List<Double>> gradientWlist(Layer layer) {
+        List<Double> valueNodeFromPreviousLayers = layer.getPreviousLayer().getNodes().stream().map(Node::getValue).collect(Collectors.toList());
+        Function<Double, Double> derivativeFunction = layer.getActiviationFunction().getDerivativeFunction("F(S)");
+        List<Double> expressions = layer.getNodes().stream().map(node->-node.getError()*derivativeFunction.apply(node.getValue())).collect(Collectors.toList());
+        List<List<Double>> gradientWlist =SolvingLinearSystems.multiplyColumnToRow(expressions,valueNodeFromPreviousLayers);
+        return gradientWlist;
+    }
+
     /**
      * Calculation of the e[j] errors and coefficients Ws for nodes
      *
      * @param errorOutputFactorsRow d[j]
      * @param layers The layers with nodes.
      */
-    public static void backPropagation(Map<String, Double> errorOutputFactorsRow, List<Layer> layers) {
+    public static void backPropagationSequentialMode(Map<String, Double> errorOutputFactorsRow, List<Layer> layers) {
         backCalculateError(errorOutputFactorsRow, layers);
-        backCalculateDeltaWs(errorOutputFactorsRow, layers);
+        backCalculateDeltaWsSequentialMode(layers);
     }
 
     private static void logging(Layer layer, List<List<Double>> wlist, List<List<Double>> deltaWlist) {

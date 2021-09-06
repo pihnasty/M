@@ -294,12 +294,18 @@ public class ProjectManager extends ObservableDS {
     }
 
     public void learningNeuralNet(int startWithEpoch, boolean isDeletedPastResultLearninOfAnalysisTool) {
+        Map<String, String> parametersOfNeuralNetworkModel = getPlanExperiment().getParametersOfNeuralNetworkModel();
+        int numberOfEpochs = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS ));
+        int numberOfEpochsBetweenSave = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS_BETWEEN_SAVE));
+        int cpuCoolingTimeSeconds = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.CPU_COOLING_TIME_SECONDS));
+        int numberOfEpochsBetweenCpuCooling = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS_BETWEEN_CPU_COOLING));
+        int batchSize = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.BATCH_SIZE));
+
         NeuralModel neuralModel = new NeuralModel();
         NeuralManager neuralManager = NeuralManager.getManager();
         neuralManager.setNeuralModel(neuralModel);
+        neuralManager.setBatchSize(batchSize);
 
-        Map<String, String> parametersOfNeuralNetworkModel = getPlanExperiment().getParametersOfNeuralNetworkModel();
-        neuralManager.setBatchSize(Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.BATCH_SIZE)));
         List<String> inputFactors = getPlanExperiment().getInputFactors();
         List<String> outputFactors = getPlanExperiment().getOutputFactors();
         List<List<String>> separatedRawDataTable = project.getSeparatedRawDataTable();
@@ -316,14 +322,10 @@ public class ProjectManager extends ObservableDS {
 
         neuralManager.prepareForLearningTable(inputFactors, outputFactors, separatedRawDataTable);
 
-
-
-        int numberOfEpochs = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS ));
-        int numberOfEpochsBetweenSave = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS_BETWEEN_SAVE));
-        int cpuCoolingTimeSeconds = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.CPU_COOLING_TIME_SECONDS));
-        int numberOfEpochsBetweenCpuCooling = Integer.parseInt(parametersOfNeuralNetworkModel.get(Settings.Keys.NUMBER_OF_EPOCHS_BETWEEN_CPU_COOLING));
-
         List<List<String>> errorsStat = neuralManager.getErrorsStat();
+
+        long startTime = System.currentTimeMillis()/1000;
+
         for (int i = startWithEpoch; i <numberOfEpochs; i++) {
 
             Double MSE = neuralManager.learningNeuralNet();
@@ -335,9 +337,15 @@ public class ProjectManager extends ObservableDS {
                     header.add("  log10(epoch)     ");
                     header.add("           MSE           ");
                     header.add("         delta MSE       ");
+                    header.add("  time(sec) ");
                     errorsStat.add(header);
                 }
             }
+
+            long currentTimeTime = System.currentTimeMillis()/1000;
+            long deltaTime = (currentTimeTime-startTime);
+            long minute = deltaTime /60;
+            long sec = deltaTime % 60;
 
             List<String> rowErrorsStat = new ArrayList<>();
             rowErrorsStat.add(StringUtil.getDoubleFormatValue((double)i,errorsStat.get(0).get(0),".0f",1));
@@ -346,7 +354,9 @@ public class ProjectManager extends ObservableDS {
             double deltaMSE = MSE
                 - ( errorsStat.size()==1 ? 0.0 : Double.parseDouble(errorsStat.get(errorsStat.size()-1).get(2).replace(",",".")) );
             rowErrorsStat.add(StringUtil.getDoubleFormatValue(deltaMSE,errorsStat.get(0).get(3),".14f",1));
+            rowErrorsStat.add(StringUtil.getDoubleFormatValue((double)deltaTime,errorsStat.get(0).get(4),".0f",1));
             errorsStat.add(rowErrorsStat);
+
             project.setWsS(neuralModel.getLayers().stream().map(layer -> layer.getW()).collect(Collectors.toList()));
             if (i % numberOfEpochsBetweenCpuCooling == 0) {
                 try {
@@ -376,7 +386,7 @@ public class ProjectManager extends ObservableDS {
             }
 
            if (i % 10 == 0) {
-                System.out.println(LocalDateTime.now() + "  "+String.format("%8d-- ln= %5.3f  MSE=%.14f  deltaMSE=%.14f", i, Math.log10(i), MSE, deltaMSE));
+                System.out.println(LocalDateTime.now() + "  "+String.format("%8d-- ln= %5.3f  MSE=%.14f  deltaMSE=%.14f time %d : %d", i, Math.log10(i), MSE, deltaMSE, minute, sec));
             }
         }
 

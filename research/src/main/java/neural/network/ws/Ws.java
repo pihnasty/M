@@ -1,14 +1,18 @@
 package neural.network.ws;
 
 import math.linear.SolvingLinearSystems;
+import neural.network.exceptions.NeuralNetElementCloneNotSupportedException;
+import neural.network.layers.Layer;
+import neural.network.nodes.Node;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-public class Ws implements Serializable {
+public class Ws implements Serializable, Cloneable  {
 
     private List<List<Double>> listWs;
     private int numberNodesPreviousLauer;
@@ -69,4 +73,21 @@ public class Ws implements Serializable {
     public int getNumberNodes() {
         return numberNodes;
     }
+
+    @Override
+    public Ws clone() throws CloneNotSupportedException {
+        Ws cloneWs = (Ws) super.clone();
+
+        List<List<Double>> cloneListWs = new ArrayList<>();
+
+        listWs.stream().forEach(row -> {
+            List<Double> cloneRow = new ArrayList<>();
+            row.stream().forEach(cell -> cloneRow.add(cell));
+            cloneListWs.add(cloneRow);
+        });
+
+        cloneWs.setListWs(cloneListWs);
+        return cloneWs;
+    }
+
 }

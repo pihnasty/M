@@ -1,8 +1,9 @@
 package neural.network.nodes;
 
 import neural.network.common.NeuralNetworkConstant;
+import neural.network.layers.Layer;
 
-public class Node {
+public class Node implements Cloneable {
     private final String factorName;
     private int id;
     private double value;
@@ -35,5 +36,11 @@ public class Node {
 
     public String getFactorName() {
         return factorName;
+    }
+
+    @Override
+    public Node clone() throws CloneNotSupportedException {
+        Node cloneNode = (Node) super.clone();
+        return cloneNode;
     }
 }

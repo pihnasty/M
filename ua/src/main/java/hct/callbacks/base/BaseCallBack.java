@@ -24,6 +24,7 @@ public  class BaseCallBack implements StateTaskCallBack<Worker.State,Throwable,V
                 ,MainWindowView.getResourceString(title));
         }
         if(state==Worker.State.FAILED){
+            throwable.printStackTrace();
             AlertDialog.getAlertShow(MainWindowView.getResourceString(messageFailedText)
                 ,throwable.getMessage());
         }
