@@ -1,6 +1,7 @@
 package neural.network;
 
 import io.serialize.Serializer;
+import logging.LoggerP_test;
 import math.MathP;
 import neural.network.exceptions.NeuralNetElementCloneNotSupportedException;
 import neural.network.layers.HiddenLayer;
@@ -11,6 +12,7 @@ import neural.network.ws.Ws;
 import string.StringUtil;
 
 import java.util.*;
+import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 import static settings.Settings.Keys.TYPE_LAYER;
@@ -143,40 +145,43 @@ public class NeuralManager {
 //        }
         learningNeuralNetBatchMode(error2Sum);
         Double MSE = error2Sum[0]/countElementInData;     //Math.sqrt(error2Sum[0]/countElementInData);
+
+        LoggerP_test.write(Level.INFO,"MSE="+MSE+"   ");
+
         return MSE;
     }
 
-    private void learningNeuralNetSequentialMode(Double[] error2Sum) {
-        MathP.Counter counter = MathP.getCounter(1);
-        neuralManager.getPreparedForLearningInputTable().forEach(
-            row -> {
-                int count = counter.get();
-                if(count>0) {
-                    loggerFlagSetByCount(count);
-
-                    //region    errorOutputFactorsRow  e[j] = d[j] - y[j]
-                    Map<String, Double> rowInputFactor = getRowInputFactor(row);
-                    // d[j]
-                    Map<String, Double> rowOutputFactorForLearning = rowOutputFactorForLearning(count);
-                    // y[j]
-                    Map<String, Double> outputFactorsRowCalculate = neuralModel.forwardPropagation(rowInputFactor);
-                    // e[j] = d[j] - y[j]
-                    Map<String, Double> errorOutputFactorsRow = neuralModel.outputLayerNeuronErrors(rowOutputFactorForLearning, outputFactorsRowCalculate);
-                    //endregion
-
-                    NeuralModelService.backPropagationSequentialMode(errorOutputFactorsRow, neuralModel.getLayers());
-                    Double error2 = 0.0;
-                    if(count/1*1==count) {
-                    //    System.out.println("count=" + count + " " + neuralModel.getLayers().get(2).getW().getListWs().get(0));
-                    }
-                    for (double value : errorOutputFactorsRow.values()) {
-                        error2 += value*value;
-                    }
-                    error2Sum[0] += error2 ;
-                }
-            }
-        );
-    }
+//    private void learningNeuralNetSequentialMode(Double[] error2Sum) {
+//        MathP.Counter counter = MathP.getCounter(1);
+//        neuralManager.getPreparedForLearningInputTable().forEach(
+//            row -> {
+//                int count = counter.get();
+//                if(count>0) {
+//                    loggerFlagSetByCount(count);
+//
+//                    //region    errorOutputFactorsRow  e[j] = d[j] - y[j]
+//                    Map<String, Double> rowInputFactor = getRowInputFactor(row);
+//                    // d[j]
+//                    Map<String, Double> rowOutputFactorForLearning = rowOutputFactorForLearning(count);
+//                    // y[j]
+//                    Map<String, Double> outputFactorsRowCalculate = neuralModel.forwardPropagation(rowInputFactor);
+//                    // e[j] = d[j] - y[j]
+//                    Map<String, Double> errorOutputFactorsRow = neuralModel.outputLayerNeuronErrors(rowOutputFactorForLearning, outputFactorsRowCalculate);
+//                    //endregion
+//
+//                    NeuralModelService.backPropagationSequentialMode(errorOutputFactorsRow, neuralModel.getLayers());
+//                    Double error2 = 0.0;
+//                    if(count/1*1==count) {
+//                    //    System.out.println("count=" + count + " " + neuralModel.getLayers().get(2).getW().getListWs().get(0));
+//                    }
+//                    for (double value : errorOutputFactorsRow.values()) {
+//                        error2 += value*value;
+//                    }
+//                    error2Sum[0] += error2 ;
+//                }
+//            }
+//        );
+//    }
 
     private void loggerFlagSetByCount(int count) {
         if (count == 1000) {
@@ -192,13 +197,11 @@ public class NeuralManager {
         List<List<List<String>>> batches = new ArrayList<>();
         createBatches(preparedForLearningInputTable, batches, batchSize);
         MathP.Counter counter = MathP.getCounter(1,1);
-        int initialCountRow = counter.get();;
+        int initialCountRow = counter.get();
         for(int countBatch=0; countBatch<batches.size(); countBatch++) {
 
             List<String> initialRow =  batches.get(countBatch).get(0);
             Map<String, Double> initialRowInputFactor = getRowInputFactor(initialRow);
-            // d[j]
-            Map<String, Double> initialOutputFactorForLearning = rowOutputFactorForLearning(initialCountRow);
             // y[j]
             neuralModel.forwardPropagation(initialRowInputFactor);
 
@@ -229,6 +232,8 @@ public class NeuralManager {
                 initialCountRow = counter.get(); //neuralManager.getPreparedForLearningInputTable().indexOf(initialRow );
 
             }
+
+
             NeuralModelService.backCalculateDeltaWsBatchMode(neuralModel.getLayers(), cloneNeuralModels);
 
             Double error2 = 0.0;

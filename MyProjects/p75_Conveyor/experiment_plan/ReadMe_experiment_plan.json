@@ -7,3 +7,5 @@
            3  4                3/(3+4)        4/(3+4)
 
 
+"bias": the function is not active. Need to determine, where should be use bias- 1) in level or global, one for the all level
+"1"

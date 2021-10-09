@@ -40,7 +40,7 @@ import java.util.stream.Collectors;
 public class ProjectManager extends ObservableDS {
     private static ProjectManager ourInstance = new ProjectManager();
 
-   private AppProject project;
+    private AppProject project;
 
     public static ProjectManager getInstance() {
         return ourInstance;

@@ -1,7 +1,7 @@
 package neural.network.nodes;
 
 import neural.network.common.NeuralNetworkConstant;
-import neural.network.layers.Layer;
+
 
 public class Node implements Cloneable {
     private final String factorName;

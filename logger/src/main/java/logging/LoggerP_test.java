@@ -53,7 +53,7 @@ public class LoggerP_test {
         // logging only Level.SEVERE
         fh.setLevel(Level.INFO);
         logger.addHandler(fh);
-        logger.setLevel(Level.SEVERE);   logger.setUseParentHandlers(false);
+        logger.setLevel(Level.INFO);   logger.setUseParentHandlers(false);
 
     }
 

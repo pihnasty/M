@@ -29,6 +29,7 @@ public interface Settings {
         public static String TYPE_LAYER = "type-layer";
         public static String ALPHA = "alpha";
         public static String BATCH_SIZE = "batch-size";
+        public static String BIAS = "bias";
         public static String NUMBER_OF_EPOCHS = "number-of-epochs";
         public static String NUMBER_OF_EPOCHS_BETWEEN_SAVE = "number-of-epochs-between-save";
         public static String CPU_COOLING_TIME_SECONDS = "CPU-cooling-time-seconds";

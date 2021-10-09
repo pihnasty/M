@@ -38,26 +38,6 @@ public class NeuralModelService {
         }
     }
 
-    public static void backCalculateErrorBatchMode(Map<String, Double> errorOutputFactorsRow, List<Layer> layers) {
-        for (int i = layers.size() - 1; i > 0; i--) {
-            Layer layer = layers.get(i);
-            List<Node> nodes = layer.getNodes();
-            if (i == layers.size() - 1) {
-                for (int i2 = 0; i2 < nodes.size(); i2++) {
-                    Node outputNode = nodes.get(i2);
-                    String key =outputNode.getFactorName().trim();
-                    outputNode.setError(errorOutputFactorsRow.get(key));
-                }
-            } else {
-                List<Double> hiddenLayerErrors
-                        = ServiceNodeErrorDistribution.calculatedErrorForHiddenLayer(layers.get(i + 1));
-                for (int i2 = 0; i2 < nodes.size(); i2++) {
-                    nodes.get(i2).setError(hiddenLayerErrors.get(i2));
-                }
-            }
-        }
-    }
-
     public static void backCalculateDeltaWsSequentialMode(List<Layer> layers) {
         for (int i = layers.size() - 1; i > 0; i--) {
 
@@ -96,7 +76,6 @@ public class NeuralModelService {
     }
 
     public static void backCalculateDeltaWsBatchMode(List<Layer> layers, List<NeuralModel> cloneNeuralModels) {
-
 
         for (int i = layers.size() - 1; i > 0; i--) {
 
@@ -160,17 +139,6 @@ public class NeuralModelService {
         return gradientWlist;
     }
 
-    /**
-     * Calculation of the e[j] errors and coefficients Ws for nodes
-     *
-     * @param errorOutputFactorsRow d[j]
-     * @param layers The layers with nodes.
-     */
-    public static void backPropagationSequentialMode(Map<String, Double> errorOutputFactorsRow, List<Layer> layers) {
-        backCalculateError(errorOutputFactorsRow, layers);
-        backCalculateDeltaWsSequentialMode(layers);
-    }
-
     private static void logging(Layer layer, List<List<Double>> wlist, List<List<Double>> deltaWlist) {
         String columnSize = "Template        headerValue";
         String presition = ".14f";
@@ -188,7 +156,7 @@ public class NeuralModelService {
                 "level="+layer.getId()
 
 
-                        +"\nnodeValue and odeValueError"
+                        +"\nnodeValue and nodeValueError"
                         + StringUtil.getDoubleToFormatTable(nodeValues, columnSize, presition)
 
                         +"\ndeltaWlistTable"
